@@ -9,8 +9,9 @@
   "dependencies": {
     "axios": "0.24.0",
     "element-plus": "1.1.0-beta.24",
-    "qs": "6.10.1",
-    "vue": "^3.2.16"
+    "sass": "^1.46.0",
+    "vue": "^3.2.16",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.3",

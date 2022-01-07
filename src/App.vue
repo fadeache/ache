@@ -1,18 +1,33 @@
 <script setup>
-import HelloWorld from "./components/HelloWorld.vue";
+import Menu from "./components/menu.vue";
 </script>
 
 <template>
-  <HelloWorld />
+  <el-container>
+    <el-aside>
+      <Menu></Menu>
+    </el-aside>
+    <el-main>
+      <router-view></router-view>
+    </el-main>
+  </el-container>
 </template>
 
-<style>
+<style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 16px;
+}
+.el-container {
+  width: 1280px;
+  margin: auto;
+  .el-aside {
+    margin-right: 16px;
+  }
+  .el-main {
+    background: #fff;
+    padding: 148px 48px;
+    line-height: 1.8;
+    height: 735px;
+  }
 }
 </style>

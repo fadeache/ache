@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
 
 const state = reactive({
-  quotations: "",
+  quotations: { data: "加载中..." },
   type: "",
   tags: ["", "success", "info", "warning", "danger"],
   loading: false,

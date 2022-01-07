@@ -1,0 +1,26 @@
+[
+  {
+    "name": "main",
+    "title": "首页",
+    "view": "main",
+    "router": "/"
+  },
+  {
+    "name": "word",
+    "title": "句子",
+    "router": "/word",
+    "view": "word"
+  },
+  {
+    "name": "animation",
+    "title": "动画",
+    "router": "/animation",
+    "view": "animation"
+  },
+  {
+    "name": "about",
+    "title": "关于",
+    "router": "/about",
+    "view": "about"
+  }
+]
