@@ -16,6 +16,12 @@ export default defineConfig({
           "^/api": "", //重写路径
         },
       },
+      "^/hello": {
+        target: "http://82.157.160.30:8080/", //不要那两行好像也行
+        pathRewrite: {
+          "^/hello": "", //重写路径
+        },
+      },
     },
   },
 });
