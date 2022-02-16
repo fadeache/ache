@@ -50,6 +50,7 @@ const jump = (address) => {
         <template v-if="item.children?.length">
           <el-sub-menu :key="item.name" :index="item.router">
             <template #title>
+              <i :class="item.icon"></i>
               <span class="title">{{ item.title }}</span>
             </template>
             <el-menu-item
@@ -58,6 +59,7 @@ const jump = (address) => {
               :key="sub.name"
               :index="item.router + sub.router"
             >
+              <i :class="sub.icon"></i>
               <span class="title">{{ sub.title }}</span>
             </el-menu-item>
           </el-sub-menu>
@@ -67,7 +69,8 @@ const jump = (address) => {
             class="el-menu-item"
             :key="item.name"
             :index="item.router"
-            >{{ item.title }}</el-menu-item
+          >
+            <i :class="item.icon"></i>{{ item.title }}</el-menu-item
           >
         </template>
       </template>
@@ -119,11 +122,14 @@ const jump = (address) => {
         color: #000;
         background-color: #f1f1f1;
       }
+      i {
+        vertical-align: -8%;
+      }
     }
     .el-sub-menu__title * {
       vertical-align: baseline;
     }
-    .is-active {
+    .is-active:not(.el-sub-menu) {
       background-color: #f1f1f1;
       color: #000;
     }

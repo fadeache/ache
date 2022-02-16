@@ -14,8 +14,10 @@ const getSpringBoot = async () => {
 </script>
 
 <template>
-  <h1>首页啥也没有</h1>
-  <h1>{{ state.springBoot }}</h1>
+  <h1>床前明月光，</h1>
+  <h1>疑是地上霜。</h1>
+  <h1>举头望明月，</h1>
+  <h1>低头思故乡。</h1>
 </template>
 
 <style scoped></style>
