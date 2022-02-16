@@ -26,7 +26,6 @@ import Menu from "./components/menu.vue";
   .el-main {
     background: #fff;
     padding: 148px 48px;
-    line-height: 1.8;
     height: 735px;
   }
 }

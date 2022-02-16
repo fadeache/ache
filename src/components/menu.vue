@@ -123,7 +123,7 @@ const jump = (address) => {
         background-color: #f1f1f1;
       }
       i {
-        vertical-align: -8%;
+        vertical-align: -9%;
       }
     }
     .el-sub-menu__title * {

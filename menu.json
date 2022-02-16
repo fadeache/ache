@@ -16,7 +16,7 @@
   {
     "name": "word",
     "title": "句子",
-    "icon": "el-icon-thumb",
+    "icon": "el-icon-moon-night",
     "view": "word",
     "router": "/word"
   },
