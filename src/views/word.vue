@@ -1,69 +1,86 @@
 <script setup>
-import { onMounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import axios from "axios";
 
 const state = reactive({
-  quotations: { data: "加载中..." },
-  type: "",
-  tags: ["", "success", "info", "warning", "danger"],
   loading: false,
+  showDialog: false,
+  dialogData: {},
+  result: [],
 });
-onMounted(() => {
-  getTag();
-});
-
-const getTag = async () => {
-  state.loading = true;
-  state.quotations = await axios.get("api/SweetNothings");
-  state.loading = false;
-  let index = Math.floor(Math.random() * state.tags.length);
-  state.type = state.tags[index];
-};
 
 const apis = ref([
   {
-    pic: "@/assets/word/trash.png",
-    name: "语录生成器",
-    api: "api/SweetNothings",
-    abstract: "语录生成",
+    icon: "trash",
+    name: "trash words generator",
+    api: "api/SweetNothings/Serialization/Json",
+    abstract: "渣男语录生成",
   },
   {
-    pic: "trashTalk.png",
+    icon: "tea",
+    name: "green tea words generator",
+    api: "api/SweetNothings/Web/0",
+    abstract: "绿茶语录生成",
+  },
+  {
+    icon: "one",
+    name: "one good word",
+    api: "https://v1.hitokoto.cn",
+    abstract:
+      "一言指的就是一句话，可以是动漫中的台词，也可以是网络上的各种小段子。",
+  },
+  {
+    icon: "wait",
     name: "敬请期待",
     api: "api/SweetNothings",
     abstract: "语录生成",
   },
   {
-    pic: "trashTalk.png",
+    icon: "wait",
     name: "敬请期待",
     api: "api/SweetNothings",
     abstract: "语录生成",
   },
   {
-    pic: "trashTalk.png",
-    name: "敬请期待",
-    api: "api/SweetNothings",
-    abstract: "语录生成",
-  },
-  {
-    pic: "trashTalk.png",
+    icon: "wait",
     name: "敬请期待",
     api: "api/SweetNothings",
     abstract: "语录生成",
   },
 ]);
+
+const detail = async (item, num) => {
+  state.dialogData = item;
+  if (item.icon === "trash") {
+    let filter = ref({
+      count: num,
+    });
+    let res = await axios.get(item.api, { params: filter.value });
+    state.result = res.data.returnObj;
+  } else if (item.icon === "tea") {
+    let res = await axios.get(item.api);
+    state.result = [res.data.returnObj.content];
+  } else {
+    let res = await axios.get(item.api);
+    state.result = [
+      res.data.hitokoto + (res.data.from_who ? "——" + res.data.from_who : ""),
+    ];
+  }
+  console.log(state.result);
+  state.showDialog = true;
+};
 </script>
 
 <template>
-  <!-- <div v-loading="state.loading">
-    <el-tag @close="getTag" closable :type="state.type">
-      {{ state.quotations.data }}
-    </el-tag>
-  </div> -->
   <div class="cards">
-    <div v-for="item in apis" :key="item.api" class="card">
+    <div
+      v-for="item in apis"
+      :key="item.api"
+      class="card"
+      @click="detail(item, 1)"
+    >
       <div class="portrait">
-        <img src="../assets/word/trash.png" />
+        <img :src="`/src/assets/word/${item.icon}.png`" />
       </div>
       <div class="content">
         <div>
@@ -73,9 +90,32 @@ const apis = ref([
       </div>
     </div>
   </div>
+
+  <el-dialog v-model="state.showDialog" v-if="state.showDialog">
+    <template #title>
+      <div class="title">
+        <img :src="`/src/assets/word/${state.dialogData.icon}.png`" />
+        <span>{{ state.dialogData.name }}</span>
+      </div>
+    </template>
+    <div style="margin-bottom: 16px" v-for="item in state.result">
+      {{ item }}
+    </div>
+    <template #footer>
+      <el-button type="primary" @click="detail(state.dialogData, 1)"
+        >再来一条</el-button
+      >
+      <el-button
+        v-if="state.dialogData.icon === 'trash'"
+        type="primary"
+        @click="detail(state.dialogData, 6)"
+        >再来六条</el-button
+      >
+    </template>
+  </el-dialog>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .cards {
   padding: 0 8px;
   height: 100%;
@@ -97,7 +137,7 @@ const apis = ref([
       cursor: pointer;
     }
     .portrait {
-      width: 98px;
+      width: calc(98px - 16px);
       padding: 8px;
       img {
         width: 100%;
@@ -105,8 +145,8 @@ const apis = ref([
       }
     }
     .content {
+      width: calc(100% - 98px - 32px);
       text-align: left;
-      width: calc(100% - 98px);
       padding: 16px;
       div {
         &:first-child {
@@ -116,10 +156,38 @@ const apis = ref([
           margin-top: 4px;
           color: #979898;
           font-size: 15px;
-          overflow: hidden;
+          overflow: hidden; // 超过两行显示省略号
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
         }
       }
     }
   }
+}
+.title {
+  text-align: left;
+  line-height: 20px;
+  img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: -20%;
+  }
+}
+</style>
+<style lang="scss">
+.el-dialog {
+  width: 800px;
+  height: 400px;
+}
+.el-dialog__header {
+  border-bottom: 1px solid #eee;
+}
+.el-dialog__body {
+  padding: 24px;
+  height: calc(100% - 168px);
+  overflow: auto;
+  text-align: left;
 }
 </style>
