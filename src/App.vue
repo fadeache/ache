@@ -1,5 +1,7 @@
 <script setup>
 import Menu from "./components/menu.vue";
+import { useRoute } from "vue-router";
+const route = useRoute();
 </script>
 
 <template>
@@ -7,7 +9,7 @@ import Menu from "./components/menu.vue";
     <el-aside>
       <Menu></Menu>
     </el-aside>
-    <el-main>
+    <el-main :style="`padding: ${route.path === '/blog' ? '48px' : ''} `">
       <router-view></router-view>
     </el-main>
   </el-container>
@@ -26,7 +28,7 @@ import Menu from "./components/menu.vue";
   .el-main {
     background: #fff;
     padding: 148px 48px;
-    height: 735px;
+    min-height: 735px;
   }
 }
 </style>

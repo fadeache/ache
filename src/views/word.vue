@@ -32,7 +32,7 @@ const apis = ref([
   {
     icon: "wait",
     name: "敬请期待",
-    api: "api/SweetNothings",
+    api: "hello",
     abstract: "语录生成",
   },
   {
@@ -49,8 +49,14 @@ const apis = ref([
   },
 ]);
 
-const detail = async (item, num) => {
+const getWords = async (item, num) => {
   state.dialogData = item;
+  detail(item, num);
+  if (item.icon !== "wait") {
+    state.showDialog = true;
+  }
+};
+const detail = async (item, num) => {
   if (item.icon === "trash") {
     let filter = ref({
       count: num,
@@ -60,14 +66,12 @@ const detail = async (item, num) => {
   } else if (item.icon === "tea") {
     let res = await axios.get(item.api);
     state.result = [res.data.returnObj.content];
-  } else {
+  } else if (item.icon === "one") {
     let res = await axios.get(item.api);
     state.result = [
       res.data.hitokoto + (res.data.from_who ? "——" + res.data.from_who : ""),
     ];
   }
-  console.log(state.result);
-  state.showDialog = true;
 };
 </script>
 
@@ -77,10 +81,10 @@ const detail = async (item, num) => {
       v-for="item in apis"
       :key="item.api"
       class="card"
-      @click="detail(item, 1)"
+      @click="getWords(item, 1)"
     >
       <div class="portrait">
-        <img :src="`/src/assets/word/${item.icon}.png`" />
+        <img :src="`/word/${item.icon}.png`" />
       </div>
       <div class="content">
         <div>
@@ -94,7 +98,7 @@ const detail = async (item, num) => {
   <el-dialog v-model="state.showDialog" v-if="state.showDialog">
     <template #title>
       <div class="title">
-        <img :src="`/src/assets/word/${state.dialogData.icon}.png`" />
+        <img :src="`/word/${state.dialogData.icon}.png`" />
         <span>{{ state.dialogData.name }}</span>
       </div>
     </template>
@@ -115,13 +119,13 @@ const detail = async (item, num) => {
   </el-dialog>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .cards {
-  padding: 0 8px;
-  height: 100%;
   display: flex;
   flex-wrap: wrap;
+  padding: 0 8px;
   justify-content: space-between;
+  height: 100%;
   .card {
     box-sizing: border-box;
     width: 400px;
@@ -130,7 +134,9 @@ const detail = async (item, num) => {
     border-radius: 3px;
     transition: 0.3s ease-out;
     display: flex;
-    &:hover {
+    &:nth-child(1):hover,
+    &:nth-child(2):hover,
+    &:nth-child(3):hover {
       box-shadow: 8px 8px 12px 0px rgba(0, 0, 0, 0.08);
       transform: translateY(-10px);
       transition: 0.1s ease-in;

@@ -45,7 +45,7 @@ const jump = (address) => {
     <span>轻松点，这一生，就当来旅游</span>
   </div>
   <div class="nav">
-    <el-menu default-active="/" router>
+    <el-menu :default-active="activeIndex" router>
       <template v-for="item in menu">
         <template v-if="item.children?.length">
           <el-sub-menu :key="item.name" :index="item.router">
@@ -78,17 +78,17 @@ const jump = (address) => {
   </div>
   <div class="info" :class="{ infoFixed: isFixed }">
     <div class="author-vx">
-      <img src="../assets/vx.png" />
+      <img src="/menu/vx.png" />
     </div>
     <div class="author-name">
       <strong>zhang</strong>
     </div>
     <div class="links">
       <div @click="jump('gitee')">
-        <img src="../assets/gitee.png" /><span>Gitee</span>
+        <img src="/menu/gitee.png" /><span>Gitee</span>
       </div>
       <div @click="jump('csdn')">
-        <img src="../assets/csdn.png" /><span>CSDN</span>
+        <img src="/menu/csdn.png" /><span>CSDN</span>
       </div>
     </div>
   </div>
@@ -152,8 +152,10 @@ const jump = (address) => {
     justify-content: space-evenly;
     div {
       height: 32px;
-      width: 35%;
-      padding: 7px 16px;
+      width: 32%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       box-sizing: border-box;
       text-align: left;
       border: 1px transparent solid;
