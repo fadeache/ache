@@ -9,7 +9,11 @@ const route = useRoute();
     <el-aside>
       <Menu></Menu>
     </el-aside>
-    <el-main :style="`padding: ${route.path === '/blog' ? '48px' : ''} `">
+    <el-main
+      :style="`padding: ${
+        route.path === '/blog' || route.path === '/' ? '48px' : ''
+      } `"
+    >
       <router-view></router-view>
     </el-main>
   </el-container>

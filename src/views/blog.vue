@@ -1,10 +1,41 @@
-<script setup></script>
+<script setup>
+import blog from "../../blog.json";
+
+const jump = (url) => {
+  window.open(url);
+};
+</script>
 
 <template>
-  <h1>千山鸟飞绝，</h1>
-  <h1>万径人踪灭。</h1>
-  <h1>孤舟蓑笠翁，</h1>
-  <h1>独钓寒江雪。</h1>
+  <el-timeline>
+    <el-timeline-item
+      v-for="item in blog.data"
+      :timestamp="item.time"
+      :color="item.color"
+      placement="top"
+      color="lightblue"
+    >
+      <el-card @click="jump(item.url)">
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.abstract ? item.abstract : item.title }}</p>
+        <img v-if="item.pic" :src="`/blog/${item.pic}.png`" />
+      </el-card>
+    </el-timeline-item>
+  </el-timeline>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss">
+.el-timeline {
+  text-align: left;
+  .el-card {
+    display: inline-block;
+    img {
+      width: 100%;
+    }
+    &:hover {
+      cursor: pointer;
+      box-shadow: 8px 8px 12px 0px rgba(0, 0, 0, 0.08);
+    }
+  }
+}
+</style>
