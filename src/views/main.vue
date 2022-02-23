@@ -116,6 +116,9 @@ const getSpringBoot = async () => {
     text-align: left;
     color: #ffffff;
     width: 88%;
+    p {
+      margin: 0;
+    }
     p:first-child {
       font-size: 20px;
       font-weight: bold;
@@ -129,11 +132,10 @@ const getSpringBoot = async () => {
     position: absolute;
     content: "";
     width: 4px;
-    // height: 86px;
-    height: 75%;
+    height: 80%;
     background: #ffffff;
     opacity: 0.44;
-    top: 8%;
+    top: 10%;
   }
 }
 

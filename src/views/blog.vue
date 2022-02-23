@@ -2,7 +2,7 @@
 import blog from "../../blog.json";
 
 const jump = (url) => {
-  window.open(url);
+  window.open("https://blog.csdn.net/bDreamer/article/details/" + url);
 };
 </script>
 
@@ -13,7 +13,6 @@ const jump = (url) => {
       :timestamp="item.time"
       :color="item.color"
       placement="top"
-      color="lightblue"
     >
       <el-card @click="jump(item.url)">
         <h3>{{ item.title }}</h3>
@@ -30,11 +29,18 @@ const jump = (url) => {
   .el-card {
     display: inline-block;
     img {
-      width: 100%;
+      max-width: 100%;
+      max-height: 240px;
     }
     &:hover {
       cursor: pointer;
       box-shadow: 8px 8px 12px 0px rgba(0, 0, 0, 0.08);
+    }
+    p {
+      color: #677383;
+    }
+    h3:hover {
+      color: #409eff;
     }
   }
 }

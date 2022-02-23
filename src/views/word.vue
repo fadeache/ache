@@ -27,7 +27,7 @@ const apis = ref([
     name: "一言",
     api: "https://v1.hitokoto.cn",
     abstract:
-      "一言指的就是一句话，可以是动漫中的台词，也可以是网络上的各种小段子。",
+      "动漫也好、小说也好、网络也好，不论在哪里，总有那么一两个句子能穿透你的心。一言指的就是一句话，可以是动漫中的台词，也可以是网络上的各种小段子。 或是感动，或是开心，亦或是单纯的回忆。",
   },
   {
     icon: "dog",
@@ -39,7 +39,7 @@ const apis = ref([
     icon: "letter",
     name: "时光邮局",
     api: "https://www.hi2future.com/",
-    abstract: "给未来的自己写封信吧，也可以看看大家都写了啥。",
+    abstract: "给未来写一封信吧",
   },
   {
     icon: "wait",
@@ -94,7 +94,7 @@ const detail = async (item, num) => {
         <div>
           <strong>{{ item.name }}</strong>
         </div>
-        <div>{{ item.abstract }}</div>
+        <div :title="item.abstract">{{ item.abstract }}</div>
       </div>
     </div>
   </div>
