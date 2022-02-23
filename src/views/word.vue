@@ -24,10 +24,22 @@ const apis = ref([
   },
   {
     icon: "one",
-    name: "one good word",
+    name: "一言",
     api: "https://v1.hitokoto.cn",
     abstract:
       "一言指的就是一句话，可以是动漫中的台词，也可以是网络上的各种小段子。",
+  },
+  {
+    icon: "dog",
+    name: "狗屁不通文章生成器",
+    api: "https://suulnnka.github.io/BullshitGenerator/index.html",
+    abstract: "根据关键词一键生成一篇魔幻形式主义大作。",
+  },
+  {
+    icon: "letter",
+    name: "时光邮局",
+    api: "https://www.hi2future.com/",
+    abstract: "给未来的自己写封信吧，也可以看看大家都写了啥。",
   },
   {
     icon: "wait",
@@ -35,24 +47,12 @@ const apis = ref([
     api: "hello",
     abstract: "语录生成",
   },
-  {
-    icon: "wait",
-    name: "敬请期待",
-    api: "api/SweetNothings",
-    abstract: "语录生成",
-  },
-  {
-    icon: "wait",
-    name: "敬请期待",
-    api: "api/SweetNothings",
-    abstract: "语录生成",
-  },
 ]);
 
 const getWords = async (item, num) => {
   state.dialogData = item;
   detail(item, num);
-  if (item.icon !== "wait") {
+  if (item.icon !== "wait" && item.icon !== "dog" && item.icon !== "letter") {
     state.showDialog = true;
   }
 };
@@ -71,6 +71,10 @@ const detail = async (item, num) => {
     state.result = [
       res.data.hitokoto + (res.data.from_who ? "——" + res.data.from_who : ""),
     ];
+  } else if (item.icon === "dog") {
+    window.open("https://suulnnka.github.io/BullshitGenerator/index.html");
+  } else if (item.icon === "letter") {
+    window.open("https://www.hi2future.com/");
   }
 };
 </script>
@@ -95,7 +99,13 @@ const detail = async (item, num) => {
     </div>
   </div>
 
-  <el-dialog v-model="state.showDialog" v-if="state.showDialog">
+  <el-dialog
+    v-model="state.showDialog"
+    v-if="state.showDialog"
+    :custom-class="`my-dialog ${
+      state.dialogData.icon === 'trash' ? 'normal' : 'small'
+    }`"
+  >
     <template #title>
       <div class="title">
         <img :src="`/word/${state.dialogData.icon}.png`" />
@@ -134,9 +144,7 @@ const detail = async (item, num) => {
     border-radius: 3px;
     transition: 0.3s ease-out;
     display: flex;
-    &:nth-child(1):hover,
-    &:nth-child(2):hover,
-    &:nth-child(3):hover {
+    &:not(:nth-child(6)):hover {
       box-shadow: 8px 8px 12px 0px rgba(0, 0, 0, 0.08);
       transform: translateY(-10px);
       transition: 0.1s ease-in;
@@ -183,9 +191,19 @@ const detail = async (item, num) => {
 }
 </style>
 <style lang="scss">
-.el-dialog {
-  width: 800px;
-  height: 400px;
+.my-dialog {
+  &.normal {
+    &.el-dialog {
+      width: 800px;
+      height: 400px;
+    }
+  }
+  &.small {
+    &.el-dialog {
+      width: 800px;
+      height: 208px;
+    }
+  }
 }
 .el-dialog__header {
   border-bottom: 1px solid #eee;
