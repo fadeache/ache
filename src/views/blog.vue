@@ -1,22 +1,33 @@
 <script setup>
-import blog from "../../blog.json";
+import { ref, onMounted } from "vue";
+import axios from "axios";
+
+const blogs = ref([]);
 
 const jump = (url) => {
   window.open("https://blog.csdn.net/bDreamer/article/details/" + url);
+};
+
+onMounted(() => {
+  getBlog();
+});
+const getBlog = async () => {
+  let res = await axios.get("/ache/blog");
+  blogs.value = res.data;
 };
 </script>
 
 <template>
   <el-timeline>
     <el-timeline-item
-      v-for="item in blog.data"
+      v-for="item in blogs"
       :timestamp="item.time"
       :color="item.color"
       placement="top"
     >
       <el-card @click="jump(item.url)">
         <h3>{{ item.title }}</h3>
-        <p>{{ item.abstract ? item.abstract : item.title }}</p>
+        <p>{{ item.detail ? item.detail : item.title }}</p>
         <img v-if="item.pic" :src="`/blog/${item.pic}.png`" />
       </el-card>
     </el-timeline-item>

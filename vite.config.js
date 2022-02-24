@@ -15,10 +15,10 @@ export default defineConfig({
           "^/api": "", //重写路径
         },
       },
-      "/hello": {
+      "/ache": {
         target: "http://82.157.160.30:8080/",
         pathRewrite: {
-          "^/hello": "",
+          "^/ache": "",
         },
       },
     },

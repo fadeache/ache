@@ -33,7 +33,8 @@ onMounted(() => {
   getSpringBoot();
 });
 const getSpringBoot = async () => {
-  let res = await axios.get("/hello");
+  // 纪念第一次部署后端接口
+  let res = await axios.get("/ache/hello");
   state.springBoot = res.data;
 };
 </script>

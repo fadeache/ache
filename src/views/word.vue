@@ -7,6 +7,7 @@ const state = reactive({
   showDialog: false,
   dialogData: {},
   result: [],
+  radio: "1920",
 });
 
 const apis = ref([
@@ -14,13 +15,13 @@ const apis = ref([
     icon: "trash",
     name: "trash words generator",
     api: "api/SweetNothings/Serialization/Json",
-    abstract: "渣男语录生成",
+    abstract: "渣男语录生成。",
   },
   {
     icon: "tea",
     name: "green tea words generator",
     api: "api/SweetNothings/Web/0",
-    abstract: "绿茶语录生成",
+    abstract: "绿茶语录生成。",
   },
   {
     icon: "one",
@@ -28,6 +29,12 @@ const apis = ref([
     api: "https://v1.hitokoto.cn",
     abstract:
       "动漫也好、小说也好、网络也好，不论在哪里，总有那么一两个句子能穿透你的心。一言指的就是一句话，可以是动漫中的台词，也可以是网络上的各种小段子。 或是感动，或是开心，亦或是单纯的回忆。",
+  },
+  {
+    icon: "hdpic",
+    name: "每日壁纸",
+    api: "https://api.dujin.org/bing/1920.php",
+    abstract: "自动生成一张高清壁纸。",
   },
   {
     icon: "dog",
@@ -41,22 +48,28 @@ const apis = ref([
     api: "https://www.hi2future.com/",
     abstract: "给未来写一封信吧",
   },
-  {
-    icon: "wait",
-    name: "敬请期待",
-    api: "hello",
-    abstract: "语录生成",
-  },
 ]);
 
 const getWords = async (item, num) => {
   state.dialogData = item;
-  detail(item, num);
-  if (item.icon !== "wait" && item.icon !== "dog" && item.icon !== "letter") {
+  if (item.icon !== "hdpic") {
+    detail(item, num);
+  }
+  if (item.icon !== "dog" && item.icon !== "letter") {
     state.showDialog = true;
   }
 };
-const detail = async (item, num) => {
+const detail = async (item, num, evt) => {
+  if (evt) {
+    let target = evt.target; // 取消聚焦
+    if (target.nodeName == "SPAN") {
+      target = evt.target.parentNode;
+    }
+    target.blur();
+  }
+
+  state.result = [];
+
   if (item.icon === "trash") {
     let filter = ref({
       count: num,
@@ -71,10 +84,18 @@ const detail = async (item, num) => {
     state.result = [
       res.data.hitokoto + (res.data.from_who ? "——" + res.data.from_who : ""),
     ];
-  } else if (item.icon === "dog") {
-    window.open("https://suulnnka.github.io/BullshitGenerator/index.html");
-  } else if (item.icon === "letter") {
-    window.open("https://www.hi2future.com/");
+  } else if (item.icon === "hdpic") {
+    if (
+      state.radio === "1920" ||
+      state.radio === "1366" ||
+      state.radio === "m"
+    ) {
+      window.open("https://api.dujin.org/bing/" + state.radio + ".php");
+    } else {
+      window.open("https://api.ixiaowai.cn/" + state.radio + ".php");
+    }
+  } else if (item.icon === "dog" || item.icon === "letter") {
+    window.open(item.api);
   }
 };
 </script>
@@ -103,7 +124,9 @@ const detail = async (item, num) => {
     v-model="state.showDialog"
     v-if="state.showDialog"
     :custom-class="`my-dialog ${
-      state.dialogData.icon === 'trash' ? 'normal' : 'small'
+      state.dialogData.icon === 'trash' || state.dialogData.icon === 'hdpic'
+        ? 'normal'
+        : 'small'
     }`"
   >
     <template #title>
@@ -115,14 +138,28 @@ const detail = async (item, num) => {
     <div style="margin-bottom: 16px" v-for="item in state.result">
       {{ item }}
     </div>
+    <div v-if="state.dialogData.icon === 'hdpic'">
+      <h3>每日壁纸</h3>
+      <el-radio v-model="state.radio" label="1920">1920*1080</el-radio>
+      <el-radio v-model="state.radio" label="1366">1366*768</el-radio>
+      <el-radio v-model="state.radio" label="m">1080*1920</el-radio>
+      <h3>高清壁纸</h3>
+      <el-radio v-model="state.radio" label="api/api">二次元</el-radio>
+      <el-radio v-model="state.radio" label="mcapi/mcapi">menhear酱</el-radio>
+      <el-radio v-model="state.radio" label="gqapi/gqapi">风景壁纸 </el-radio>
+    </div>
     <template #footer>
-      <el-button type="primary" @click="detail(state.dialogData, 1)"
+      <el-button
+        @click="detail(state.dialogData, 1, $event)"
+        v-if="state.dialogData.icon !== 'hdpic'"
         >再来一条</el-button
+      >
+      <el-button v-else @click="detail(state.dialogData, 1, $event)"
+        >let's go</el-button
       >
       <el-button
         v-if="state.dialogData.icon === 'trash'"
-        type="primary"
-        @click="detail(state.dialogData, 6)"
+        @click="detail(state.dialogData, 6, $event)"
         >再来六条</el-button
       >
     </template>
@@ -144,7 +181,7 @@ const detail = async (item, num) => {
     border-radius: 3px;
     transition: 0.3s ease-out;
     display: flex;
-    &:not(:nth-child(6)):hover {
+    &:hover {
       box-shadow: 8px 8px 12px 0px rgba(0, 0, 0, 0.08);
       transform: translateY(-10px);
       transition: 0.1s ease-in;
