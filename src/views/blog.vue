@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import translate from "../utils/translate.js";
 
 const blogs = ref([]);
 
@@ -52,7 +53,9 @@ const getBlog = async (type, sort) => {
         <h3>{{ item.title }}</h3>
         <p>{{ item.detail ? item.detail : item.title }}</p>
         <img v-if="item.pic" :src="`/blog/${item.pic}.png`" />
-        <p>收录于{{ item.type }}</p>
+        <p>
+          收录于 <strong>{{ translate.type(item.type) }}</strong>
+        </p>
       </el-card>
     </el-timeline-item>
   </el-timeline>
