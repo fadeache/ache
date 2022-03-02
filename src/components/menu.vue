@@ -24,7 +24,6 @@ const watchScroll = () => {
     document.body.scrollTop;
   let offsetTop = document.querySelector(".nav").offsetTop + 272;
   if (scrollTop >= offsetTop) {
-    console.log(scrollTop, offsetTop);
     isFixed.value = true;
   } else {
     isFixed.value = false;
