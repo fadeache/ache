@@ -33,7 +33,7 @@ const getBlog = async (type, sort) => {
 
 <template>
   <div class="btns">
-    <el-button @click="getBlog('all')">全部</el-button>
+    <el-button autofocus="true" @click="getBlog('all')">全部</el-button>
     <el-button @click="getBlog('vue')">VUE</el-button>
     <el-button @click="getBlog('css')">CSS</el-button>
     <el-button @click="getBlog('js')">JavaScript</el-button>
