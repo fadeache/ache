@@ -11,7 +11,9 @@ const route = useRoute();
     </el-aside>
     <el-main
       :style="`padding: ${
-        route.path === '/blog' || route.path === '/' ? '48px' : ''
+        route.path === '/word' || route.path === '/animation'
+          ? '148px 48px'
+          : ''
       } `"
     >
       <router-view></router-view>
@@ -31,7 +33,7 @@ const route = useRoute();
   }
   .el-main {
     background: #fff;
-    padding: 148px 48px;
+    padding: 48px;
     min-height: 735px;
   }
 }

@@ -2,21 +2,36 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import translate from "../utils/translate.js";
+import visit from "../js/visit";
 
 const blogs = ref([]);
+const params = ref({
+  time: "",
+  OS: "",
+  browser: "",
+});
+const filter = ref({
+  sort: "reverse",
+  type: null,
+});
+
+onMounted(() => {
+  getBlog();
+  insertVisit();
+});
+
+const insertVisit = async () => {
+  params.value.time = visit.getVisitInfo()[0];
+  params.value.OS = visit.getVisitInfo()[1];
+  params.value.browser = visit.getVisitInfo()[2];
+  await axios.get("/ache/insert", { params: params.value });
+  console.log(params.value);
+};
 
 const jump = (url) => {
   window.open("https://blog.csdn.net/bDreamer/article/details/" + url);
 };
 
-onMounted(() => {
-  getBlog();
-});
-
-const filter = ref({
-  sort: "reverse",
-  type: null,
-});
 const getBlog = async (type, sort) => {
   if (!sort) {
     if (type === "all") filter.value.type = null;
@@ -33,7 +48,7 @@ const getBlog = async (type, sort) => {
 
 <template>
   <div class="btns">
-    <el-button autofocus="true" @click="getBlog('all')">全部</el-button>
+    <el-button :autofocus="true" @click="getBlog('all')">全部</el-button>
     <el-button @click="getBlog('vue')">VUE</el-button>
     <el-button @click="getBlog('css')">CSS</el-button>
     <el-button @click="getBlog('js')">JavaScript</el-button>

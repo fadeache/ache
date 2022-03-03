@@ -1,43 +1,38 @@
 <script setup>
-import { reactive, ref } from "vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
 
-const state = reactive({
-  displayTitle: true,
-  displayForm: false,
-  displayData: false,
+const tableData = ref([]);
+
+const getTable = async () => {
+  let res = await axios.get("/ache/visit");
+  tableData.value = res.data;
+};
+
+onMounted(() => {
+  getTable();
 });
-const hidden = ref({ user: "", pwd: "" });
-
-const display = () => {
-  state.displayForm = true;
-  state.displayTitle = false;
-};
-const login = () => {
-  if (hidden.value.user === "zhang_gm" && hidden.value.pwd === "123456") {
-    state.displayData = true;
-    state.displayForm = false;
-  }
-};
 </script>
 
 <template>
-  <h1 @click="display" v-if="state.displayTitle">关于我是谁，双枪会给出答案</h1>
+  <h1>近期访客</h1>
 
   <div>
-    <el-form :inline="true" :model="hidden" v-if="state.displayForm">
-      <el-form-item label="账号">
-        <el-input v-model="hidden.user"></el-input>
-      </el-form-item>
-      <el-form-item label="密码">
-        <el-input v-model="hidden.pwd"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="login">登陆</el-button>
-      </el-form-item>
-    </el-form>
+    <el-table :data="tableData" stripe style="width: 100%">
+      <el-table-column type="index" label="#" width="50" align="center">
+      </el-table-column>
+      <el-table-column prop="time" label="时间" width="240"> </el-table-column>
+      <el-table-column
+        prop="os"
+        label="操作系统"
+        width="360"
+        show-overflow-tooltip
+      >
+      </el-table-column>
+      <el-table-column prop="browser" label="浏览器" show-overflow-tooltip>
+      </el-table-column>
+    </el-table>
   </div>
-
-  <div v-if="state.displayData"></div>
 
   <div class="test" style="transform: translateY(96px); display: none"></div>
 </template>

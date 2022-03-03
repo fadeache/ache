@@ -213,7 +213,7 @@
 </template>
 
 <script>
-import { animation } from "../js/index.js";
+import animation from "../js/animation";
 
 export default {
   mounted() {

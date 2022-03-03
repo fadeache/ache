@@ -7,7 +7,6 @@ const state = reactive({
   words: words,
   value: new Date(),
   activeName: "1",
-  // pictures: ["main/three.jpg", "main/one.png", "main/four.jpg"],
   wallpapers: [
     {
       title: "随便找一句",

@@ -1,4 +1,3 @@
-import router from "../router/index.js";
 class ANIMATION {
   exchange() {
     let swch = document.getElementById("switch");
