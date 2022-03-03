@@ -41,7 +41,7 @@ const getBlog = async (type, sort) => {
       ? (filter.value.sort = "")
       : (filter.value.sort = "reverse");
   }
-  let res = await axios.get("/ache/blog/set", { params: filter.value });
+  let res = await axios.get("/ache/blog", { params: filter.value });
   blogs.value = res.data;
 };
 </script>
