@@ -7,8 +7,8 @@ import visit from "../js/visit";
 const blogs = ref([]);
 const params = ref({
   time: "",
-  OS: "",
-  browser: "",
+  os: "",
+  screen: "",
 });
 const filter = ref({
   sort: "reverse",
@@ -22,9 +22,9 @@ onMounted(() => {
 
 const insertVisit = async () => {
   params.value.time = visit.getVisitInfo()[0];
-  params.value.OS = visit.getVisitInfo()[1];
-  params.value.browser = visit.getVisitInfo()[2];
-  await axios.get("/ache/insert", { params: params.value });
+  params.value.os = visit.getVisitInfo()[1];
+  params.value.screen = visit.getVisitInfo()[2];
+  await axios.post("/ache/insert", params.value);
   console.log(params.value);
 };
 
@@ -41,7 +41,7 @@ const getBlog = async (type, sort) => {
       ? (filter.value.sort = "")
       : (filter.value.sort = "reverse");
   }
-  let res = await axios.get("/ache/blog", { params: filter.value });
+  let res = await axios.get("/ache/blog/set", { params: filter.value });
   blogs.value = res.data;
 };
 </script>
