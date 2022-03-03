@@ -46,38 +46,13 @@ class VISIT {
       }
       return device;
     };
-    const getBrowser = () => {
-      let browserInfo =
-        userAgent.match(/rv:([\d.]+)\) like gecko/) || // IE11
-        userAgent.match(/msie ([\d\.]+)/) || // IE
-        userAgent.match(/edge\/([\d\.]+)/) || // Edge
-        userAgent.match(/firefox\/([\d\.]+)/) || // Firefox
-        userAgent.match(/chrome\/([\d\.]+)/) || // Chrome
-        userAgent.match(/version\/([\d\.]+).*safari/) || // Safari
-        userAgent.match(/opera.([\d.]+)/); // Opera
-      if (browserInfo === null) {
-        device.browser = "unknown";
-        device.version = "unknown";
-      } else {
-        device.browser = browserInfo[0].substring(
-          0,
-          browserInfo[0].indexOf("/")
-        );
-        if (device.browser.indexOf("version") !== -1) {
-          device.browser = "safari";
-        }
-        device.version = browserInfo[1];
-      }
-      return device;
-    };
 
     const properties = () => {
       getOs();
-      getBrowser();
       return [
         time.format(new Date(), "yyyy-MM-dd hh:mm:ss"),
         device.os + "，" + device.osVersion + "，" + device.platForm,
-        userAgent,
+        window.screen.width + " * " + window.screen.height,
       ];
     };
     return properties();

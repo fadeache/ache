@@ -29,7 +29,7 @@ onMounted(() => {
         show-overflow-tooltip
       >
       </el-table-column>
-      <el-table-column prop="browser" label="浏览器" show-overflow-tooltip>
+      <el-table-column prop="browser" label="分辨率" show-overflow-tooltip>
       </el-table-column>
     </el-table>
   </div>
