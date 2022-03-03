@@ -24,8 +24,7 @@ const insertVisit = async () => {
   params.value.time = visit.getVisitInfo()[0];
   params.value.os = visit.getVisitInfo()[1];
   params.value.screen = visit.getVisitInfo()[2];
-  await axios.post("/ache/insert", params.value);
-  console.log(params.value);
+  await axios.post("/ache/visit/insert", params.value);
 };
 
 const jump = (url) => {
