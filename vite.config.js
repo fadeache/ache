@@ -16,7 +16,7 @@ export default defineConfig({
         },
       },
       "/ache": {
-        target: "http://82.157.160.30:8086/",
+        target: "http://10.214.111.114:8080/",
         pathRewrite: {
           "^/ache": "",
         },
