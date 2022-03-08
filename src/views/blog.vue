@@ -82,7 +82,13 @@ const highLight = (allText, keyword) => {
 <template>
   <div class="search">
     <div>
-      <el-input v-model="filter.search" placeholder="搜一搜"></el-input>
+      <el-input
+        v-model="filter.search"
+        placeholder="搜一搜"
+        clearable
+        show-word-limit
+        maxlength="50"
+      ></el-input>
     </div>
     <div>
       <a
