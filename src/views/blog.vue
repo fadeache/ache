@@ -63,12 +63,18 @@ const getBlog = async (index, type, sort) => {
   blogs.value = res.data;
 };
 
-const brightenKeyword = (allText, keyword) => {
-  const Reg = new RegExp(keyword, "i");
-  let res = "";
+const highLight = (allText, keyword) => {
+  let Reg = new RegExp(keyword, "ig");
   if (allText) {
-    res = allText.replace(Reg, `<span style="color: red;">${keyword}</span>`);
-    return res;
+    let execRes = Reg.exec(allText.toString()); //得到一个匹配结果的集合，包含关键字出现的索引
+    if (execRes) {
+      let realword = allText.substr(execRes.index, keyword.length); //根据索引和关键字长度获取原本的真实大小写关键词
+      let res = allText.replace(
+        Reg,
+        `<span style="color: red;">${realword}</span>`
+      );
+      return res;
+    }
   }
 };
 </script>
@@ -102,8 +108,8 @@ const brightenKeyword = (allText, keyword) => {
       placement="top"
     >
       <el-card @click="jump(item.url)">
-        <h3 v-html="brightenKeyword(item.title, filter.search)"></h3>
-        <p v-html="brightenKeyword(item.detail, filter.search)"></p>
+        <h3 v-html="highLight(item.title, filter.search)"></h3>
+        <p v-html="highLight(item.detail, filter.search)"></p>
         <img v-if="item.pic" :src="`/blog/${item.pic}.png`" />
         <p>
           收录于 <strong>{{ translate.type(item.type) }}</strong>
