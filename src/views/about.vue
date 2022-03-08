@@ -31,7 +31,7 @@ const state = reactive({
 });
 
 const tableData = ref([]);
-const hidden = ref({ user: "", pwd: "" });
+const hidden = ref({ pwd: "" });
 
 onMounted(() => {
   getTable();
@@ -82,6 +82,9 @@ const getLineChart = () => {
         let num = param[0].marker + "访问次数：" + param[0].value + "次";
         return "<div>" + time + "</br>" + num + "</div>";
       },
+    },
+    grid: {
+      top: 30,
     },
     xAxis: {
       type: "category",
@@ -157,8 +160,8 @@ const getCakeChart = () => {
   });
 };
 
-const deleteVisit = async (data) => {
-  await axios.post("/ache/visit/delete", data);
+const deleteVisit = async (id) => {
+  await axios.delete("/ache/visit/delete", { params: { id: parseInt(id) } });
   getTable();
 };
 
@@ -169,21 +172,18 @@ const showLogin = () => {
 };
 
 const login = () => {
-  // if (hidden.value.user === "zhang_gm" && hidden.value.pwd === "e1710121399") {
-  state.displayDelete = true;
-  state.displayForm = false;
-  getTable();
-  // }
+  if (hidden.value.pwd === "e1710121399") {
+    state.displayDelete = true;
+    state.displayForm = false;
+    getTable();
+  }
 };
 </script>
 
 <template>
-  <h1 @click="showLogin">近期访客</h1>
+  <h1 @click="showLogin" style="cursor: pointer">近期访客</h1>
 
   <el-form :inline="true" :model="hidden" v-if="state.displayForm">
-    <el-form-item label="账号">
-      <el-input v-model="hidden.user"></el-input>
-    </el-form-item>
     <el-form-item label="密码">
       <el-input v-model="hidden.pwd"></el-input>
     </el-form-item>
@@ -207,7 +207,7 @@ const login = () => {
     </el-table-column>
     <el-table-column label="操作" width="100" v-if="state.displayDelete">
       <template #default="scope">
-        <el-button size="small" type="danger" @click="deleteVisit(scope.row)"
+        <el-button size="small" type="danger" @click="deleteVisit(scope.row.id)"
           >Delete</el-button
         >
       </template>

@@ -1,9 +1,14 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch, reactive } from "vue";
 import axios from "axios";
 import translate from "../utils/translate.js";
 import visit from "../js/visit";
 
+const state = reactive({
+  active: 0,
+  reverseActive: false,
+});
+const blogType = ref(["all", "vue", "css", "js", "es6", "micro", "server"]);
 const blogs = ref([]);
 const params = ref({
   time: "",
@@ -11,14 +16,22 @@ const params = ref({
   screen: "",
 });
 const filter = ref({
-  sort: "reverse",
-  type: null,
+  sort: "",
+  type: "",
+  search: "",
 });
 
 onMounted(() => {
   getBlog();
   insertVisit();
 });
+
+watch(
+  () => filter.value.search,
+  () => {
+    getBlog();
+  }
+);
 
 const insertVisit = async () => {
   params.value.time = visit.getVisitInfo()[0];
@@ -31,14 +44,21 @@ const jump = (url) => {
   window.open("https://blog.csdn.net/bDreamer/article/details/" + url);
 };
 
-const getBlog = async (type, sort) => {
-  if (!sort) {
-    if (type === "all") filter.value.type = null;
+const getBlog = async (index, type, sort) => {
+  console.log(type, 1, sort);
+  if (type) {
+    if (type === "all") filter.value.type = "";
     else filter.value.type = type;
-  } else {
-    filter.value.sort === "reverse"
-      ? (filter.value.sort = "")
-      : (filter.value.sort = "reverse");
+    state.active = index;
+  }
+  if (sort) {
+    if (filter.value.sort === "reverse") {
+      filter.value.sort = "";
+      state.reverseActive = false;
+    } else {
+      filter.value.sort = "reverse";
+      state.reverseActive = true;
+    }
   }
   let res = await axios.get("/ache/blog", { params: filter.value });
   blogs.value = res.data;
@@ -46,15 +66,25 @@ const getBlog = async (type, sort) => {
 </script>
 
 <template>
-  <div class="btns">
-    <el-button :autofocus="true" @click="getBlog('all')">全部</el-button>
-    <el-button @click="getBlog('vue')">VUE</el-button>
-    <el-button @click="getBlog('css')">CSS</el-button>
-    <el-button @click="getBlog('js')">JavaScript</el-button>
-    <el-button @click="getBlog('es6')">ES6</el-button>
-    <el-button @click="getBlog('micro')">微前端</el-button>
-    <el-button @click="getBlog('server')">服务器</el-button>
-    <el-button @click="getBlog('', 'reverse')">倒序</el-button>
+  <div class="search">
+    <div>
+      <el-input v-model="filter.search" placeholder="搜一搜"></el-input>
+    </div>
+    <div>
+      <a
+        href="#"
+        v-for="(item, index) in blogType"
+        @click="getBlog(index, item)"
+        :class="{ isactive: state.active === index }"
+        >{{ translate.type(item) }}</a
+      >
+      <a
+        href="#"
+        :class="{ isactive: state.reverseActive }"
+        @click="getBlog(7, '', 'reverse')"
+        >倒序</a
+      >
+    </div>
   </div>
   <el-timeline>
     <el-timeline-item
@@ -76,13 +106,29 @@ const getBlog = async (type, sort) => {
 </template>
 
 <style scoped lang="scss">
-.btns {
-  height: 80px;
+.search {
+  height: 100px;
+
+  width: 720px;
+  margin: auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  .el-button {
-    height: 30px;
+  gap: 5px;
+  a {
+    margin-right: 8px;
+    font-size: 15px;
+    color: cornflowerblue;
+    &:last-child {
+      margin-right: 0;
+    }
+    &:hover {
+      color: #0000cc;
+    }
   }
+}
+.isactive {
+  color: orangered !important;
 }
 .el-timeline {
   text-align: left;

@@ -12,6 +12,8 @@ class TRANSLATE {
       return "微前端";
     } else if (type === "server") {
       return "服务器";
+    } else if (type === "all") {
+      return "全部";
     } else return type;
   }
 }
