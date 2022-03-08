@@ -9,7 +9,7 @@ const state = reactive({
   chartNumbers: [0, 0, 0, 0, 0, 0, 0],
   chartTimePeriod: ["0-5", "5-8", "8-11", "11-13", "13-16", "16-19", "19-0"],
   // chartDeviceValue: [0, 0, 0, 0],
-  // chartDeviceName: ["PC", "Tablet", "Mobile", "Unknow"],
+  // chartDeviceName: ["PC", "Tablet", "Mobile", "Unknown"],
   chartDevice: [
     {
       value: 0,
@@ -25,7 +25,7 @@ const state = reactive({
     },
     {
       value: 0,
-      name: "Unknow",
+      name: "Unknown",
     },
   ],
 });
