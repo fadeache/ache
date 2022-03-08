@@ -45,7 +45,6 @@ const jump = (url) => {
 };
 
 const getBlog = async (index, type, sort) => {
-  console.log(type, 1, sort);
   if (type) {
     if (type === "all") filter.value.type = "";
     else filter.value.type = type;
@@ -86,7 +85,7 @@ const getBlog = async (index, type, sort) => {
       >
     </div>
   </div>
-  <el-timeline>
+  <el-timeline v-if="blogs.length">
     <el-timeline-item
       v-for="item in blogs"
       :timestamp="item.time"
@@ -103,6 +102,13 @@ const getBlog = async (index, type, sort) => {
       </el-card>
     </el-timeline-item>
   </el-timeline>
+  <div v-else>
+    <el-empty
+      image="/blog/empty.png"
+      description=" "
+      :image-size="320"
+    ></el-empty>
+  </div>
 </template>
 
 <style scoped lang="scss">
@@ -118,17 +124,17 @@ const getBlog = async (index, type, sort) => {
   a {
     margin-right: 8px;
     font-size: 15px;
-    color: cornflowerblue;
+    color: #999;
     &:last-child {
       margin-right: 0;
     }
     &:hover {
-      color: #0000cc;
+      color: #000;
     }
   }
 }
 .isactive {
-  color: orangered !important;
+  color: #000 !important;
 }
 .el-timeline {
   text-align: left;
