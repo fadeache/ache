@@ -172,10 +172,13 @@ const showLogin = () => {
 };
 
 const login = () => {
-  if (hidden.value.pwd === "e1710121399") {
+  if (hidden.value.pwd === "1603") {
     state.displayDelete = true;
     state.displayForm = false;
     getTable();
+  } else {
+    state.displayDelete = false;
+    state.displayForm = false;
   }
 };
 </script>
@@ -183,14 +186,20 @@ const login = () => {
 <template>
   <h1 @click="showLogin" style="cursor: pointer">近期访客</h1>
 
-  <el-form :inline="true" :model="hidden" v-if="state.displayForm">
-    <el-form-item label="密码">
-      <el-input v-model="hidden.pwd"></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="login">登录</el-button>
-    </el-form-item>
-  </el-form>
+  <div v-if="state.displayForm" style="width: 320px; margin: auto">
+    <el-input
+      v-model="hidden.pwd"
+      clearable
+      show-password
+      maxlength="8"
+      v-on:keyup.enter="login"
+      style="--el-input-focus-border: #999"
+    >
+      <template #append>
+        <el-button icon="el-icon-s-promotion" @click="login">ACCESS</el-button>
+      </template></el-input
+    >
+  </div>
 
   <el-table :data="tableData" stripe style="width: 100%" max-height="480">
     <el-table-column type="index" label="#" width="50" align="center">
