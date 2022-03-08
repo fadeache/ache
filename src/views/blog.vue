@@ -74,8 +74,8 @@ const highLight = (allText, keyword) => {
         `<span style="color: red;">${realword}</span>`
       );
       return res;
-    }
-  }
+    } else return allText;
+  } else return allText;
 };
 </script>
 
