@@ -62,6 +62,15 @@ const getBlog = async (index, type, sort) => {
   let res = await axios.get("/ache/blog", { params: filter.value });
   blogs.value = res.data;
 };
+
+const brightenKeyword = (allText, keyword) => {
+  const Reg = new RegExp(keyword, "i");
+  let res = "";
+  if (allText) {
+    res = allText.replace(Reg, `<span style="color: red;">${keyword}</span>`);
+    return res;
+  }
+};
 </script>
 
 <template>
@@ -93,8 +102,8 @@ const getBlog = async (index, type, sort) => {
       placement="top"
     >
       <el-card @click="jump(item.url)">
-        <h3>{{ item.title }}</h3>
-        <p>{{ item.detail ? item.detail : item.title }}</p>
+        <h3 v-html="brightenKeyword(item.title, filter.search)"></h3>
+        <p v-html="brightenKeyword(item.detail, filter.search)"></p>
         <img v-if="item.pic" :src="`/blog/${item.pic}.png`" />
         <p>
           收录于 <strong>{{ translate.type(item.type) }}</strong>
@@ -121,6 +130,9 @@ const getBlog = async (index, type, sort) => {
   flex-direction: column;
   justify-content: center;
   gap: 5px;
+  .el-input {
+    --el-input-focus-border: grey;
+  }
   a {
     margin-right: 8px;
     font-size: 15px;
