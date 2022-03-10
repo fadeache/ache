@@ -59,11 +59,31 @@ const getBlog = async (index, type, sort) => {
       state.reverseActive = true;
     }
   }
-  let res = await axios.get("/ache/blog", { params: filter.value });
+  let res = await axios.get("/ache/blog/get", { params: filter.value });
   blogs.value = res.data;
 };
 
 const highLight = (allText, keyword) => {
+  // let specialCharacter = [
+  //   "\\",
+  //   "$",
+  //   "(",
+  //   ")",
+  //   "*",
+  //   "+",
+  //   ".",
+  //   "[",
+  //   "?",
+  //   "^",
+  //   "{",
+  //   "|",
+  // ];
+  // specialCharacter.map((v) => {
+  //   let qwq = new RegExp("\\" + v, "gim");
+  //   keyword = keyword.replace(qwq, "\\" + v);
+  // });
+  // console.log(keyword);
+
   let Reg = new RegExp(keyword, "ig");
   if (allText) {
     let execRes = Reg.exec(allText.toString()); //得到一个匹配结果的集合，包含关键字出现的索引
@@ -91,19 +111,20 @@ const highLight = (allText, keyword) => {
       ></el-input>
     </div>
     <div>
-      <a
-        href="#"
+      <span
         v-for="(item, index) in blogType"
         @click="getBlog(index, item)"
         :class="{ isactive: state.active === index }"
-        >{{ translate.type(item) }}</a
       >
-      <a
+        {{ translate.type(item) }}
+      </span>
+      <span
         href="#"
         :class="{ isactive: state.reverseActive }"
         @click="getBlog(7, '', 'reverse')"
-        >倒序</a
       >
+        倒序
+      </span>
     </div>
   </div>
   <el-timeline v-if="blogs.length">
@@ -115,7 +136,11 @@ const highLight = (allText, keyword) => {
     >
       <el-card @click="jump(item.url)">
         <h3 v-html="highLight(item.title, filter.search)"></h3>
-        <p v-html="highLight(item.detail, filter.search)"></p>
+        <p
+          v-html="
+            highLight(item.detail ? item.detail : item.title, filter.search)
+          "
+        ></p>
         <img v-if="item.pic" :src="`/blog/${item.pic}.png`" />
         <p>
           收录于 <strong>{{ translate.type(item.type) }}</strong>
@@ -125,8 +150,8 @@ const highLight = (allText, keyword) => {
   </el-timeline>
   <div v-else>
     <el-empty
-      image="/blog/empty.png"
-      description=" "
+      image="/blog/noData.png"
+      description="未搜索到相关内容"
       :image-size="320"
     ></el-empty>
   </div>
@@ -145,7 +170,7 @@ const highLight = (allText, keyword) => {
   .el-input {
     --el-input-focus-border: grey;
   }
-  a {
+  span {
     margin-right: 8px;
     font-size: 15px;
     color: #999;
@@ -175,8 +200,12 @@ const highLight = (allText, keyword) => {
     p {
       color: #677383;
     }
-    h3:hover {
-      color: #409eff;
+    h3 {
+      display: inline-block;
+      margin-bottom: 0;
+      &:hover {
+        color: #409eff;
+      }
     }
   }
 }
