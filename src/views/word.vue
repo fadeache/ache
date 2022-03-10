@@ -52,6 +52,7 @@ const apis = ref([
 
 const getWords = async (item, num) => {
   state.dialogData = item;
+  state.result = [];
   if (item.icon !== "hdpic") {
     detail(item, num);
   }
@@ -67,8 +68,6 @@ const detail = async (item, num, evt) => {
     }
     target.blur();
   }
-
-  state.result = [];
 
   if (item.icon === "trash") {
     let filter = ref({
