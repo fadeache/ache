@@ -2,14 +2,13 @@
 import { reactive, ref, onMounted } from "vue";
 import axios from "axios";
 import * as echarts from "echarts";
+import { useStore } from "vuex";
+
+const store = useStore();
 
 const state = reactive({
-  displayForm: false,
-  displayDelete: false,
   chartNumbers: [0, 0, 0, 0, 0, 0, 0],
   chartTimePeriod: ["0-5", "5-8", "8-11", "11-13", "13-16", "16-19", "19-0"],
-  // chartDeviceValue: [0, 0, 0, 0],
-  // chartDeviceName: ["PC", "Tablet", "Mobile", "Unknown"],
   chartDevice: [
     {
       value: 0,
@@ -31,7 +30,6 @@ const state = reactive({
 });
 
 const tableData = ref([]);
-const hidden = ref({ pwd: "" });
 
 onMounted(() => {
   getTable();
@@ -164,42 +162,10 @@ const deleteVisit = async (id) => {
   await axios.delete("/ache/visit/delete", { params: { id: parseInt(id) } });
   getTable();
 };
-
-const showLogin = () => {
-  state.displayForm === true
-    ? (state.displayForm = false)
-    : (state.displayForm = true);
-};
-
-const login = () => {
-  if (hidden.value.pwd === "1603") {
-    state.displayDelete = true;
-    state.displayForm = false;
-    getTable();
-  } else {
-    state.displayDelete = false;
-    state.displayForm = false;
-  }
-};
 </script>
 
 <template>
-  <h1 @click="showLogin" style="cursor: pointer">近期访客</h1>
-
-  <div v-if="state.displayForm" style="width: 320px; margin: auto">
-    <el-input
-      v-model="hidden.pwd"
-      clearable
-      show-password
-      maxlength="8"
-      v-on:keyup.enter="login"
-      style="--el-input-focus-border: #999"
-    >
-      <template #append>
-        <el-button icon="el-icon-s-promotion" @click="login">ACCESS</el-button>
-      </template></el-input
-    >
-  </div>
+  <h1>近期访客</h1>
 
   <el-table :data="tableData" stripe style="width: 100%" max-height="480">
     <el-table-column type="index" label="#" width="50" align="center">
@@ -214,7 +180,7 @@ const login = () => {
     </el-table-column>
     <el-table-column prop="screen" label="屏幕分辨率" show-overflow-tooltip>
     </el-table-column>
-    <el-table-column label="操作" width="100" v-if="state.displayDelete">
+    <el-table-column label="操作" width="100" v-if="store.state.user.isLogin">
       <template #default="scope">
         <el-button size="small" type="danger" @click="deleteVisit(scope.row.id)"
           >Delete</el-button

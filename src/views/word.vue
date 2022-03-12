@@ -226,28 +226,4 @@ const detail = async (item, num, evt) => {
   }
 }
 </style>
-<style lang="scss">
-.my-dialog {
-  &.normal {
-    &.el-dialog {
-      width: 800px;
-      height: 400px;
-    }
-  }
-  &.small {
-    &.el-dialog {
-      width: 800px;
-      height: 208px;
-    }
-  }
-}
-.el-dialog__header {
-  border-bottom: 1px solid #eee;
-}
-.el-dialog__body {
-  padding: 24px;
-  height: calc(100% - 168px);
-  overflow: auto;
-  text-align: left;
-}
-</style>
+<style lang="scss"></style>

@@ -1,10 +1,26 @@
 <script setup>
-import { onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch, reactive } from "vue";
 import { useRoute } from "vue-router";
 import menu from "../../menu.json";
+import { useStore } from "vuex";
+import { ElMessage } from "element-plus";
+
+const store = useStore();
 const route = useRoute();
 const activeIndex = ref();
 const isFixed = ref(false);
+const showDialog = ref(false);
+const loginInfo = ref({
+  user: "",
+  pwd: "",
+});
+const form = ref(null);
+const formKey = ref(0);
+const rules = reactive({
+  user: [{ required: true, message: "请输入用户", trigger: ["change"] }],
+  pwd: [{ required: true, message: "请输入密码", trigger: ["change"] }],
+});
+
 watch(
   () => route.matched,
   (newValue, oldValue) => {
@@ -36,11 +52,40 @@ const jump = (address) => {
     window.open("https://blog.csdn.net/bDreamer");
   }
 };
+
+const resetForm = () => {
+  form.value.resetFields();
+  formKey.value++;
+};
+const submitForm = () => {
+  form.value.validate((valid, fields) => {
+    if (valid) {
+      store.dispatch("user/login", loginInfo.value).then((rst) => {
+        if (rst) {
+          ElMessage({
+            type: "success",
+            message: "登录成功！",
+            "show-close": true,
+            grouping: true,
+          });
+          showDialog.value = false;
+        } else {
+          ElMessage({
+            type: "error",
+            message: "登录失败！请重新登录！",
+            "show-close": true,
+            grouping: true,
+          });
+        }
+      });
+    }
+  });
+};
 </script>
 
 <template>
   <div class="brand">
-    <h1>☀</h1>
+    <h1 @click="showDialog = true">☀</h1>
     <span>轻松点，这一生，就当来旅游</span>
   </div>
   <div class="nav">
@@ -91,6 +136,29 @@ const jump = (address) => {
       </div>
     </div>
   </div>
+  <el-dialog v-model="showDialog" custom-class="my-dialog login">
+    <template #title>
+      <img src="/menu/login.png" style="height: 20px; width: 40px" />
+    </template>
+    <el-form :model="loginInfo" ref="form" :rules="rules" :key="formKey">
+      <el-form-item label="用户" prop="user">
+        <el-input v-model="loginInfo.user" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="pwd">
+        <el-input
+          type="password"
+          v-model="loginInfo.pwd"
+          autocomplete="off"
+          show-password
+          clearable
+        ></el-input>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <el-button type="primary" @click="submitForm()">登录</el-button>
+      <el-button @click="resetForm()">重置</el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">
@@ -101,6 +169,12 @@ const jump = (address) => {
   color: #fff;
   span {
     color: #ddd;
+  }
+  h1 {
+    cursor: pointer;
+    &:hover {
+      color: orangered;
+    }
   }
 }
 .nav {
@@ -181,5 +255,36 @@ const jump = (address) => {
   z-index: 2021;
   top: 0;
   box-sizing: border-box;
+}
+</style>
+<style lang="scss">
+.my-dialog {
+  &.normal {
+    &.el-dialog {
+      width: 800px;
+      height: 400px;
+    }
+  }
+  &.small {
+    &.el-dialog {
+      width: 800px;
+      height: 208px;
+    }
+  }
+  &.login {
+    &.el-dialog {
+      width: 320px;
+      height: 320px;
+    }
+  }
+}
+.el-dialog__header {
+  border-bottom: 1px solid #eee;
+}
+.el-dialog__body {
+  padding: 24px !important;
+  height: calc(100% - 168px);
+  overflow: auto;
+  text-align: left;
 }
 </style>

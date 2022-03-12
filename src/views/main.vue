@@ -2,6 +2,7 @@
 import { reactive, onMounted } from "vue";
 import axios from "axios";
 import words from "../../words.json";
+
 const state = reactive({
   springBoot: "",
   words: words,
