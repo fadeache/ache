@@ -29,6 +29,7 @@ watch(
 );
 onMounted(() => {
   window.addEventListener("scroll", watchScroll, true);
+  store.dispatch("user/login");
 });
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", watchScroll, true);
@@ -60,32 +61,58 @@ const resetForm = () => {
 const submitForm = () => {
   form.value.validate((valid, fields) => {
     if (valid) {
-      store.dispatch("user/login", loginInfo.value).then((rst) => {
-        if (rst) {
-          ElMessage({
-            type: "success",
-            message: "登录成功！",
-            "show-close": true,
-            grouping: true,
-          });
-          showDialog.value = false;
-        } else {
-          ElMessage({
-            type: "error",
-            message: "登录失败！请重新登录！",
-            "show-close": true,
-            grouping: true,
-          });
-        }
-      });
+      if (store.state.user.isLogin) {
+        ElMessage({
+          type: "error",
+          message: "已登录！",
+          "show-close": true,
+          grouping: true,
+        });
+      } else {
+        store.dispatch("user/login", loginInfo.value).then((rst) => {
+          if (rst) {
+            ElMessage({
+              type: "success",
+              message: "登录成功！",
+              "show-close": true,
+              grouping: true,
+            });
+            showDialog.value = false;
+          } else {
+            ElMessage({
+              type: "error",
+              message: "登录失败！请重新登录！",
+              "show-close": true,
+              grouping: true,
+            });
+          }
+        });
+      }
     }
+  });
+};
+const exit = () => {
+  store.dispatch("user/exit", loginInfo.value).then((rst) => {
+    ElMessage({
+      type: "info",
+      message: rst,
+      "show-close": true,
+      grouping: true,
+    });
+    resetForm();
+    showDialog.value = false;
   });
 };
 </script>
 
 <template>
   <div class="brand">
-    <h1 @click="showDialog = true">☀</h1>
+    <h1
+      @click="showDialog = true"
+      :class="{ logined: store.state.user.isLogin }"
+    >
+      ☀
+    </h1>
     <span>轻松点，这一生，就当来旅游</span>
   </div>
   <div class="nav">
@@ -155,8 +182,9 @@ const submitForm = () => {
       </el-form-item>
     </el-form>
     <template #footer>
-      <el-button type="primary" @click="submitForm()">登录</el-button>
-      <el-button @click="resetForm()">重置</el-button>
+      <el-button type="success" @click="submitForm">登录</el-button>
+      <el-button type="primary" @click="resetForm">重置</el-button>
+      <el-button type="danger" @click="exit">退出登录</el-button>
     </template>
   </el-dialog>
 </template>
@@ -176,6 +204,11 @@ const submitForm = () => {
       color: orangered;
     }
   }
+}
+.logined {
+  // color: #00ff00;
+  // color: #67c23a;
+  color: orangered;
 }
 .nav {
   background-color: #fff;
