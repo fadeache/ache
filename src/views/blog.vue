@@ -66,20 +66,7 @@ const getBlog = async (index, type, sort) => {
 };
 
 const highLight = (allText, keyword) => {
-  // let specialCharacter = [
-  //   "\\",
-  //   "$",
-  //   "(",
-  //   ")",
-  //   "*",
-  //   "+",
-  //   ".",
-  //   "[",
-  //   "?",
-  //   "^",
-  //   "{",
-  //   "|",
-  // ];
+  // let specialCharacter = ["\\", "(", ")", "_", "*", "+", ".", "[", "]", "?"];
   // specialCharacter.map((v) => {
   //   let qwq = new RegExp("\\" + v, "gim");
   //   keyword = keyword.replace(qwq, "\\" + v);
@@ -181,6 +168,7 @@ const highLight = (allText, keyword) => {
     }
     &:hover {
       color: #000;
+      cursor: pointer;
     }
   }
 }
