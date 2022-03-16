@@ -22,6 +22,8 @@ const actions = {
             document.cookie.length - document.cookie.indexOf("=")
           ),
         };
+        commit("setLogin", true);
+        return;
       } else {
         return;
       }
