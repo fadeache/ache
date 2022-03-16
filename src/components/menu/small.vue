@@ -176,9 +176,6 @@ const exit = () => {
   span {
     color: #ddd;
   }
-  h1 {
-    cursor: pointer;
-  }
   .function {
     position: absolute;
     height: 56px;
