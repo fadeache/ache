@@ -4,6 +4,10 @@ import axios from "axios";
 import * as echarts from "echarts";
 import { useStore } from "vuex";
 
+const props = defineProps({
+  smallScreen: Boolean,
+});
+
 const store = useStore();
 
 const state = reactive({
@@ -167,7 +171,13 @@ const deleteVisit = async (id) => {
 <template>
   <h1>近期访客</h1>
 
-  <el-table :data="tableData" stripe style="width: 100%" max-height="480">
+  <el-table
+    :data="tableData"
+    stripe
+    style="width: 100%"
+    max-height="480"
+    v-if="!props.smallScreen"
+  >
     <el-table-column type="index" label="#" width="50" align="center">
     </el-table-column>
     <el-table-column prop="time" label="时间" width="250"> </el-table-column>
@@ -189,7 +199,30 @@ const deleteVisit = async (id) => {
     </el-table-column>
   </el-table>
 
-  <div class="chart">
+  <el-table
+    :data="tableData"
+    stripe
+    style="width: 100%"
+    max-height="480"
+    v-else
+  >
+    <el-table-column type="index" label="#" width="50" align="center">
+    </el-table-column>
+    <el-table-column prop="time" label="时间"> </el-table-column>
+    <el-table-column prop="os" label="操作系统" show-overflow-tooltip>
+    </el-table-column>
+    <el-table-column prop="screen" label="屏幕分辨率" show-overflow-tooltip>
+    </el-table-column>
+    <el-table-column label="操作" v-if="store.state.user.isLogin">
+      <template #default="scope">
+        <el-button size="small" type="danger" @click="deleteVisit(scope.row.id)"
+          >Delete</el-button
+        >
+      </template>
+    </el-table-column>
+  </el-table>
+
+  <div :class="[smallScreen ? 'smallScreen' : 'chart']">
     <div id="line"></div>
     <div id="cake"></div>
   </div>
@@ -215,6 +248,14 @@ const deleteVisit = async (id) => {
     width: 50%;
     height: 400px;
     float: left;
+  }
+}
+.smallScreen {
+  margin-top: 32px;
+  #line,
+  #cake {
+    width: 100%;
+    height: 400px;
   }
 }
 </style>

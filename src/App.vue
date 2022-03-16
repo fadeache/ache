@@ -1,5 +1,6 @@
 <script setup>
-import Menu from "./components/menu.vue";
+import Menu from "./components/menu/menu.vue";
+import Small from "./components/menu/small.vue";
 import { useRoute } from "vue-router";
 import { onBeforeUnmount, ref, onBeforeMount } from "vue";
 const route = useRoute();
@@ -23,20 +24,12 @@ const renderResize = () => {
 </script>
 
 <template>
-  <el-container
-    :class="{ bigContainer: !smallScreen }"
-    style="background: #fff"
-  >
+  <el-container :class="[smallScreen ? 'smallContainer' : 'bigContainer']">
     <el-aside v-if="!smallScreen">
       <Menu></Menu>
     </el-aside>
-    <el-main
-      :style="`padding: ${
-        route.path === '/word' || route.path === '/animation'
-          ? '148px 48px'
-          : ''
-      } `"
-    >
+    <el-main>
+      <Small v-if="smallScreen"></Small>
       <router-view :smallScreen="smallScreen"></router-view>
     </el-main>
   </el-container>
@@ -53,8 +46,17 @@ const renderResize = () => {
     margin-right: 16px;
   }
   .el-main {
-    padding: 48px;
+    background: #fff;
+    padding: 48px !important;
     min-height: 735px;
+  }
+}
+.smallContainer {
+  .el-main {
+    height: 100vh;
+    margin-top: -16px;
+    background: #fff;
+    padding: 0;
   }
 }
 </style>

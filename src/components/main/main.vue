@@ -59,7 +59,7 @@ const state = reactive({
         v-for="(word, index) in props.words"
         :key="word"
       >
-        <el-collapse-item :title="word.zhcn" :name="index">
+        <el-collapse-item :title="word.zhcn" :name="(index + 1).toString()">
           <div>
             {{ word.enus }}
           </div>
@@ -73,6 +73,7 @@ const state = reactive({
 </template>
 
 <style scoped lang="scss">
+@import "../../style/main.scss";
 .el-row {
   &:first-child {
     margin-bottom: 16px;
@@ -117,35 +118,6 @@ const state = reactive({
     background: #ffffff;
     opacity: 0.44;
     top: 10%;
-  }
-}
-
-:deep(.el-collapse) {
-  .el-collapse-item__header {
-    line-height: normal;
-  }
-  .el-collapse-item__content {
-    color: #677383;
-    font-family: "Times New Roman", Times, serif;
-    font-style: italic;
-  }
-}
-
-:deep(.el-calendar) {
-  --el-calendar-header-border-bottom: transparent;
-  .el-calendar__header {
-    flex-direction: column;
-    height: 56px;
-    padding: 0;
-  }
-  .el-calendar__body {
-    padding: 6px 0 0 0;
-    .el-calendar-day {
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
   }
 }
 </style>

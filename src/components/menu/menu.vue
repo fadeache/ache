@@ -1,7 +1,7 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref, watch, reactive } from "vue";
 import { useRoute } from "vue-router";
-import menu from "../../menu.json";
+import menu from "../../../menu.json";
 import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
 
@@ -314,6 +314,12 @@ const exit = () => {
     &.el-dialog {
       width: 320px;
       height: 320px;
+    }
+  }
+  &.smallScreen {
+    &.el-dialog {
+      width: calc(100% - 40px);
+      height: 400px;
     }
   }
 }

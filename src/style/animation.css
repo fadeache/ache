@@ -29,6 +29,13 @@
   align-items: center;
   flex-direction: column;
   /* height: 100%; */
+  margin-top: 100px;
+}
+
+.smallScreen {
+  margin-top: 0;
+  padding: 16px;
+  transform: scale(0.8);
 }
 
 #switch {

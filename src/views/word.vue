@@ -2,6 +2,10 @@
 import { reactive, ref } from "vue";
 import axios from "axios";
 
+const props = defineProps({
+  smallScreen: Boolean,
+});
+
 const state = reactive({
   loading: false,
   showDialog: false,
@@ -100,7 +104,7 @@ const detail = async (item, num, evt) => {
 </script>
 
 <template>
-  <div class="cards">
+  <div class="cards" :class="{ smallScreen: smallScreen }">
     <div
       v-for="item in apis"
       :key="item.api"
@@ -126,7 +130,7 @@ const detail = async (item, num, evt) => {
       state.dialogData.icon === 'trash' || state.dialogData.icon === 'hdpic'
         ? 'normal'
         : 'small'
-    }`"
+    } ${smallScreen ? 'smallScreen' : ''}`"
   >
     <template #title>
       <div class="title">
@@ -167,11 +171,12 @@ const detail = async (item, num, evt) => {
 
 <style lang="scss" scoped>
 .cards {
+  margin-top: 100px;
   display: flex;
   flex-wrap: wrap;
-  padding: 0 8px;
+  padding: 8px;
   justify-content: space-between;
-  height: 100%;
+  height: calc(100% - 200px); //148-48+148-48
   .card {
     box-sizing: border-box;
     width: 400px;
@@ -225,5 +230,10 @@ const detail = async (item, num, evt) => {
     vertical-align: -20%;
   }
 }
+
+.smallScreen {
+  margin-top: 24px !important;
+  height: 750px !important;
+  justify-content: space-around;
+}
 </style>
-<style lang="scss"></style>

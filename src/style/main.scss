@@ -1,0 +1,27 @@
+:deep(.el-collapse) {
+  .el-collapse-item__header {
+    line-height: normal;
+  }
+  .el-collapse-item__content {
+    color: #677383;
+    font-family: "Times New Roman", Times, serif;
+    font-style: italic;
+  }
+}
+:deep(.el-calendar) {
+  --el-calendar-header-border-bottom: transparent;
+  .el-calendar__header {
+    flex-direction: column;
+    height: 56px;
+    padding: 0;
+  }
+  .el-calendar__body {
+    padding: 0;
+    .el-calendar-day {
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

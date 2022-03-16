@@ -1,6 +1,10 @@
-<script setup></script>
+<script setup>
+const props = defineProps({
+  smallScreen: Boolean,
+});
+</script>
 <template>
-  <div class="container">
+  <div class="container" :class="{ smallScreen: smallScreen }">
     <div id="switch" class="switched">
       <div class="circle"></div>
     </div>
@@ -223,5 +227,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../css/animation-web.css";
+@import "../style/animation.css";
 </style>
