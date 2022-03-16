@@ -14,7 +14,7 @@ onBeforeUnmount(() => {
 const smallScreen = ref(false);
 const renderResize = () => {
   let width = document.documentElement.clientWidth;
-  if (width < 1280) {
+  if (width < 1229) {
     smallScreen.value = true;
   } else {
     smallScreen.value = false;

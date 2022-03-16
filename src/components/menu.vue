@@ -30,6 +30,7 @@ watch(
 onMounted(() => {
   window.addEventListener("scroll", watchScroll, true);
   store.dispatch("user/login");
+  console.log(document.documentElement.clientWidth);
 });
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", watchScroll, true);
@@ -169,7 +170,11 @@ const exit = () => {
     </template>
     <el-form :model="loginInfo" ref="form" :rules="rules" :key="formKey">
       <el-form-item label="用户" prop="user">
-        <el-input v-model="loginInfo.user" clearable></el-input>
+        <el-input
+          v-model="loginInfo.user"
+          clearable
+          v-on:keyup.enter="submitForm"
+        ></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pwd">
         <el-input
@@ -178,6 +183,7 @@ const exit = () => {
           autocomplete="off"
           show-password
           clearable
+          v-on:keyup.enter="submitForm"
         ></el-input>
       </el-form-item>
     </el-form>
