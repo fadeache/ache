@@ -1,12 +1,33 @@
 <script setup>
 import Menu from "./components/menu.vue";
 import { useRoute } from "vue-router";
+import { onBeforeUnmount, ref, onBeforeMount } from "vue";
 const route = useRoute();
+
+onBeforeMount(() => {
+  renderResize();
+  window.addEventListener("resize", renderResize);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", renderResize);
+});
+const smallScreen = ref(false);
+const renderResize = () => {
+  let width = document.documentElement.clientWidth;
+  if (width < 1280) {
+    smallScreen.value = true;
+  } else {
+    smallScreen.value = false;
+  }
+};
 </script>
 
 <template>
-  <el-container>
-    <el-aside>
+  <el-container
+    :class="{ bigContainer: !smallScreen }"
+    style="background: #fff"
+  >
+    <el-aside v-if="!smallScreen">
       <Menu></Menu>
     </el-aside>
     <el-main
@@ -16,7 +37,7 @@ const route = useRoute();
           : ''
       } `"
     >
-      <router-view></router-view>
+      <router-view :smallScreen="smallScreen"></router-view>
     </el-main>
   </el-container>
 </template>
@@ -25,14 +46,13 @@ const route = useRoute();
 #app {
   margin-top: 16px;
 }
-.el-container {
+.bigContainer {
   width: 1280px;
   margin: auto;
   .el-aside {
     margin-right: 16px;
   }
   .el-main {
-    background: #fff;
     padding: 48px;
     min-height: 735px;
   }
