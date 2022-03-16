@@ -187,7 +187,7 @@ const exit = () => {
     display: flex;
     justify-content: space-between;
     div {
-      width: 15%;
+      width: 56px;
       display: flex;
       align-items: center;
       justify-content: center;
