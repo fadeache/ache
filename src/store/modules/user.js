@@ -2,7 +2,7 @@ import md5 from "js-md5";
 import axios from "axios";
 
 const state = () => ({
-  role: "",
+  info: "",
 });
 
 const actions = {
@@ -51,8 +51,8 @@ const actions = {
 };
 
 const mutations = {
-  setUser(state, role) {
-    state.role = role;
+  setUser(state, info) {
+    state.info = info;
   },
   setCookie(state, userInfo) {
     let expTime = new Date();
