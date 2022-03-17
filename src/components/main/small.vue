@@ -12,7 +12,7 @@ const state = reactive({
 </script>
 
 <template>
-  <div style="padding: 8px 8px 34px 8px">
+  <div style="padding: 8px 8px 80px 8px">
     <el-calendar v-model="state.value"></el-calendar>
     <el-collapse
       v-model="state.activeName"
