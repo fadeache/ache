@@ -190,9 +190,13 @@ const deleteVisit = async (id) => {
     </el-table-column>
     <el-table-column prop="screen" label="屏幕分辨率" show-overflow-tooltip>
     </el-table-column>
-    <el-table-column label="操作" width="100" v-if="store.state.user.isLogin">
+    <el-table-column label="操作" width="100" v-if="store.state.user.role">
       <template #default="scope">
-        <el-button size="small" type="danger" @click="deleteVisit(scope.row.id)"
+        <el-button
+          size="small"
+          :disabled="store.state.user.role !== 'admin'"
+          type="danger"
+          @click="deleteVisit(scope.row.id)"
           >Delete</el-button
         >
       </template>
@@ -213,9 +217,13 @@ const deleteVisit = async (id) => {
     </el-table-column>
     <el-table-column prop="screen" label="屏幕分辨率" show-overflow-tooltip>
     </el-table-column>
-    <el-table-column label="操作" v-if="store.state.user.isLogin">
+    <el-table-column label="操作" v-if="store.state.user.role">
       <template #default="scope">
-        <el-button size="small" type="danger" @click="deleteVisit(scope.row.id)"
+        <el-button
+          size="small"
+          :disabled="store.state.user.role !== 'admin'"
+          type="danger"
+          @click="deleteVisit(scope.row.id)"
           >Delete</el-button
         >
       </template>

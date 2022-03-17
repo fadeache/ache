@@ -62,7 +62,7 @@ const resetForm = () => {
 const submitForm = () => {
   form.value.validate((valid, fields) => {
     if (valid) {
-      if (store.state.user.isLogin) {
+      if (store.state.user.role) {
         ElMessage({
           type: "error",
           message: "已登录！",
@@ -93,7 +93,7 @@ const submitForm = () => {
   });
 };
 const exit = () => {
-  if (store.state.user.isLogin) {
+  if (store.state.user.role) {
     store.dispatch("user/exit", loginInfo.value).then((rst) => {
       ElMessage({
         type: "info",
@@ -118,10 +118,7 @@ const exit = () => {
 
 <template>
   <div class="brand">
-    <h1
-      @click="showDialog = true"
-      :class="{ logined: store.state.user.isLogin }"
-    >
+    <h1 @click="showDialog = true" :class="{ logined: store.state.user.role }">
       ☀
     </h1>
     <span>轻松点，这一生，就当来旅游</span>

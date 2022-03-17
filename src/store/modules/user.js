@@ -2,7 +2,7 @@ import md5 from "js-md5";
 import axios from "axios";
 
 const state = () => ({
-  isLogin: false,
+  role: "",
 });
 
 const actions = {
@@ -22,15 +22,20 @@ const actions = {
             document.cookie.length - document.cookie.indexOf("=")
           ),
         };
-        commit("setLogin", true);
-        return;
+        const rst = await axios.post("/ache/login", data);
+        if (rst.data) {
+          commit("setUser", rst.data);
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return;
       }
     }
     const rst = await axios.post("/ache/login", data);
     if (rst.data) {
-      commit("setLogin", true);
+      commit("setUser", rst.data);
       commit("setCookie", data);
       return true;
     } else {
@@ -39,15 +44,15 @@ const actions = {
   },
 
   exit({ commit }, form) {
-    commit("setLogin", false);
+    commit("setUser", "");
     commit("clearCookie", form);
     return "退出成功！";
   },
 };
 
 const mutations = {
-  setLogin(state, whether) {
-    state.isLogin = whether;
+  setUser(state, role) {
+    state.role = role;
   },
   setCookie(state, userInfo) {
     let expTime = new Date();
