@@ -30,7 +30,6 @@ watch(
 onMounted(() => {
   window.addEventListener("scroll", watchScroll, true);
   store.dispatch("user/login");
-  console.log(document.documentElement.clientWidth);
 });
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", watchScroll, true);

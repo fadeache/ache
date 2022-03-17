@@ -176,11 +176,13 @@ const deleteVisit = async (id) => {
     stripe
     style="width: 100%"
     max-height="480"
+    :default-sort="{ prop: 'time', order: 'descending' }"
     v-if="!props.smallScreen"
   >
     <el-table-column type="index" label="#" width="50" align="center">
     </el-table-column>
-    <el-table-column prop="time" label="时间" width="250"> </el-table-column>
+    <el-table-column prop="time" label="时间" width="250" sortable>
+    </el-table-column>
     <el-table-column
       prop="os"
       label="操作系统"
@@ -208,11 +210,12 @@ const deleteVisit = async (id) => {
     stripe
     style="width: 100%"
     max-height="480"
+    :default-sort="{ prop: 'time', order: 'descending' }"
     v-else
   >
     <el-table-column type="index" label="#" width="50" align="center">
     </el-table-column>
-    <el-table-column prop="time" label="时间"> </el-table-column>
+    <el-table-column prop="time" label="时间" sortable> </el-table-column>
     <el-table-column prop="os" label="操作系统" show-overflow-tooltip>
     </el-table-column>
     <el-table-column prop="screen" label="屏幕分辨率" show-overflow-tooltip>
