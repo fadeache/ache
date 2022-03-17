@@ -69,16 +69,26 @@ const submitForm = () => {
   });
 };
 const exit = () => {
-  store.dispatch("user/exit", loginInfo.value).then((rst) => {
+  if (store.state.user.isLogin) {
+    store.dispatch("user/exit", loginInfo.value).then((rst) => {
+      ElMessage({
+        type: "info",
+        message: rst,
+        "show-close": true,
+        grouping: true,
+      });
+      resetForm();
+    });
+  } else {
     ElMessage({
       type: "info",
-      message: rst,
+      message: "已退出！",
       "show-close": true,
       grouping: true,
     });
     resetForm();
-    showDialog.value = false;
-  });
+  }
+  showDialog.value = false;
 };
 </script>
 
@@ -188,6 +198,10 @@ const exit = () => {
       display: flex;
       align-items: center;
       justify-content: center;
+      &:hover {
+        color: #409eff;
+        cursor: pointer;
+      }
     }
   }
 }
