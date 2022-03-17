@@ -12,7 +12,8 @@ const state = reactive({
 </script>
 
 <template>
-  <div style="padding: 8px">
+  <div style="padding: 8px 8px 34px 8px">
+    <el-calendar v-model="state.value"></el-calendar>
     <el-collapse
       v-model="state.activeName"
       accordion
@@ -25,13 +26,12 @@ const state = reactive({
         </div>
       </el-collapse-item>
     </el-collapse>
-    <el-calendar v-model="state.value"></el-calendar>
   </div>
 </template>
 
 <style scoped lang="scss">
 @import "../../style/main.scss";
 .el-calendar {
-  margin-top: 16px;
+  margin: 16px 0;
 }
 </style>
