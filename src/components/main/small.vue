@@ -31,22 +31,16 @@ const state = reactive({
 
 <style scoped lang="scss">
 @import "../../style/main.scss";
-// :deep(.el-calendar) {
-//   margin-bottom: 16px;
-// }
+:deep(.el-calendar) {
+  margin-bottom: 16px;
+}
 
 :deep(.el-collapse) {
+  border: none;
   .el-collapse-item__header {
     line-height: normal;
     text-align: left;
-  }
-  &:last-child {
-    .el-collapse-item__header {
-      border-bottom: 0;
-    }
-    .el-collapse-item__wrap {
-      border-bottom: 0;
-    }
+    border: none;
   }
 }
 </style>

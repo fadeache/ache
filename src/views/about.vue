@@ -218,7 +218,7 @@ const deleteVisit = async (id) => {
     <el-table-column prop="time" label="时间" sortable> </el-table-column>
     <el-table-column prop="os" label="操作系统" show-overflow-tooltip>
     </el-table-column>
-    <el-table-column prop="screen" label="屏幕分辨率" show-overflow-tooltip>
+    <el-table-column prop="screen" label="分辨率" show-overflow-tooltip>
     </el-table-column>
     <el-table-column label="操作" v-if="store.state.user.info.role">
       <template #default="scope">
