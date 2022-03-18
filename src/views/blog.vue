@@ -209,6 +209,8 @@ const highLight = (allText, keyword) => {
   padding: 16px;
   .search {
     width: 100%;
+    height: 80px;
+    justify-content: flex-start;
     span {
       font-size: 12px !important;
     }
@@ -218,7 +220,7 @@ const highLight = (allText, keyword) => {
     .el-card {
       display: block;
       h3 {
-        margin: 0;
+        display: inline;
       }
     }
   }

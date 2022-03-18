@@ -12,7 +12,7 @@ const state = reactive({
 </script>
 
 <template>
-  <div style="padding: 8px 8px 80px 8px">
+  <div style="padding: 16px">
     <el-calendar v-model="state.value"></el-calendar>
     <el-collapse
       v-model="state.activeName"
@@ -20,7 +20,7 @@ const state = reactive({
       v-for="(word, index) in props.words"
       :key="word"
     >
-      <el-collapse-item :title="word.zhcn" :name="index">
+      <el-collapse-item :title="word.zhcn" :name="(index + 1).toString()">
         <div>
           {{ word.enus }}
         </div>
@@ -31,7 +31,22 @@ const state = reactive({
 
 <style scoped lang="scss">
 @import "../../style/main.scss";
-.el-calendar {
-  margin: 16px 0;
+// :deep(.el-calendar) {
+//   margin-bottom: 16px;
+// }
+
+:deep(.el-collapse) {
+  .el-collapse-item__header {
+    line-height: normal;
+    text-align: left;
+  }
+  &:last-child {
+    .el-collapse-item__header {
+      border-bottom: 0;
+    }
+    .el-collapse-item__wrap {
+      border-bottom: 0;
+    }
+  }
 }
 </style>

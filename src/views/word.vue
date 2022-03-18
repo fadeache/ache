@@ -174,9 +174,8 @@ const detail = async (item, num, evt) => {
   margin-top: 100px;
   display: flex;
   flex-wrap: wrap;
-  padding: 8px;
-  justify-content: space-between;
-  height: calc(100% - 200px); //148-48+148-48
+  justify-content: center;
+  gap: 54px;
   .card {
     box-sizing: border-box;
     width: 400px;
@@ -232,8 +231,13 @@ const detail = async (item, num, evt) => {
 }
 
 .smallScreen {
-  margin-top: 24px !important;
-  height: 750px !important;
-  justify-content: space-around;
+  margin-top: 0px; // 720/6=120 120-100-6=14
+  padding: 16px;
+  gap: 24px;
+  .card {
+    &:hover {
+      transform: translateY(0);
+    }
+  }
 }
 </style>
