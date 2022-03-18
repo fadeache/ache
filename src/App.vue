@@ -53,7 +53,6 @@ const renderResize = () => {
 }
 .smallContainer {
   .el-main {
-    height: 100vh;
     margin-top: -16px;
     background: #fff;
     padding: 0;

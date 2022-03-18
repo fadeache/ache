@@ -55,7 +55,6 @@ watch(
     } else {
       sunFixed.value = false;
     }
-    console.log(newValue);
   }
 );
 onMounted(() => {
