@@ -42,5 +42,8 @@ const state = reactive({
     text-align: left;
     border: none;
   }
+  .el-collapse-item__wrap {
+    border: none;
+  }
 }
 </style>

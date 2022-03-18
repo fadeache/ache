@@ -1,10 +1,14 @@
 <script setup>
-import { onMounted, ref, watch, reactive } from "vue";
+import { onMounted, onBeforeUnmount, ref, watch, reactive } from "vue";
 import { useRoute } from "vue-router";
 import menu from "../../../menu.json";
 import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
 
+const change = ref(false); //滚动92之后改变功能键的背景色等
+const sunFixed = ref(false); //滚动24之后固定小太阳
+const hideWord = ref(false); //滚动52之后隐藏文字
+const hideFunc = ref(false); //滚动148之后向下滚动隐藏功能键，向上滚动显示功能键
 const store = useStore();
 const route = useRoute();
 const activeIndex = ref();
@@ -20,6 +24,7 @@ const rules = reactive({
   pwd: [{ required: true, message: "请输入密码", trigger: ["change"] }],
 });
 const drawer = ref(false);
+const scrollTop = ref(0);
 
 watch(
   () => route.matched,
@@ -27,9 +32,46 @@ watch(
     activeIndex.value = newValue[newValue.length - 1].path;
   }
 );
+watch(
+  () => scrollTop.value,
+  (newValue, oldValue) => {
+    if (newValue >= 24) {
+      sunFixed.value = true;
+      if (newValue >= 52) {
+        hideWord.value = true;
+        if (newValue >= 92) {
+          change.value = true;
+        } else {
+          change.value = false;
+        }
+        if (newValue > oldValue && newValue > 148) {
+          hideFunc.value = true;
+        } else {
+          hideFunc.value = false;
+        }
+      } else {
+        hideWord.value = false;
+      }
+    } else {
+      sunFixed.value = false;
+    }
+    console.log(newValue);
+  }
+);
 onMounted(() => {
+  window.addEventListener("scroll", watchScroll, true);
   store.dispatch("user/login");
 });
+onBeforeUnmount(() => {
+  window.removeEventListener("scroll", watchScroll, true);
+});
+
+const watchScroll = () => {
+  scrollTop.value =
+    window.pageYOffset ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop;
+};
 
 const resetForm = () => {
   form.value.resetFields();
@@ -94,12 +136,28 @@ const exit = () => {
 
 <template>
   <div class="brand">
-    <div class="function">
+    <div
+      class="function"
+      :style="[
+        change ? 'color:#555;background:#fff;border-bottom:1px solid #eee' : '',
+        hideFunc ? 'opacity: 0' : '',
+      ]"
+    >
       <div @click="showDialog = true"><i class="el-icon-s-promotion"></i></div>
+      <div :class="{ logined: store.state.user.info }" v-if="sunFixed">
+        <i class="el-icon-sunny"></i>
+      </div>
       <div @click="drawer = true"><i class="el-icon-menu"></i></div>
     </div>
-    <h1 :class="{ logined: store.state.user.info }">☀</h1>
-    <span>轻松点，这一生，就当来旅游</span>
+    <div :class="{ logined: store.state.user.info }" class="sun">
+      <div><i v-if="!sunFixed" class="el-icon-sunny"></i></div>
+    </div>
+    <span
+      :style="[
+        hideWord ? 'opacity: 0;transition: all 0.8s;' : 'transition: all 0.8s;',
+      ]"
+      >轻松点，这一生，就当来旅游</span
+    >
   </div>
   <el-drawer
     title="菜单"
@@ -183,16 +241,24 @@ const exit = () => {
   padding: 24px 0;
   background-color: #222;
   color: #fff;
+  .sun {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   span {
     color: #ddd;
   }
   .function {
-    position: absolute;
+    z-index: 1999;
+    position: fixed;
     height: 56px;
     width: 100%;
     top: 0;
     display: flex;
     justify-content: space-between;
+    transition: all 0.5s;
     div {
       width: 56px;
       display: flex;
@@ -209,6 +275,9 @@ const exit = () => {
   // color: #00ff00;
   // color: #67c23a;
   color: orangered;
+}
+
+.change {
 }
 .nav {
   text-align: left;

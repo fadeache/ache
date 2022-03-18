@@ -23,7 +23,7 @@
   {
     "name": "animation",
     "title": "动画",
-    "icon": "el-icon-sunny",
+    "icon": "el-icon-turn-off",
     "view": "animation",
     "router": "/animation"
   },

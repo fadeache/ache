@@ -118,7 +118,7 @@ const exit = () => {
 <template>
   <div class="brand">
     <h1 @click="showDialog = true" :class="{ logined: store.state.user.info }">
-      ☀
+      <i class="el-icon-sunny"></i>
     </h1>
     <span>轻松点，这一生，就当来旅游</span>
   </div>
