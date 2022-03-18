@@ -35,11 +35,11 @@ watch(
 watch(
   () => scrollTop.value,
   (newValue, oldValue) => {
-    if (newValue >= 24) {
+    if (newValue > 24) {
       sunFixed.value = true;
-      if (newValue >= 52) {
+      if (newValue > 52) {
         hideWord.value = true;
-        if (newValue >= 92) {
+        if (newValue > 92) {
           change.value = true;
         } else {
           change.value = false;
