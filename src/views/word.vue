@@ -172,15 +172,9 @@ const detail = async (item, num, evt) => {
 <style lang="scss" scoped>
 .cards {
   margin-top: 100px;
-  display: -webkit-flex;
-  display: -moz-flex;
   display: flex;
-  -webkit-flex-wrap: wrap;
-  -moz-flex-wrap: wrap;
   flex-wrap: wrap;
   justify-content: center;
-  -webkit-gap: 54px;
-  -moz-gap: 54px;
   gap: 54px;
   .card {
     box-sizing: border-box;
@@ -239,9 +233,8 @@ const detail = async (item, num, evt) => {
 .smallScreen {
   margin-top: 0px; // 720/6=120 120-100-6=14
   padding: 16px;
-  -webkit-gap: 24px;
-  -moz-gap: 24px;
   gap: 24px;
+  height: 720px; // 不写高度的话有些机型会粘在一起
   .card {
     &:hover {
       transform: translateY(0);
