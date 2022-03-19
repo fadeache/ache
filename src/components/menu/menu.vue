@@ -338,4 +338,15 @@ const exit = () => {
   overflow: auto;
   text-align: left;
 }
+.el-icon-sunny {
+  animation: rotating 8s linear infinite;
+}
+@keyframes rotating {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}
 </style>

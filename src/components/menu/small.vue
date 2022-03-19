@@ -35,25 +35,50 @@ watch(
 watch(
   () => scrollTop.value,
   (newValue, oldValue) => {
+    // if (newValue > 24) {
+    //   sunFixed.value = true;
+    //   if (newValue > 52) {
+    //     hideWord.value = true;
+    //     if (newValue > 92) {
+    //       change.value = true;
+    //       if (newValue > 148) {
+    //         if (newValue > oldValue) {
+    //           hideFunc.value = true;
+    //         } else {
+    //           hideFunc.value = false;
+    //         }
+    //       }
+    //     } else {
+    //       change.value = false;
+    //     }
+    //   } else {
+    //     hideWord.value = false;
+    //   }
+    // } else {
+    //   sunFixed.value = false;
+    // }
+    // 好像有时候会出点小bug
     if (newValue > 24) {
       sunFixed.value = true;
-      if (newValue > 52) {
-        hideWord.value = true;
-        if (newValue > 92) {
-          change.value = true;
-        } else {
-          change.value = false;
-        }
-        if (newValue > oldValue && newValue > 148) {
-          hideFunc.value = true;
-        } else {
-          hideFunc.value = false;
-        }
-      } else {
-        hideWord.value = false;
-      }
     } else {
       sunFixed.value = false;
+    }
+    if (newValue > 52) {
+      hideWord.value = true;
+    } else {
+      hideWord.value = false;
+    }
+    if (newValue > 92) {
+      change.value = true;
+    } else {
+      change.value = false;
+    }
+    if (newValue > 148) {
+      if (newValue > oldValue) {
+        hideFunc.value = true;
+      } else {
+        hideFunc.value = false;
+      }
     }
   }
 );
@@ -274,9 +299,6 @@ const exit = () => {
   // color: #00ff00;
   // color: #67c23a;
   color: orangered;
-}
-
-.change {
 }
 .nav {
   text-align: left;

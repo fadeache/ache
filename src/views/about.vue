@@ -162,7 +162,15 @@ const getCakeChart = () => {
   });
 };
 
-const deleteVisit = async (id) => {
+const deleteVisit = async (id, evt) => {
+  if (evt) {
+    console.log(evt);
+    let target = evt.target; // 取消聚焦
+    if (target.nodeName == "SPAN") {
+      target = evt.target.parentNode;
+    }
+    target.blur();
+  }
   await axios.delete("/ache/visit/delete", { params: { id: parseInt(id) } });
   getTable();
 };
@@ -198,7 +206,7 @@ const deleteVisit = async (id) => {
           size="small"
           :disabled="store.state.user.info.role !== 'admin'"
           type="danger"
-          @click="deleteVisit(scope.row.id)"
+          @click="deleteVisit(scope.row.id, $event)"
           >Delete</el-button
         >
       </template>
@@ -208,12 +216,12 @@ const deleteVisit = async (id) => {
   <el-table
     :data="tableData"
     stripe
-    style="width: 100%"
+    style="width: 100%; font-size: 10px"
     max-height="480"
     :default-sort="{ prop: 'time', order: 'descending' }"
     v-else
   >
-    <el-table-column type="index" label="#" width="50" align="center">
+    <el-table-column type="index" label="#" width="20" align="center">
     </el-table-column>
     <el-table-column prop="time" label="时间" sortable> </el-table-column>
     <el-table-column prop="os" label="操作系统" show-overflow-tooltip>
@@ -223,10 +231,10 @@ const deleteVisit = async (id) => {
     <el-table-column label="操作" v-if="store.state.user.info.role">
       <template #default="scope">
         <el-button
-          size="small"
+          size="mini"
           :disabled="store.state.user.info.role !== 'admin'"
           type="danger"
-          @click="deleteVisit(scope.row.id)"
+          @click="deleteVisit(scope.row.id, $event)"
           >Delete</el-button
         >
       </template>
