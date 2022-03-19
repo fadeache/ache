@@ -149,11 +149,11 @@ const exit = () => {
       <div @click="drawer = true"><i class="el-icon-menu"></i></div>
     </div>
     <div :class="{ logined: store.state.user.info }" class="sun">
-      <div><i v-if="!sunFixed" class="el-icon-sunny"></i></div>
+      <i v-if="!sunFixed" class="el-icon-sunny"></i>
     </div>
     <span
       :style="[
-        hideWord ? 'opacity: 0;transition: all 0.8s;' : 'transition: all 0.8s;',
+        hideWord ? 'opacity: 0;transition: all 0.3s;' : 'transition: all 0.3s;',
       ]"
       >轻松点，这一生，就当来旅游</span
     >

@@ -17,8 +17,10 @@ const renderResize = () => {
   let width = document.documentElement.clientWidth;
   if (width < 1229) {
     smallScreen.value = true;
+    document.getElementsByTagName("body")[0].style.backgroundColor = "#fff";
   } else {
     smallScreen.value = false;
+    document.getElementsByTagName("body")[0].style.backgroundColor = "#f5f7f9";
   }
 };
 </script>
@@ -57,5 +59,8 @@ const renderResize = () => {
     background: #fff;
     padding: 0;
   }
+}
+.bodyBg {
+  background: #fff;
 }
 </style>
