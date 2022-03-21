@@ -199,17 +199,19 @@ const rules = reactive({
     div {
       height: 100%;
       width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      line-height: 40px;
+      // display: flex;
+      // justify-content: center;
+      // align-items: center;
     }
-    .hasSchedules::after {
+    .hasSchedules::before {
       content: "";
       position: absolute;
       width: 20px;
       height: 2px;
       background: #409eff;
-      margin-top: 32px;
+      // margin-top: 24px;
+      margin-top: 36px;
     }
   }
 }
