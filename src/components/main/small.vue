@@ -152,13 +152,14 @@ const rules = reactive({
     </el-collapse>
   </div>
 
-  <el-dialog v-model="state.showDialog" custom-class="my-dialog smallScreen">
+  <el-dialog v-model="state.showDialog" custom-class="my-dialog smallSchedule">
     <template #title>
       <span>{{ state.dialogTitle }}</span>
     </template>
     <el-form :model="aSchedule" ref="form" :rules="rules" :key="formKey">
       <el-form-item label="日期" prop="date">
         <el-date-picker
+          :editable="false"
           v-model="aSchedule.date"
           type="date"
           placeholder="选择日期"
@@ -172,7 +173,6 @@ const rules = reactive({
           type="textarea"
           :rows="2"
           v-model="aSchedule.event"
-          clearable
           maxlength="255"
           show-word-limit
         ></el-input>

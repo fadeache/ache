@@ -328,6 +328,13 @@ const exit = () => {
       height: 400px;
     }
   }
+  &.smallSchedule {
+    &.el-dialog {
+      --el-dialog-margin-top: 12vh;
+      width: calc(100% - 40px);
+      height: 420px;
+    }
+  }
 }
 .el-dialog__header {
   border-bottom: 1px solid #eee;
