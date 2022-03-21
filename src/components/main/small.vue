@@ -212,6 +212,7 @@ const rules = reactive({
       background: #409eff;
       // margin-top: 24px;
       margin-top: 36px;
+      margin-left: 0;
     }
   }
 }
