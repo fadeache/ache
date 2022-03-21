@@ -339,7 +339,7 @@ const exit = () => {
   text-align: left;
 }
 .el-icon-sunny {
-  animation: rotating 8s linear infinite;
+  animation: rotating 5s linear infinite;
 }
 @keyframes rotating {
   0% {

@@ -178,7 +178,7 @@ const exit = () => {
     </div>
     <span
       :style="[
-        hideWord ? 'opacity: 0;transition: all 0.3s;' : 'transition: all 0.3s;',
+        hideWord ? 'opacity: 0;transition: all 0.5s;' : 'transition: all 0.5s;',
       ]"
       >轻松点，这一生，就当来旅游</span
     >
@@ -288,7 +288,8 @@ const exit = () => {
       display: flex;
       align-items: center;
       justify-content: center;
-      &:hover {
+      &:first-child:hover,
+      &:last-child:hover {
         color: #409eff;
         cursor: pointer;
       }
