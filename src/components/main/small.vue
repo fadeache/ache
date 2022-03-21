@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref, nextTick } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
@@ -19,6 +19,7 @@ const state = reactive({
 });
 
 const form = ref(null);
+const formKey = ref(0);
 
 onMounted(async () => {
   updateSchedules();
@@ -67,6 +68,12 @@ const displayDialog = (title, mode, data) => {
   state.dialogMode = mode;
   if (mode === "add") {
     clearASchedule();
+    nextTick(() => {
+      if (form.value) {
+        form.value.resetFields();
+      }
+    });
+    formKey.value++;
   } else {
     aSchedule.value = data;
   }
@@ -149,7 +156,7 @@ const rules = reactive({
     <template #title>
       <span>{{ state.dialogTitle }}</span>
     </template>
-    <el-form :model="aSchedule" ref="form" :rules="rules">
+    <el-form :model="aSchedule" ref="form" :rules="rules" :key="formKey">
       <el-form-item label="日期" prop="date">
         <el-date-picker
           v-model="aSchedule.date"
