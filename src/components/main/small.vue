@@ -129,7 +129,7 @@ const rules = reactive({
           </li>
           <template #reference>
             <div class="hasSchedules">
-              {{ data.day.split("-").slice(2).join("") }}
+              <span>{{ data.day.split("-").slice(2).join("") }}</span>
             </div>
           </template>
         </el-popover>
@@ -199,10 +199,10 @@ const rules = reactive({
     div {
       height: 100%;
       width: 100%;
-      line-height: 40px;
-      // display: flex;
-      // justify-content: center;
-      // align-items: center;
+      // line-height: 40px;// 或者通过行高来使元素垂直居中避免使用flex
+      display: flex; // 加个span就可以避免父元素flex导致的伪元素不同机型不统一问题
+      justify-content: center;
+      align-items: center;
     }
     .hasSchedules::before {
       content: "";
@@ -210,7 +210,6 @@ const rules = reactive({
       width: 20px;
       height: 2px;
       background: #409eff;
-      // margin-top: 24px;
       margin-top: 36px;
       margin-left: 0;
     }
