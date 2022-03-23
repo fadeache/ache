@@ -314,6 +314,7 @@ const exit = () => {
   &.small {
     &.el-dialog {
       width: 800px;
+      height: 208px;
     }
   }
   &.login {
