@@ -362,4 +362,7 @@ const exit = () => {
     transform: rotate(-360deg);
   }
 }
+.el-popover.el-popper {
+  min-width: 0 !important;
+}
 </style>
