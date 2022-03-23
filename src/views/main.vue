@@ -1,7 +1,6 @@
 <script setup>
-import words from "../../words.json";
-import Main from "../components/main/main.vue";
-import Small from "../components/main/small.vue";
+import Main from "../components/main/view/main.vue";
+import Small from "../components/main/view/small.vue";
 
 const props = defineProps({
   smallScreen: Boolean,
@@ -9,8 +8,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <Main v-if="!smallScreen" :words="words"></Main>
-  <Small v-else :words="words"></Small>
+  <Main v-if="!smallScreen"></Main>
+  <Small v-else></Small>
 </template>
 
 <style scoped lang="scss"></style>

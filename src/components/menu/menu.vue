@@ -304,6 +304,7 @@ const exit = () => {
 </style>
 <style lang="scss">
 .my-dialog {
+  //以下PC端
   &.normal {
     &.el-dialog {
       width: 800px;
@@ -313,26 +314,31 @@ const exit = () => {
   &.small {
     &.el-dialog {
       width: 800px;
-      height: 208px;
     }
   }
   &.login {
     &.el-dialog {
-      width: 320px;
-      height: 320px;
+      width: 400px;
     }
   }
-  &.smallScreen {
+  //以下移动端
+  &.smallNormal {
     &.el-dialog {
       width: calc(100% - 40px);
       height: 400px;
     }
   }
-  &.smallSchedule {
+  &.smallLogin {
     &.el-dialog {
-      --el-dialog-margin-top: 12vh;
       width: calc(100% - 40px);
-      height: 420px;
+    }
+  }
+  //以下通用
+  &.schedule {
+    &.el-dialog {
+      // --el-dialog-margin-top: 12vh;
+      max-width: 460px;
+      min-width: 320px;
     }
   }
 }

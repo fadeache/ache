@@ -1,9 +1,7 @@
 <script setup>
 import { reactive } from "vue";
-
-const props = defineProps({
-  words: Object,
-});
+import Calendar from "../calendar/index.vue";
+import Collapse from "../collapse/index.vue";
 
 const state = reactive({
   value: new Date(),
@@ -52,28 +50,12 @@ const state = reactive({
     </el-col>
   </el-row>
   <el-row :gutter="8">
-    <el-col :span="14">
-      <el-collapse
-        v-model="state.activeName"
-        accordion
-        v-for="(word, index) in props.words"
-        :key="word"
-      >
-        <el-collapse-item :title="word.zhcn" :name="(index + 1).toString()">
-          <div>
-            {{ word.enus }}
-          </div>
-        </el-collapse-item>
-      </el-collapse></el-col
-    >
-    <el-col :span="10"
-      ><el-calendar v-model="state.value"></el-calendar
-    ></el-col>
+    <el-col :span="14"><Collapse></Collapse></el-col>
+    <el-col :span="10"><Calendar></Calendar></el-col>
   </el-row>
 </template>
 
 <style scoped lang="scss">
-@import "../../style/main.scss";
 .el-row {
   &:first-child {
     margin-bottom: 16px;

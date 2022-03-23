@@ -227,7 +227,7 @@ const exit = () => {
     </div>
   </el-drawer>
 
-  <el-dialog v-model="showDialog" custom-class="my-dialog login">
+  <el-dialog v-model="showDialog" custom-class="my-dialog smallLogin">
     <template #title>
       <img src="/menu/login.png" style="height: 20px; width: 40px" />
     </template>

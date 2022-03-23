@@ -130,7 +130,7 @@ const detail = async (item, num, evt) => {
       state.dialogData.icon === 'trash' || state.dialogData.icon === 'hdpic'
         ? 'normal'
         : 'small'
-    } ${smallScreen ? 'smallScreen' : ''}`"
+    } ${smallScreen ? 'smallNormal' : ''}`"
   >
     <template #title>
       <div class="title">
