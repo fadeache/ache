@@ -79,8 +79,8 @@ const displayDialog = (title, mode, data) => {
 };
 
 const rules = reactive({
-  date: [{ required: true, message: "请选择日期", trigger: ["change"] }],
-  event: [{ required: true, message: "请输入待办事件", trigger: ["change"] }],
+  date: [{ required: true, message: "请选择日期", trigger: ["blur"] }],
+  event: [{ required: true, message: "请输入待办事件", trigger: ["blur"] }],
 });
 </script>
 
@@ -162,7 +162,10 @@ const rules = reactive({
         ></el-input>
       </el-form-item>
       <el-form-item label="进度" prop="completed"
-        ><el-slider v-model="aSchedule.completed" :step="10" show-stops
+        ><el-slider
+          style="margin: 1px 0 1px 5px"
+          v-model="aSchedule.completed"
+          :step="10"
       /></el-form-item>
     </el-form>
     <template #footer>
