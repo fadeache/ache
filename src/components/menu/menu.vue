@@ -27,9 +27,9 @@ watch(
     activeIndex.value = newValue[newValue.length - 1].path;
   }
 );
+store.dispatch("user/login");
 onMounted(() => {
   window.addEventListener("scroll", watchScroll, true);
-  store.dispatch("user/login");
 });
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", watchScroll, true);

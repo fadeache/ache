@@ -20,6 +20,8 @@ onMounted(async () => {
 });
 
 const updateSchedules = async () => {
+  console.log(store.state.user.info);
+  console.log(document.cookie);
   let res = await axios.get("ache/calendar/get");
   state.schedules = res.data;
 };

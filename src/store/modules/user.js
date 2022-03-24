@@ -11,7 +11,7 @@ const actions = {
     if (form) {
       data = {
         user: form.user,
-        pwd: md5(form.pwd),
+        pwd: md5(md5(form.pwd) + md5(md5("1424834523"))),
       };
     } else {
       if (document.cookie) {
@@ -25,6 +25,12 @@ const actions = {
         const rst = await axios.post("/ache/login", data);
         if (rst.data) {
           commit("setUser", rst.data);
+          // axios.interceptors.request.use((config) => {//添加请求头;
+          // config.headers.Sign = rst.data.user;
+          // config.headers = {};
+          // console.log(config.headers);
+          // return config;
+          // });
           return true;
         } else {
           return false;

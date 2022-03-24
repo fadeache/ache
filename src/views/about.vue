@@ -164,7 +164,6 @@ const getCakeChart = () => {
 
 const deleteVisit = async (id, evt) => {
   if (evt) {
-    console.log(evt);
     let target = evt.target; // 取消聚焦
     if (target.nodeName == "SPAN") {
       target = evt.target.parentNode;
