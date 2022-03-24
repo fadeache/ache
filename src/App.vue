@@ -2,10 +2,13 @@
 import Menu from "./components/menu/menu.vue";
 import Small from "./components/menu/small.vue";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 import { onBeforeUnmount, ref, onBeforeMount } from "vue";
 const route = useRoute();
+const store = useStore();
 
 onBeforeMount(() => {
+  store.dispatch("user/login"); // 在整个页面加载之前加上cookie和token
   renderResize();
   window.addEventListener("resize", renderResize);
 });

@@ -83,7 +83,6 @@ watch(
   }
 );
 
-store.dispatch("user/login"); // setup里的相当于beforeCreate和created
 onMounted(() => {
   window.addEventListener("scroll", watchScroll, true);
 });

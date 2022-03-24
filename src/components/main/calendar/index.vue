@@ -1,6 +1,6 @@
 <script setup>
 import axios from "axios";
-import { computed, onMounted, reactive, ref, nextTick } from "vue";
+import { computed, onMounted, reactive, ref, nextTick, watch } from "vue";
 import { useStore } from "vuex";
 
 const store = useStore();
@@ -19,9 +19,14 @@ onMounted(async () => {
   updateSchedules();
 });
 
+watch(
+  () => store.state.user.info,
+  () => {
+    updateSchedules();
+  }
+);
+
 const updateSchedules = async () => {
-  console.log(store.state.user.info);
-  console.log(document.cookie);
   let res = await axios.get("ache/calendar/get");
   state.schedules = res.data;
 };

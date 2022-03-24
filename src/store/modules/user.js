@@ -7,15 +7,29 @@ const state = () => ({
 
 const actions = {
   async login({ commit, state, dispatch }, form) {
-    let data = {};
     if (form) {
-      data = {
+      let data = {
         user: form.user,
         pwd: md5(md5(form.pwd) + md5(md5("1424834523"))),
       };
+      const rst = await axios.post("/ache/login", data);
+      if (rst.data) {
+        commit("setUser", rst.data);
+        commit("setCookie", data);
+
+        axios.interceptors.request.use((config) => {
+          //登录成功之后添加请求头;而退出登录之后cookie没了，就算请求头还在，cookie没了
+          // config.headers.Sign = "";
+          return config; //啥也不写的话，会只显示cookie
+        });
+
+        return true;
+      } else {
+        return false;
+      }
     } else {
       if (document.cookie) {
-        data = {
+        let data = {
           user: document.cookie.substr(0, document.cookie.indexOf("=")),
           pwd: document.cookie.substr(
             document.cookie.indexOf("=") + 1,
@@ -25,12 +39,6 @@ const actions = {
         const rst = await axios.post("/ache/login", data);
         if (rst.data) {
           commit("setUser", rst.data);
-          // axios.interceptors.request.use((config) => {//添加请求头;
-          // config.headers.Sign = rst.data.user;
-          // config.headers = {};
-          // console.log(config.headers);
-          // return config;
-          // });
           return true;
         } else {
           return false;
@@ -38,14 +46,6 @@ const actions = {
       } else {
         return;
       }
-    }
-    const rst = await axios.post("/ache/login", data);
-    if (rst.data) {
-      commit("setUser", rst.data);
-      commit("setCookie", data);
-      return true;
-    } else {
-      return false;
     }
   },
 
