@@ -10,6 +10,7 @@ const state = reactive({
   showDialog: false,
   dialogTitle: "添加日程",
   dialogMode: "编辑日程",
+  showOperation: false,
 });
 
 const form = ref(null);
@@ -94,31 +95,55 @@ const rules = reactive({
 <template>
   <div
     class="addBtn gm"
-    v-if="store.state.user.info.role === 'admin'"
+    v-if="store.state.user.info.role === 'admin' && state.showOperation"
     @click="displayDialog('添加日程', 'add')"
   >
     添加日程
+  </div>
+  <div
+    class="switch"
+    v-if="store.state.user.info.role === 'admin'"
+    :style="[state.showOperation ? 'color:#409eff' : '']"
+    @click="
+      state.showOperation === false
+        ? (state.showOperation = true)
+        : (state.showOperation = false)
+    "
+  >
+    隐藏操作
   </div>
   <el-calendar v-model="state.value"
     ><template #dateCell="{ data }">
       <el-popover
         placement="top-start"
-        trigger="hover"
+        trigger="click"
         v-if="getSchedules(data).length"
         width="auto"
       >
         <li v-for="item in getSchedules(data)">
-          {{ item.event
-          }}<span
+          <span
+            :style="[
+              item.completed === 100
+                ? 'color:#5cb87a'
+                : item.completed >= 60
+                ? 'color:#6f7ad3'
+                : item.completed >= 40
+                ? 'color:#e6a23c'
+                : item.completed >= 20
+                ? 'color:#f56c6c'
+                : 'color:#909399',
+            ]"
+            >{{ item.event }}</span
+          ><span
             class="gm"
             style="float: right"
-            v-if="store.state.user.info.role === 'admin'"
+            v-if="store.state.user.info.role === 'admin' && state.showOperation"
             @click="deleteSchedule(item.id)"
             >delete</span
           ><span
             class="gm"
             style="margin: 0 8px; float: right"
-            v-if="store.state.user.info.role === 'admin'"
+            v-if="store.state.user.info.role === 'admin' && state.showOperation"
             @click="displayDialog('编辑日程', 'edit', item)"
             >edit</span
           ><span v-if="item.completed" style="margin-left: 8px">
@@ -217,5 +242,11 @@ const rules = reactive({
 .addBtn {
   position: absolute;
   z-index: 10;
+}
+.switch {
+  color: #fff;
+  position: absolute;
+  right: 16px;
+  cursor: pointer;
 }
 </style>

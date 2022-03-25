@@ -16,13 +16,10 @@ const actions = {
       if (rst.data) {
         commit("setUser", rst.data);
         commit("setCookie", data);
-
         axios.interceptors.request.use((config) => {
-          //登录成功之后添加请求头;而退出登录之后cookie没了，就算请求头还在，cookie没了
-          // config.headers.Sign = "";
-          return config; //啥也不写的话，会只显示cookie
+          config.headers["Cookie-User"] = document.cookie;
+          return config;
         });
-
         return true;
       } else {
         return false;
@@ -39,6 +36,10 @@ const actions = {
         const rst = await axios.post("/ache/login", data);
         if (rst.data) {
           commit("setUser", rst.data);
+          axios.interceptors.request.use((config) => {
+            config.headers["Cookie-User"] = document.cookie;
+            return config;
+          });
           return true;
         } else {
           return false;

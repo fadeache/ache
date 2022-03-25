@@ -11,7 +11,7 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     port: 3333, // 打开的端口号
-    open: false, // 运行时打开浏览器
+    open: true, // 运行时打开浏览器
     proxy: {
       "/api": {
         target: "https://api.lovelive.tools/", //接口的前缀
@@ -21,8 +21,8 @@ export default defineConfig({
         },
       },
       "/ache": {
-        // target: "http://82.157.160.30:8080/",
-        target: "http://localhost:8080/",
+        target: "http://82.157.160.30:8080/",
+        // target: "http://localhost:8080/",
         pathRewrite: {
           "^/ache": "",
         },
