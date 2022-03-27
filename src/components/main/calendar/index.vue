@@ -148,8 +148,11 @@ const exchange = async (item) => {
       >
         <li v-for="item in getSchedules(data)">
           <span
+            style="cursor: pointer"
             :style="[
-              item.completed === 100
+              item.completed === 200
+                ? 'color:red'
+                : item.completed === 100
                 ? 'color:#5cb87a'
                 : item.completed >= 60
                 ? 'color:#6f7ad3'
