@@ -2,6 +2,7 @@
 import axios from "axios";
 import { computed, onMounted, reactive, ref, nextTick, watch } from "vue";
 import { useStore } from "vuex";
+import { ElMessage } from "element-plus";
 
 const store = useStore();
 
@@ -11,6 +12,7 @@ const state = reactive({
   dialogTitle: "添加日程",
   dialogMode: "编辑日程",
   showOperation: false,
+  exchangeArr: [],
 });
 
 const form = ref(null);
@@ -90,6 +92,29 @@ const rules = reactive({
   date: [{ required: true, message: "请选择日期", trigger: ["blur"] }],
   event: [{ required: true, message: "请输入待办事件", trigger: ["blur"] }],
 });
+
+const exchange = async (item) => {
+  state.exchangeArr.push(item.id);
+  if (state.exchangeArr.length === 1) {
+    ElMessage({
+      message: "Current selection event：" + item.event,
+    });
+  } else if (state.exchangeArr.length === 2) {
+    ElMessage({
+      message: "Exchanged event：" + item.event,
+    });
+    await axios.put("/ache/calendar/exchange", {
+      id1: state.exchangeArr[0],
+      id2: state.exchangeArr[1],
+    });
+    ElMessage({
+      type: "success",
+      message: "位置交换成功！",
+    });
+    updateSchedules();
+    state.exchangeArr = [];
+  }
+};
 </script>
 
 <template>
@@ -133,6 +158,7 @@ const rules = reactive({
                 ? 'color:#f56c6c'
                 : 'color:#909399',
             ]"
+            @click="exchange(item)"
             >{{ item.event }}</span
           ><span
             class="gm"
