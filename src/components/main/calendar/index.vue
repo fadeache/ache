@@ -26,6 +26,7 @@ watch(
   () => store.state.user.info,
   () => {
     updateSchedules();
+    state.exchangeArr = [];
   }
 );
 
