@@ -365,6 +365,5 @@ const exit = () => {
 }
 .el-popover.el-popper {
   min-width: 0 !important;
-  max-width: calc(100% - 40px);
 }
 </style>

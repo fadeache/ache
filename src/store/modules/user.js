@@ -7,6 +7,7 @@ const state = () => ({
 
 const actions = {
   async login({ commit, state, dispatch }, form) {
+    // console.log(md5(md5("123456") + md5(md5("1424834523"))));
     if (form) {
       let data = {
         user: form.user,
