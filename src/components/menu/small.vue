@@ -167,14 +167,18 @@ const exit = () => {
         hideFunc ? 'opacity: 0' : '',
       ]"
     >
-      <div @click="showDialog = true"><i class="el-icon-s-promotion"></i></div>
-      <div :class="{ logined: store.state.user.info }" v-if="sunFixed">
-        <i class="el-icon-sunny"></i>
+      <div @click="showDialog = true">
+        <el-icon><promotion /></el-icon>
       </div>
-      <div @click="drawer = true"><i class="el-icon-menu"></i></div>
+      <div :class="{ logined: store.state.user.info }" v-if="sunFixed">
+        <el-icon><sunny class="is-loading" /></el-icon>
+      </div>
+      <div @click="drawer = true">
+        <el-icon><operation /></el-icon>
+      </div>
     </div>
     <div :class="{ logined: store.state.user.info }" class="sun">
-      <i v-if="!sunFixed" class="el-icon-sunny"></i>
+      <el-icon v-if="!sunFixed"><sunny class="is-loading" /></el-icon>
     </div>
     <span
       :style="[
@@ -197,7 +201,7 @@ const exit = () => {
           <template v-if="item.children?.length">
             <el-sub-menu :key="item.name" :index="item.router">
               <template #title>
-                <i :class="item.icon"></i>
+                <el-icon><component :is="item.icon"></component></el-icon>
                 <span class="title">{{ item.title }}</span>
               </template>
               <el-menu-item
@@ -207,7 +211,7 @@ const exit = () => {
                 :index="item.router + sub.router"
                 @click="drawer = false"
               >
-                <i :class="sub.icon"></i>
+                <el-icon><component :is="sub.icon"></component></el-icon>
                 <span class="title">{{ sub.title }}</span>
               </el-menu-item>
             </el-sub-menu>
@@ -219,7 +223,8 @@ const exit = () => {
               :index="item.router"
               @click="drawer = false"
             >
-              <i :class="item.icon"></i>{{ item.title }}</el-menu-item
+              <el-icon><component :is="item.icon"></component></el-icon
+              >{{ item.title }}</el-menu-item
             >
           </template>
         </template>
@@ -302,6 +307,8 @@ const exit = () => {
   color: orangered;
 }
 .nav {
+  height: 240px;
+  overflow: auto;
   text-align: left;
   :deep(.el-menu) {
     border: none;

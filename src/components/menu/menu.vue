@@ -64,7 +64,7 @@ const submitForm = () => {
         ElMessage({
           type: "error",
           message: "已登录！",
-          "show-close": true,
+          showClose: true,
           grouping: true,
         });
       } else {
@@ -73,7 +73,7 @@ const submitForm = () => {
             ElMessage({
               type: "success",
               message: "登录成功！",
-              "show-close": true,
+              showClose: true,
               grouping: true,
             });
             showDialog.value = false;
@@ -81,7 +81,7 @@ const submitForm = () => {
             ElMessage({
               type: "error",
               message: "登录失败！请重新登录！",
-              "show-close": true,
+              showClose: true,
               grouping: true,
             });
           }
@@ -96,7 +96,7 @@ const exit = () => {
       ElMessage({
         type: "info",
         message: rst,
-        "show-close": true,
+        showClose: true,
         grouping: true,
       });
       resetForm();
@@ -105,7 +105,7 @@ const exit = () => {
     ElMessage({
       type: "info",
       message: "已退出！",
-      "show-close": true,
+      showClose: true,
       grouping: true,
     });
     resetForm();
@@ -117,7 +117,7 @@ const exit = () => {
 <template>
   <div class="brand">
     <h1 @click="showDialog = true" :class="{ logined: store.state.user.info }">
-      <i class="el-icon-sunny"></i>
+      <el-icon class="is-loading"><sunny /></el-icon>
     </h1>
     <span>轻松点，这一生，就当来旅游</span>
   </div>
@@ -127,7 +127,7 @@ const exit = () => {
         <template v-if="item.children?.length">
           <el-sub-menu :key="item.name" :index="item.router">
             <template #title>
-              <i :class="item.icon"></i>
+              <el-icon><component :is="item.icon"></component></el-icon>
               <span class="title">{{ item.title }}</span>
             </template>
             <el-menu-item
@@ -136,7 +136,7 @@ const exit = () => {
               :key="sub.name"
               :index="item.router + sub.router"
             >
-              <i :class="sub.icon"></i>
+              <el-icon><component :is="sub.icon"></component></el-icon>
               <span class="title">{{ sub.title }}</span>
             </el-menu-item>
           </el-sub-menu>
@@ -147,7 +147,8 @@ const exit = () => {
             :key="item.name"
             :index="item.router"
           >
-            <i :class="item.icon"></i>{{ item.title }}</el-menu-item
+            <el-icon><component :is="item.icon"></component></el-icon
+            >{{ item.title }}</el-menu-item
           >
         </template>
       </template>
@@ -351,8 +352,8 @@ const exit = () => {
   overflow: auto;
   text-align: left;
 }
-.el-icon-sunny {
-  animation: rotating 5s linear infinite;
+.is-loading {
+  animation: rotating 5s linear infinite !important;
 }
 @keyframes rotating {
   0% {
