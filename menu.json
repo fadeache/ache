@@ -33,21 +33,5 @@
     "icon": "coffee-cup",
     "view": "about",
     "router": "/about"
-  },
-  {
-    "name": "test",
-    "title": "测试",
-    "icon": "edit-pen",
-    "view": "submenu",
-    "router": "/test",
-    "children": [
-      {
-        "name": "upload",
-        "title": "上传文件",
-        "icon": "edit-pen",
-        "view": "upload",
-        "router": "/upload"
-      }
-    ]
   }
 ]
