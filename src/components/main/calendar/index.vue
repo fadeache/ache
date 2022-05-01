@@ -9,8 +9,8 @@ const store = useStore();
 const state = reactive({
   schedules: [],
   showDialog: false,
-  dialogTitle: "添加日程",
-  dialogMode: "编辑日程",
+  dialogTitle: "",
+  dialogMode: "",
   showOperation: false,
   exchangeArr: [],
 });
@@ -91,7 +91,9 @@ const displayDialog = (title, mode, data) => {
 
 const rules = reactive({
   date: [{ required: true, message: "请选择日期", trigger: ["blur"] }],
-  event: [{ required: true, message: "请输入待办事件", trigger: ["blur"] }],
+  event: [
+    { required: true, message: "请输入待办事件", trigger: ["blur", "change"] },
+  ],
 });
 
 const exchange = async (item) => {

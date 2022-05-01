@@ -20,8 +20,10 @@ const loginInfo = ref({
 const form = ref(null);
 const formKey = ref(0);
 const rules = reactive({
-  user: [{ required: true, message: "请输入用户", trigger: ["blur"] }],
-  pwd: [{ required: true, message: "请输入密码", trigger: ["blur"] }],
+  user: [
+    { required: true, message: "请输入用户", trigger: ["blur", "change"] },
+  ],
+  pwd: [{ required: true, message: "请输入密码", trigger: ["blur", "change"] }],
 });
 const drawer = ref(false);
 const scrollTop = ref(0);

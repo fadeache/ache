@@ -14,13 +14,6 @@
     "router": "/blog"
   },
   {
-    "name": "word",
-    "title": "句子",
-    "icon": "moon-night",
-    "view": "word",
-    "router": "/word"
-  },
-  {
     "name": "animation",
     "title": "动画",
     "icon": "turn-off",
@@ -33,5 +26,29 @@
     "icon": "coffee-cup",
     "view": "about",
     "router": "/about"
+  },
+
+  {
+    "name": "other",
+    "title": "其他",
+    "icon": "moon-night",
+    "router": "/other",
+    "view": "submenu",
+    "children": [
+      {
+        "name": "word",
+        "title": "句子",
+        "view": "word",
+        "icon": "moon-night",
+        "router": "/word"
+      },
+      {
+        "name": "icon",
+        "title": "图标中心",
+        "view": "icon",
+        "icon": "moon-night",
+        "router": "/icon"
+      }
+    ]
   }
 ]

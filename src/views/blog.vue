@@ -144,7 +144,7 @@ const highLight = (allText, keyword) => {
     <div v-else>
       <el-empty
         image="/blog/noData.png"
-        description="未搜索到相关内容"
+        description="空空如也~"
         :image-size="320"
       ></el-empty>
     </div>
@@ -163,6 +163,7 @@ const highLight = (allText, keyword) => {
   gap: 5px;
   .el-input {
     --el-input-focus-border: grey;
+    --el-input-focus-border-color: grey;
   }
   span {
     margin-right: 8px;
