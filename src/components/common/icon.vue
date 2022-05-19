@@ -3,6 +3,7 @@ import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 const props = defineProps({
   code: String,
+  width: Number,
 });
 const viewBox = ref("0 0 24 24");
 const color = ref("");
@@ -15,7 +16,6 @@ const contentSvg = ref("");
 // );
 onMounted(() => {
   getUrl();
-  console.log(props.code);
 });
 const getUrl = () => {
   if (!props.code) {
@@ -43,12 +43,15 @@ const getString = (str, start, end) => {
 </script>
 
 <template>
-  <svg :viewBox="viewBox" :fill="color" v-html="contentSvg"></svg>
+  <svg
+    :viewBox="viewBox"
+    :fill="color"
+    v-html="contentSvg"
+    :style="{ width: `${props.width ? props.width : '21px'}` }"
+  ></svg>
 </template>
 <style lang="scss" scoped>
 svg {
-  width: 21px;
   vertical-align: top;
-  margin-right: 5px;
 }
 </style>

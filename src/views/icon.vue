@@ -131,9 +131,6 @@ const handleChange = (file) => {
   formData.value.xml = URL.createObjectURL(file.raw);
   formData.value.icon = file.name;
 };
-const onError = (a, b) => {
-  console.log(a, b);
-};
 const save = () => {
   form.value.validate(async (valid, fields) => {
     if (valid) {
@@ -192,8 +189,8 @@ const copy = (code) => {
       type="primary"
       plain
       @click="addIcon"
-      ><el-icon><Plus /></el-icon
-    ></el-button>
+      ><ICON code="add" :width="10"
+    /></el-button>
   </div>
   <div class="icons" v-loading="state.loading">
     <div class="icon" v-for="icon in iconList">
@@ -292,7 +289,7 @@ const copy = (code) => {
     }
   }
   .el-button {
-    padding: 8px;
+    padding: 5px;
   }
   .el-button--primary.is-plain {
     background: transparent;

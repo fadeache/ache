@@ -349,6 +349,9 @@ const exit = () => {
 .el-dialog__header {
   border-bottom: 1px solid #eee;
   text-align: left;
+  span {
+    margin-left: 5px;
+  }
 }
 .el-dialog__body {
   padding: 24px !important;
