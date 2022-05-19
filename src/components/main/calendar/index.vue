@@ -31,7 +31,7 @@ watch(
 );
 
 const updateSchedules = async () => {
-  let res = await axios.get("ache/calendar/get");
+  let res = await axios.get("/ache/calendar/get");
   state.schedules = res.data;
 };
 

@@ -226,7 +226,8 @@ const exit = () => {
 }
 .nav {
   background-color: #fff;
-  height: 240px;
+  // height: 240px;
+  height: 288px;
   padding: 24px 0;
   text-align: left;
   overflow: auto;
@@ -347,6 +348,7 @@ const exit = () => {
 }
 .el-dialog__header {
   border-bottom: 1px solid #eee;
+  text-align: left;
 }
 .el-dialog__body {
   padding: 24px !important;

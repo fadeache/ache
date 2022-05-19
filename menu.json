@@ -27,28 +27,18 @@
     "view": "about",
     "router": "/about"
   },
-
   {
-    "name": "other",
-    "title": "其他",
+    "name": "word",
+    "title": "句子",
+    "view": "word",
     "icon": "moon-night",
-    "router": "/other",
-    "view": "submenu",
-    "children": [
-      {
-        "name": "word",
-        "title": "句子",
-        "view": "word",
-        "icon": "moon-night",
-        "router": "/word"
-      },
-      {
-        "name": "icon",
-        "title": "图标中心",
-        "view": "icon",
-        "icon": "moon-night",
-        "router": "/icon"
-      }
-    ]
+    "router": "/word"
+  },
+  {
+    "name": "icon",
+    "title": "图标",
+    "view": "icon",
+    "icon": "moon-night",
+    "router": "/icon"
   }
 ]

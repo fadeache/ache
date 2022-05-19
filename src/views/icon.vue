@@ -1,12 +1,16 @@
 <script setup>
 import { ref, reactive, nextTick, onMounted, watch } from "vue";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import axios from "axios";
 import qs from "qs";
+import { useStore } from "vuex";
+
+const store = useStore();
 
 const state = reactive({
   showDialog: false,
   mode: "",
+  loading: false,
 });
 const props = defineProps({
   smallScreen: Boolean,
@@ -25,7 +29,6 @@ const formData = ref({
   icon: "",
   xml: "",
 });
-const imageUrl = ref("");
 
 const rules = reactive({
   name: [
@@ -58,8 +61,18 @@ watch(
   { deep: true }
 );
 const getIcons = async () => {
+  state.loading = true;
   let res = await axios.get("/ache/icon/get", { params: filter.value });
   iconList.value = res.data;
+  state.loading = false;
+  for (let i in iconList.value) {
+    if (iconList.value[i].xml.indexOf("fill") !== -1) {
+      let color = null;
+      let index = iconList.value[i].xml.indexOf("fill") + 6;
+      color = iconList.value[i].xml.slice(index, index + 7);
+      iconList.value[i].color = color;
+    }
+  }
 };
 const editIcon = (icon) => {
   formData.value = icon;
@@ -85,31 +98,54 @@ const changeColor = () => {
   }
 };
 const addIcon = () => {
-  state.showDialog = true;
   state.mode = "add";
+  formData.value = [
+    {
+      name: "",
+      code: "",
+      icon: "",
+      xml: "",
+    },
+  ];
+  state.showDialog = true;
   nextTick(() => {
-    imageUrl.value = "";
     form.value.resetFields();
   });
 };
 const deleteIcon = async (id) => {
-  await axios.delete("/ache/icon/delete", { params: { id: id } });
-  ElMessage.success("删除成功！");
-  getIcons();
+  ElMessageBox.confirm("删除不可恢复，确定要删除此图标吗？", "删除提示", {
+    distinguishCancelAndClose: true,
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+  }).then(async () => {
+    await axios.delete("/ache/icon/delete", { params: { id: id } });
+    ElMessage.success("删除成功！");
+    getIcons();
+  });
 };
 const handleChange = (file) => {
   if (file.size / 1024 / 1024 > 1) {
     ElMessage.error("图标大小不能超过1MB!");
     return false;
   }
-  imageUrl.value = URL.createObjectURL(file.raw);
+  formData.value.xml = URL.createObjectURL(file.raw);
   formData.value.icon = file.name;
 };
+const onError = (a, b) => {
+  console.log(a, b);
+};
 const save = () => {
-  form.value.validate((valid, fields) => {
+  form.value.validate(async (valid, fields) => {
     if (valid) {
       if (state.mode === "add") {
-        upload.value.submit();
+        await upload.value.submit();
+        let length = iconList.value.length;
+        await getIcons();
+        if (length === iconList.value.length) {
+          ElMessage.error("图标编码重复！");
+        } else {
+          ElMessage.success("添加成功！");
+        }
       } else {
         let params = {
           id: formData.value.id,
@@ -124,6 +160,21 @@ const save = () => {
     }
   });
 };
+const copy = (code) => {
+  let content = '<ICON code="' + code + '" />';
+  const input = document.createElement("input");
+  input.value = content;
+  document.body.appendChild(input);
+  input.select();
+  document.execCommand("Copy");
+  document.body.removeChild(input);
+  ElMessage({
+    type: "success",
+    message: "已复制到剪切板",
+    "show-close": true,
+    grouping: true,
+  });
+};
 </script>
 
 <template>
@@ -135,18 +186,23 @@ const save = () => {
     <div class="item">
       <span>编码</span><el-input v-model="filter.code"></el-input>
     </div>
-    <el-button title="添加" type="primary" plain @click="addIcon"
+    <el-button
+      v-if="store.state.user.info.role === 'admin'"
+      title="添加"
+      type="primary"
+      plain
+      @click="addIcon"
       ><el-icon><Plus /></el-icon
     ></el-button>
   </div>
-  <div class="icons">
+  <div class="icons" v-loading="state.loading">
     <div class="icon" v-for="icon in iconList">
       <div class="svg"><div v-html="icon.xml"></div></div>
       <div class="title">
         <div>{{ icon.name }}</div>
         <div>{{ icon.code }}</div>
       </div>
-      <div class="operation">
+      <div class="operation" v-if="store.state.user.info.role === 'admin'">
         <div>
           <el-icon :size="24" color="#fff" @click="editIcon(icon)"
             ><edit
@@ -154,14 +210,22 @@ const save = () => {
           <el-icon :size="24" color="#fff" @click="deleteIcon(icon.id)"
             ><delete
           /></el-icon>
-          <el-icon :size="24" color="#fff"><CopyDocument /></el-icon>
+          <el-icon :size="24" color="#fff" @click="copy(icon.code)"
+            ><CopyDocument
+          /></el-icon>
         </div>
       </div>
     </div>
   </div>
 
-  <el-dialog v-model="state.showDialog">
+  <el-dialog
+    v-model="state.showDialog"
+    :custom-class="`my-dialog ${smallScreen ? 'small' : ''} ${
+      smallScreen ? 'smallNormal' : ''
+    }`"
+  >
     <template #title>
+      <ICON code="add" />
       <span>{{ state.mode === "add" ? "添加" : "编辑" }}图标</span>
     </template>
     <el-form :model="formData" ref="form" :label-width="52" :rules="rules">
@@ -189,7 +253,7 @@ const save = () => {
           :data="{ name: formData.name, code: formData.code }"
           :on-change="handleChange"
         >
-          <img v-if="imageUrl" :src="imageUrl" />
+          <img v-if="formData.xml" :src="formData.xml" />
           <el-icon v-else><Plus /></el-icon>
         </el-upload>
       </el-form-item>
@@ -200,10 +264,13 @@ const save = () => {
         ></el-color-picker>
       </el-form-item>
       <el-form-item label="svg" prop="xml" v-if="state.mode === 'edit'">
-        <el-input type="textarea" :rows="5" v-model="formData.xml"></el-input>
+        <el-input type="textarea" :rows="8" v-model="formData.xml"></el-input>
       </el-form-item>
     </el-form>
-    <template #footer><el-button plain @click="save">确定</el-button></template>
+    <template #footer
+      ><el-button plain @click="state.showDialog = false">取消</el-button
+      ><el-button type="primary" @click="save">确定</el-button></template
+    >
   </el-dialog>
 </template>
 
@@ -245,6 +312,9 @@ const save = () => {
   .el-button + .el-button {
     margin-left: 0;
   }
+}
+:deep(.el-loading-mask) {
+  height: 491px;
 }
 .icons {
   display: flex;
