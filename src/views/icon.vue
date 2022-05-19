@@ -189,7 +189,7 @@ const copy = (code) => {
       type="primary"
       plain
       @click="addIcon"
-      ><ICON code="add" :width="10"
+      ><ICON code="add" :width="16"
     /></el-button>
   </div>
   <div class="icons" v-loading="state.loading">
@@ -289,7 +289,7 @@ const copy = (code) => {
     }
   }
   .el-button {
-    padding: 5px;
+    padding: 8px;
   }
   .el-button--primary.is-plain {
     background: transparent;
