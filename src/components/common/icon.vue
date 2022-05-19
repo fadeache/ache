@@ -7,14 +7,15 @@ const props = defineProps({
 const viewBox = ref("0 0 24 24");
 const color = ref("");
 const contentSvg = ref("");
-watch(
-  () => props.code,
-  () => {
-    getUrl();
-  }
-);
+// watch(
+//   () => props.code,
+//   () => {
+//     getUrl();
+//   }
+// );
 onMounted(() => {
   getUrl();
+  console.log(props.code);
 });
 const getUrl = () => {
   if (!props.code) {
@@ -29,14 +30,15 @@ const getUrl = () => {
       "<svg" + getString(content, "<svg", ">") + ">",
       "</svg>"
     );
-    console.log(getString(content, "<svg", ">"), 111);
-    console.log(content, 222);
-    console.log(viewBox.value, 333);
-    console.log(contentSvg, 444);
+    // console.log(getString(content, "<svg", ">"), 111);
+    // console.log(content, 222);
+    // console.log(viewBox.value, 333);
+    // console.log(contentSvg, 444);
   });
 };
 const getString = (str, start, end) => {
-  return str.split(start)[1].split(end)[0];
+  if (str.split(start)[1]) return str.split(start)[1].split(end)[0];
+  else return "";
 };
 </script>
 

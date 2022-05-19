@@ -225,7 +225,7 @@ const copy = (code) => {
     }`"
   >
     <template #title>
-      <ICON code="add" />
+      <ICON :code="state.mode" />
       <span>{{ state.mode === "add" ? "添加" : "编辑" }}图标</span>
     </template>
     <el-form :model="formData" ref="form" :label-width="52" :rules="rules">
