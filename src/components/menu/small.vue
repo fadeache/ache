@@ -4,6 +4,8 @@ import { useRoute } from "vue-router";
 import menu from "../../../menu.json";
 import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
+import visit from "../../js/visit";
+import axios from "axios";
 
 const change = ref(false); //滚动92之后改变功能键的背景色等
 const sunFixed = ref(false); //滚动24之后固定小太阳
@@ -13,9 +15,16 @@ const store = useStore();
 const route = useRoute();
 const activeIndex = ref();
 const showDialog = ref(false);
+const tip = ref(false);
 const loginInfo = ref({
   user: "",
   pwd: "",
+});
+const params = ref({
+  time: "",
+  os: "",
+  screen: "",
+  agent: "",
 });
 const form = ref(null);
 const formKey = ref(0);
@@ -87,11 +96,18 @@ watch(
 
 onMounted(() => {
   window.addEventListener("scroll", watchScroll, true);
+  insertVisit();
 });
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", watchScroll, true);
 });
-
+const insertVisit = async () => {
+  params.value.time = visit.getVisitInfo()[0];
+  params.value.os = visit.getVisitInfo()[1];
+  params.value.screen = visit.getVisitInfo()[2];
+  params.value.agent = visit.getVisitInfo()[3];
+  await axios.post("/ache/visit/insert", params.value);
+};
 const watchScroll = () => {
   scrollTop.value =
     window.pageYOffset ||
@@ -145,6 +161,7 @@ const exit = () => {
         "show-close": true,
         grouping: true,
       });
+      tip.value = false;
       resetForm();
     });
   } else {
@@ -158,6 +175,10 @@ const exit = () => {
   }
   showDialog.value = false;
 };
+const openLogin = () => {
+  showDialog.value = true;
+  if (store.state.user.info) tip.value = true;
+};
 </script>
 
 <template>
@@ -169,7 +190,7 @@ const exit = () => {
         hideFunc ? 'opacity: 0' : '',
       ]"
     >
-      <div @click="showDialog = true">
+      <div @click="openLogin">
         <el-icon><promotion /></el-icon>
       </div>
       <div :class="{ logined: store.state.user.info }" v-if="sunFixed">
@@ -195,7 +216,7 @@ const exit = () => {
     :show-close="true"
     v-model="drawer"
     direction="ttb"
-    size="280px"
+    size="328px"
   >
     <div class="nav">
       <el-menu :default-active="activeIndex" router>
@@ -236,7 +257,13 @@ const exit = () => {
 
   <el-dialog v-model="showDialog" custom-class="my-dialog smallLogin">
     <template #title>
-      <img src="/menu/login.png" style="height: 20px; width: 40px" />
+      <img
+        src="/menu/login.png"
+        style="height: 20px; width: 40px; vertical-align: -16%"
+      />
+      <span v-show="tip" style="color: lightpink; margin-left: 40px"
+        >如需切换账号请先退出！</span
+      >
     </template>
     <el-form :model="loginInfo" ref="form" :rules="rules" :key="formKey">
       <el-form-item label="用户" prop="user">
@@ -308,8 +335,9 @@ const exit = () => {
   // color: #67c23a;
   color: orangered;
 }
+
 .nav {
-  height: 240px;
+  height: 288px;
   overflow: auto;
   text-align: left;
   :deep(.el-menu) {

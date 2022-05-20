@@ -2,7 +2,6 @@
 import { ref, onMounted, watch, reactive } from "vue";
 import axios from "axios";
 import translate from "../utils/translate.js";
-import visit from "../js/visit";
 
 const props = defineProps({
   smallScreen: Boolean,
@@ -14,12 +13,6 @@ const state = reactive({
 });
 const blogType = ref(["all", "vue", "css", "js", "es6", "micro", "server"]);
 const blogs = ref([]);
-const params = ref({
-  time: "",
-  os: "",
-  screen: "",
-  agent: "",
-});
 const filter = ref({
   sort: "",
   type: "",
@@ -28,7 +21,6 @@ const filter = ref({
 
 onMounted(() => {
   getBlog();
-  insertVisit();
 });
 
 watch(
@@ -37,14 +29,6 @@ watch(
     getBlog();
   }
 );
-
-const insertVisit = async () => {
-  params.value.time = visit.getVisitInfo()[0];
-  params.value.os = visit.getVisitInfo()[1];
-  params.value.screen = visit.getVisitInfo()[2];
-  params.value.agent = visit.getVisitInfo()[3];
-  await axios.post("/ache/visit/insert", params.value);
-};
 
 const jump = (url) => {
   window.open("https://blog.csdn.net/bDreamer/article/details/" + url);

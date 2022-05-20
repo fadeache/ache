@@ -4,12 +4,21 @@ import { useRoute } from "vue-router";
 import menu from "../../../menu.json";
 import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
+import visit from "../../js/visit";
+import axios from "axios";
 
 const store = useStore();
 const route = useRoute();
 const activeIndex = ref();
 const isFixed = ref(false);
 const showDialog = ref(false);
+const tip = ref(false);
+const params = ref({
+  time: "",
+  os: "",
+  screen: "",
+  agent: "",
+});
 const loginInfo = ref({
   user: "",
   pwd: "",
@@ -31,10 +40,18 @@ watch(
 );
 onMounted(() => {
   window.addEventListener("scroll", watchScroll, true);
+  insertVisit();
 });
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", watchScroll, true);
 });
+const insertVisit = async () => {
+  params.value.time = visit.getVisitInfo()[0];
+  params.value.os = visit.getVisitInfo()[1];
+  params.value.screen = visit.getVisitInfo()[2];
+  params.value.agent = visit.getVisitInfo()[3];
+  await axios.post("/ache/visit/insert", params.value);
+};
 const watchScroll = () => {
   let scrollTop =
     window.pageYOffset ||
@@ -101,6 +118,7 @@ const exit = () => {
         showClose: true,
         grouping: true,
       });
+      tip.value = false;
       resetForm();
     });
   } else {
@@ -114,11 +132,15 @@ const exit = () => {
   }
   showDialog.value = false;
 };
+const openLogin = () => {
+  showDialog.value = true;
+  if (store.state.user.info) tip.value = true;
+};
 </script>
 
 <template>
   <div class="brand">
-    <h1 @click="showDialog = true" :class="{ logined: store.state.user.info }">
+    <h1 @click="openLogin" :class="{ logined: store.state.user.info }">
       <el-icon class="is-loading"><sunny /></el-icon>
     </h1>
     <span>轻松点，这一生，就当来旅游</span>
@@ -174,7 +196,13 @@ const exit = () => {
   </div>
   <el-dialog v-model="showDialog" custom-class="my-dialog login">
     <template #title>
-      <img src="/menu/login.png" style="height: 20px; width: 40px" />
+      <img
+        src="/menu/login.png"
+        style="height: 20px; width: 40px; vertical-align: -16%"
+      />
+      <span v-show="tip" style="color: lightpink; margin-left: 40px"
+        >如需切换账号请先退出！</span
+      >
     </template>
     <el-form :model="loginInfo" ref="form" :rules="rules" :key="formKey">
       <el-form-item label="用户" prop="user">

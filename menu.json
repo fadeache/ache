@@ -2,43 +2,43 @@
   {
     "name": "main",
     "title": "首页",
-    "icon": "home-filled",
+    "icon": "HomeFilled",
     "view": "main",
     "router": "/"
   },
   {
     "name": "blog",
     "title": "博客",
-    "icon": "opportunity",
+    "icon": "Opportunity",
     "view": "blog",
     "router": "/blog"
   },
   {
     "name": "animation",
     "title": "动画",
-    "icon": "turn-off",
+    "icon": "TurnOff",
     "view": "animation",
     "router": "/animation"
-  },
-  {
-    "name": "about",
-    "title": "关于",
-    "icon": "coffee-cup",
-    "view": "about",
-    "router": "/about"
   },
   {
     "name": "word",
     "title": "句子",
     "view": "word",
-    "icon": "moon-night",
+    "icon": "MoonNight",
     "router": "/word"
   },
   {
     "name": "icon",
     "title": "图标",
     "view": "icon",
-    "icon": "moon-night",
+    "icon": "PictureRounded",
     "router": "/icon"
+  },
+  {
+    "name": "about",
+    "title": "关于",
+    "icon": "CoffeeCup",
+    "view": "about",
+    "router": "/about"
   }
 ]

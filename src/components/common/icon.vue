@@ -8,12 +8,12 @@ const props = defineProps({
 const viewBox = ref("0 0 24 24");
 const color = ref("");
 const contentSvg = ref("");
-// watch(
-//   () => props.code,
-//   () => {
-//     getUrl();
-//   }
-// );
+watch(
+  () => props.code,
+  () => {
+    getUrl();
+  }
+);
 onMounted(() => {
   getUrl();
 });
