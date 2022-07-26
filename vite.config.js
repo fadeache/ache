@@ -28,6 +28,27 @@ export default defineConfig({
           "^/ache": "",
         },
       },
+      "/chp": {
+        target: "https://api.shadiao.pro/",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/chp": "",
+        },
+      },
+      "/pyq": {
+        target: "https://api.shadiao.pro/",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/pyq": "",
+        },
+      },
+      "/du": {
+        target: "https://api.shadiao.pro/",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/du": "",
+        },
+      },
     },
   },
 });

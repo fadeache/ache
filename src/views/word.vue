@@ -28,11 +28,29 @@ const apis = ref([
     abstract: "绿茶语录生成。",
   },
   {
+    icon: "rainbow",
+    name: "彩虹屁",
+    api: "chp",
+    abstract: "快速生成彩虹屁，快去夸夸ta。",
+  },
+  {
     icon: "one",
     name: "一言",
     api: "https://v1.hitokoto.cn",
     abstract:
       "动漫也好、小说也好、网络也好，不论在哪里，总有那么一两个句子能穿透你的心。一言指的就是一句话，可以是动漫中的台词，也可以是网络上的各种小段子。 或是感动，或是开心，亦或是单纯的回忆。",
+  },
+  {
+    icon: "pyq",
+    name: "朋友圈文案",
+    api: "pyq",
+    abstract: "朋友圈文案。",
+  },
+  {
+    icon: "soup",
+    name: "毒鸡汤",
+    api: "du",
+    abstract: "毒鸡汤生成。",
   },
   {
     icon: "hdpic",
@@ -82,6 +100,13 @@ const detail = async (item, num, evt) => {
   } else if (item.icon === "tea") {
     let res = await axios.get(item.api);
     state.result = [res.data.returnObj.content];
+  } else if (
+    item.icon === "rainbow" ||
+    item.icon === "pyq" ||
+    item.icon === "soup"
+  ) {
+    let res = await axios.get(item.api);
+    state.result = [res.data.data.text];
   } else if (item.icon === "one") {
     let res = await axios.get(item.api);
     state.result = [
@@ -171,7 +196,7 @@ const detail = async (item, num, evt) => {
 
 <style lang="scss" scoped>
 .cards {
-  margin-top: 100px;
+  // margin-top: 100px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -234,7 +259,7 @@ const detail = async (item, num, evt) => {
   margin-top: 0px; // 720/6=120 120-100-6=14
   padding: 16px;
   gap: 24px;
-  height: 720px; // 不写高度的话有些机型会粘在一起
+  height: 1092px; // 不写高度的话有些机型会粘在一起 720+100*3+24*3
   .card {
     &:hover {
       transform: translateY(0);
