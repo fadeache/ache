@@ -1,6 +1,6 @@
 <script setup>
 import { reactive } from "vue";
-import words from "../../../../words.json";
+import words from "../../../../words-sad.json";
 
 const state = reactive({
   activeName: "1",

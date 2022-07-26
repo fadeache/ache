@@ -3,10 +3,12 @@ import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 const props = defineProps({
   code: String,
-  width: Number,
+  size: Number,
+  disabled: Boolean,
 });
 const viewBox = ref("0 0 24 24");
 const color = ref("");
+const name = ref("");
 const contentSvg = ref("");
 watch(
   () => props.code,
@@ -25,6 +27,7 @@ const getUrl = () => {
     const content = rst.data[0].xml;
     viewBox.value = getString(content, 'viewBox="', '"') || "0 0 24 24";
     color.value = getString(content, 'fill="', '"');
+    name.value = rst.data[0].name;
     contentSvg.value = getString(
       content,
       "<svg" + getString(content, "<svg", ">") + ">",
@@ -43,12 +46,19 @@ const getString = (str, start, end) => {
 </script>
 
 <template>
-  <svg
-    :viewBox="viewBox"
-    :fill="color"
-    v-html="contentSvg"
-    :style="{ width: `${props.width ? props.width : '21px'}` }"
-  ></svg>
+  <el-tooltip
+    placement="top"
+    effect="light"
+    :content="name"
+    :disabled="props.disabled"
+  >
+    <svg
+      :viewBox="viewBox"
+      :fill="color"
+      v-html="contentSvg"
+      :style="{ width: `${props.size ? props.size : '21px'}` }"
+    />
+  </el-tooltip>
 </template>
 <style lang="scss" scoped>
 svg {

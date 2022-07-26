@@ -175,21 +175,20 @@ const copy = (code) => {
 </script>
 
 <template>
-  <h1>图标中心</h1>
+  <h1>图标管理</h1>
   <div class="filter">
     <div class="item">
-      <span>名称</span><el-input v-model="filter.name"></el-input>
+      <span>名称</span><el-input v-model="filter.name" clearable></el-input>
     </div>
     <div class="item">
-      <span>编码</span><el-input v-model="filter.code"></el-input>
+      <span>编码</span><el-input v-model="filter.code" clearable></el-input>
     </div>
     <el-button
       v-if="store.state.user.info.role === 'admin'"
-      title="添加"
       type="primary"
       plain
       @click="addIcon"
-      ><ICON code="add" :width="16"
+      ><ICON code="add" :size="16"
     /></el-button>
   </div>
   <div class="icons" v-loading="state.loading">
