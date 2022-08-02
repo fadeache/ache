@@ -6,6 +6,7 @@ import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
 import visit from "../../js/visit";
 import axios from "axios";
+import md5 from "js-md5";
 
 const change = ref(false); //滚动92之后改变功能键的背景色等
 const sunFixed = ref(false); //滚动24之后固定小太阳
@@ -15,8 +16,7 @@ const store = useStore();
 const route = useRoute();
 const activeIndex = ref();
 const showDialog = ref(false);
-const tip = ref(false);
-const loginInfo = ref({
+const formInfo = ref({
   user: "",
   pwd: "",
 });
@@ -99,62 +99,55 @@ const resetForm = () => {
 const submitForm = () => {
   form.value.validate((valid, fields) => {
     if (valid) {
-      if (store.state.user.info) {
-        ElMessage({
-          type: "error",
-          message: "已登录！",
-          "show-close": true,
-          grouping: true,
-        });
-      } else {
-        store.dispatch("user/login", loginInfo.value).then((rst) => {
-          if (rst) {
-            ElMessage({
-              type: "success",
-              message: "登录成功！",
-              "show-close": true,
-              grouping: true,
-            });
-            showDialog.value = false;
-          } else {
-            ElMessage({
-              type: "error",
-              message: "登录失败！请重新登录！",
-              "show-close": true,
-              grouping: true,
-            });
-          }
-        });
-      }
+      store.dispatch("user/login", formInfo.value).then((rst) => {
+        if (rst) {
+          ElMessage({
+            type: "success",
+            message: "登录成功！",
+            "show-close": true,
+            grouping: true,
+          });
+          showDialog.value = false;
+        } else {
+          ElMessage({
+            type: "error",
+            message: "登录失败！请重新登录！",
+            "show-close": true,
+            grouping: true,
+          });
+        }
+      });
     }
   });
 };
 const exit = () => {
-  if (store.state.user.info) {
-    store.dispatch("user/exit", store.state.user.info).then((rst) => {
-      ElMessage({
-        type: "info",
-        message: rst,
-        "show-close": true,
-        grouping: true,
-      });
-      tip.value = false;
-      resetForm();
-    });
-  } else {
+  store.dispatch("user/exit", store.state.user.info).then((rst) => {
     ElMessage({
       type: "info",
-      message: "已退出！",
+      message: rst,
       "show-close": true,
       grouping: true,
     });
     resetForm();
-  }
+  });
+  ElMessage({
+    type: "info",
+    message: "已退出！",
+    "show-close": true,
+    grouping: true,
+  });
+  resetForm();
   showDialog.value = false;
 };
-const openLogin = () => {
-  showDialog.value = true;
-  if (store.state.user.info) tip.value = true;
+const register = () => {
+  form.value.validate(async (valid, fields) => {
+    if (valid) {
+      let res = await axios.post("/ache/user/add", {
+        user: formInfo.value.user,
+        pwd: md5(md5(formInfo.value.pwd) + md5(md5("1424834523"))),
+      });
+    }
+  });
 };
 </script>
 
@@ -167,7 +160,7 @@ const openLogin = () => {
         hideFunc ? 'opacity: 0' : '',
       ]"
     >
-      <div @click="openLogin">
+      <div @click="showDialog = true">
         <ICON code="login" />
       </div>
       <div v-if="sunFixed">
@@ -247,14 +240,11 @@ const openLogin = () => {
         src="/menu/login.png"
         style="height: 20px; width: 40px; vertical-align: -16%"
       />
-      <span v-show="tip" style="color: lightpink; margin-left: 40px"
-        >如需切换账号请先退出！</span
-      >
     </template>
-    <el-form :model="loginInfo" ref="form" :rules="rules" :key="formKey">
+    <el-form :model="formInfo" ref="form" :rules="rules" :key="formKey">
       <el-form-item label="用户" prop="user">
         <el-input
-          v-model="loginInfo.user"
+          v-model="formInfo.user"
           clearable
           v-on:keyup.enter="submitForm"
         ></el-input>
@@ -262,7 +252,7 @@ const openLogin = () => {
       <el-form-item label="密码" prop="pwd">
         <el-input
           type="password"
-          v-model="loginInfo.pwd"
+          v-model="formInfo.pwd"
           autocomplete="off"
           show-password
           clearable
@@ -270,10 +260,25 @@ const openLogin = () => {
         ></el-input>
       </el-form-item>
     </el-form>
-    <template #footer>
-      <el-button type="success" @click="submitForm">登录</el-button>
-      <el-button type="primary" @click="resetForm">重置</el-button>
-      <el-button type="danger" @click="exit">退出</el-button>
+    <template #footer
+      ><el-button
+        type="success"
+        v-if="store.state.user.info.role === 'admin'"
+        @click="register"
+        >注册</el-button
+      >
+      <el-button
+        type="success"
+        v-if="!store.state.user.info"
+        @click="submitForm"
+        >登录</el-button
+      >
+      <el-button type="primary" v-if="!store.state.user.info" @click="resetForm"
+        >重置</el-button
+      >
+      <el-button type="danger" v-if="store.state.user.info" @click="exit"
+        >退出登录</el-button
+      >
     </template>
   </el-dialog>
 </template>

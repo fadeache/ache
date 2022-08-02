@@ -183,11 +183,7 @@ const copy = (code) => {
     <div class="item">
       <span>编码</span><el-input v-model="filter.code" clearable></el-input>
     </div>
-    <el-button
-      v-if="store.state.user.info.role === 'admin'"
-      type="primary"
-      plain
-      @click="addIcon"
+    <el-button type="primary" plain @click="addIcon"
       ><ICON code="add"
     /></el-button>
   </div>
@@ -198,7 +194,7 @@ const copy = (code) => {
         <div>{{ icon.name }}</div>
         <div>{{ icon.code }}</div>
       </div>
-      <div class="operation" v-if="store.state.user.info.role === 'admin'">
+      <div class="operation">
         <div>
           <el-icon :size="24" color="#fff" @click="editIcon(icon)"
             ><edit
@@ -273,8 +269,17 @@ const copy = (code) => {
       </el-form-item>
     </el-form>
     <template #footer
-      ><el-button plain @click="state.showDialog = false">取消</el-button
-      ><el-button type="primary" @click="save">确定</el-button></template
+      ><el-button
+        :disabled="store.state.user.info.role !== 'admin'"
+        plain
+        @click="state.showDialog = false"
+        >取消</el-button
+      ><el-button
+        :disabled="store.state.user.info.role !== 'admin'"
+        type="primary"
+        @click="save"
+        >确定</el-button
+      ></template
     >
   </el-dialog>
 </template>
