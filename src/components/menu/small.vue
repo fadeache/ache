@@ -46,29 +46,6 @@ watch(
 watch(
   () => scrollTop.value,
   (newValue, oldValue) => {
-    // if (newValue > 24) {
-    //   sunFixed.value = true;
-    //   if (newValue > 52) {
-    //     hideWord.value = true;
-    //     if (newValue > 92) {
-    //       change.value = true;
-    //       if (newValue > 148) {
-    //         if (newValue > oldValue) {
-    //           hideFunc.value = true;
-    //         } else {
-    //           hideFunc.value = false;
-    //         }
-    //       }
-    //     } else {
-    //       change.value = false;
-    //     }
-    //   } else {
-    //     hideWord.value = false;
-    //   }
-    // } else {
-    //   sunFixed.value = false;
-    // }
-    // 好像有时候会出点小bug
     if (newValue > 24) {
       sunFixed.value = true;
     } else {
@@ -191,17 +168,26 @@ const openLogin = () => {
       ]"
     >
       <div @click="openLogin">
-        <el-icon><promotion /></el-icon>
+        <ICON code="login" />
       </div>
-      <div :class="{ logined: store.state.user.info }" v-if="sunFixed">
-        <el-icon><sunny class="is-loading" /></el-icon>
+      <div v-if="sunFixed">
+        <ICON
+          :class="{ logined: store.state.user.info }"
+          code="sun"
+          :size="24"
+        />
       </div>
       <div @click="drawer = true">
-        <el-icon><operation /></el-icon>
+        <ICON code="menu" />
       </div>
     </div>
-    <div :class="{ logined: store.state.user.info }" class="sun">
-      <el-icon v-if="!sunFixed"><sunny class="is-loading" /></el-icon>
+    <div class="sun">
+      <ICON
+        v-if="!sunFixed"
+        :class="{ logined: store.state.user.info }"
+        code="sun"
+        :size="24"
+      />
     </div>
     <span
       :style="[
@@ -224,7 +210,7 @@ const openLogin = () => {
           <template v-if="item.children?.length">
             <el-sub-menu :key="item.name" :index="item.router">
               <template #title>
-                <el-icon><component :is="item.icon"></component></el-icon>
+                <i><ICON :code="item.icon" /></i>
                 <span class="title">{{ item.title }}</span>
               </template>
               <el-menu-item
@@ -234,7 +220,7 @@ const openLogin = () => {
                 :index="item.router + sub.router"
                 @click="drawer = false"
               >
-                <el-icon><component :is="sub.icon"></component></el-icon>
+                <i><ICON :code="item.icon" /></i>
                 <span class="title">{{ sub.title }}</span>
               </el-menu-item>
             </el-sub-menu>
@@ -246,8 +232,8 @@ const openLogin = () => {
               :index="item.router"
               @click="drawer = false"
             >
-              <el-icon><component :is="item.icon"></component></el-icon
-              >{{ item.title }}</el-menu-item
+              <i><ICON :code="item.icon" /></i>
+              {{ item.title }}</el-menu-item
             >
           </template>
         </template>
@@ -287,7 +273,7 @@ const openLogin = () => {
     <template #footer>
       <el-button type="success" @click="submitForm">登录</el-button>
       <el-button type="primary" @click="resetForm">重置</el-button>
-      <el-button type="danger" @click="exit">退出登录</el-button>
+      <el-button type="danger" @click="exit">退出</el-button>
     </template>
   </el-dialog>
 </template>
@@ -353,7 +339,7 @@ const openLogin = () => {
         background-color: #f1f1f1;
       }
       i {
-        vertical-align: -9%;
+        margin-right: 6px;
       }
     }
     .el-sub-menu__title * {

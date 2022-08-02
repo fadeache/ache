@@ -188,7 +188,7 @@ const copy = (code) => {
       type="primary"
       plain
       @click="addIcon"
-      ><ICON code="add" :size="16"
+      ><ICON code="add"
     /></el-button>
   </div>
   <div class="icons" v-loading="state.loading">
@@ -209,6 +209,15 @@ const copy = (code) => {
           <el-icon :size="24" color="#fff" @click="copy(icon.code)"
             ><CopyDocument
           /></el-icon>
+          <!-- <i @click="editIcon(icon)"
+            ><ICON code="edit" color="#fff" :size="24"></ICON
+          ></i>
+          <i @click="deleteIcon(icon.id)"
+            ><ICON code="delete" color="#fff" :size="24"></ICON
+          ></i>
+          <i @click="copy(icon.code)"
+            ><ICON code="copy" color="#fff" :size="24"></ICON
+          ></i> -->
         </div>
       </div>
     </div>
@@ -250,7 +259,7 @@ const copy = (code) => {
           :on-change="handleChange"
         >
           <img v-if="formData.xml" :src="formData.xml" />
-          <el-icon v-else><Plus /></el-icon>
+          <ICON v-else code="add" :size="148" />
         </el-upload>
       </el-form-item>
       <el-form-item label="色彩" prop="color" v-if="state.mode === 'edit'">
@@ -375,7 +384,12 @@ const copy = (code) => {
         width: 100%;
         transform: translate(-50%, -50%);
         i {
+          width: 24px;
+          height: 24px;
           cursor: pointer;
+          // svg:hover {
+          //   fill: #409eff;
+          // }
           &:hover {
             color: #409eff;
           }
@@ -399,12 +413,6 @@ const copy = (code) => {
     transition: var(--el-transition-duration-fast);
     &:hover {
       border-color: #c0c4cc;
-    }
-    .el-icon {
-      font-size: 28px;
-      color: #8c939d;
-      width: 148px;
-      height: 148px;
     }
     img {
       width: 148px;

@@ -11,7 +11,7 @@ const state = reactive({
   showDialog: false,
   dialogTitle: "",
   dialogMode: "",
-  showOperation: false,
+  showOperation: true,
   exchangeArr: [],
 });
 
@@ -123,14 +123,13 @@ const exchange = async (item) => {
 <template>
   <div
     class="addBtn gm"
-    v-if="store.state.user.info.role === 'admin' && state.showOperation"
+    v-if="state.showOperation"
     @click="displayDialog('添加日程', 'add')"
   >
     添加日程
   </div>
   <div
     class="switch"
-    v-if="store.state.user.info.role === 'admin'"
     :style="[state.showOperation ? 'color:#409eff' : '']"
     @click="
       state.showOperation === false
@@ -169,13 +168,13 @@ const exchange = async (item) => {
           ><span
             class="gm"
             style="float: right"
-            v-if="store.state.user.info.role === 'admin' && state.showOperation"
+            v-if="state.showOperation"
             @click="deleteSchedule(item.id)"
             >delete</span
           ><span
             class="gm"
             style="margin: 0 8px; float: right"
-            v-if="store.state.user.info.role === 'admin' && state.showOperation"
+            v-if="state.showOperation"
             @click="displayDialog('编辑日程', 'edit', item)"
             >edit</span
           ><span v-if="item.completed" style="margin-left: 8px">

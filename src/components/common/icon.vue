@@ -4,7 +4,11 @@ import axios from "axios";
 const props = defineProps({
   code: String,
   size: Number,
-  disabled: Boolean,
+  tooltip: {
+    type: Boolean,
+    default: true,
+  },
+  color: String,
 });
 const viewBox = ref("0 0 24 24");
 const color = ref("");
@@ -26,17 +30,13 @@ const getUrl = () => {
   axios.get("/ache/icon/get", { params: { code: props.code } }).then((rst) => {
     const content = rst.data[0].xml;
     viewBox.value = getString(content, 'viewBox="', '"') || "0 0 24 24";
-    color.value = getString(content, 'fill="', '"');
+    color.value = props.color ? props.color : getString(content, 'fill="', '"');
     name.value = rst.data[0].name;
     contentSvg.value = getString(
       content,
       "<svg" + getString(content, "<svg", ">") + ">",
       "</svg>"
     );
-    // console.log(getString(content, "<svg", ">"), 111);
-    // console.log(content, 222);
-    // console.log(viewBox.value, 333);
-    // console.log(contentSvg, 444);
   });
 };
 const getString = (str, start, end) => {
@@ -46,22 +46,15 @@ const getString = (str, start, end) => {
 </script>
 
 <template>
-  <el-tooltip
-    placement="top"
-    effect="light"
-    :content="name"
-    :disabled="props.disabled"
-  >
-    <svg
-      :viewBox="viewBox"
-      :fill="color"
-      v-html="contentSvg"
-      :style="{ width: `${props.size ? props.size : '21px'}` }"
-    />
-  </el-tooltip>
+  <svg
+    :viewBox="viewBox"
+    :fill="color"
+    v-html="contentSvg"
+    :style="{ width: `${props.size ? props.size : '16px'}` }"
+  />
 </template>
 <style lang="scss" scoped>
 svg {
-  vertical-align: top;
+  vertical-align: -6%;
 }
 </style>

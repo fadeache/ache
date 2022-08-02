@@ -140,9 +140,9 @@ const openLogin = () => {
 
 <template>
   <div class="brand">
-    <h1 @click="openLogin" :class="{ logined: store.state.user.info }">
-      <el-icon class="is-loading"><sunny /></el-icon>
-    </h1>
+    <div @click="openLogin">
+      <ICON :class="{ logined: store.state.user.info }" code="sun" :size="32" />
+    </div>
     <span>轻松点，这一生，就当来旅游</span>
   </div>
   <div class="nav">
@@ -151,7 +151,7 @@ const openLogin = () => {
         <template v-if="item.children?.length">
           <el-sub-menu :key="item.name" :index="item.router">
             <template #title>
-              <el-icon><component :is="item.icon"></component></el-icon>
+              <i><ICON :code="item.icon" /></i>
               <span class="title">{{ item.title }}</span>
             </template>
             <el-menu-item
@@ -160,7 +160,7 @@ const openLogin = () => {
               :key="sub.name"
               :index="item.router + sub.router"
             >
-              <el-icon><component :is="sub.icon"></component></el-icon>
+              <i><ICON :code="item.icon" /></i>
               <span class="title">{{ sub.title }}</span>
             </el-menu-item>
           </el-sub-menu>
@@ -171,8 +171,7 @@ const openLogin = () => {
             :key="item.name"
             :index="item.router"
           >
-            <el-icon><component :is="item.icon"></component></el-icon
-            >{{ item.title }}</el-menu-item
+            <i><ICON :code="item.icon" /></i>{{ item.title }}</el-menu-item
           >
         </template>
       </template>
@@ -240,17 +239,10 @@ const openLogin = () => {
   span {
     color: #ddd;
   }
-  h1 {
+  div {
     cursor: pointer;
-    &:hover {
-      color: orangered;
-    }
+    margin: 16px auto;
   }
-}
-.logined {
-  // color: #00ff00;
-  // color: #67c23a;
-  color: orangered;
 }
 .nav {
   background-color: #fff;
@@ -272,7 +264,7 @@ const openLogin = () => {
         background-color: #f1f1f1;
       }
       i {
-        vertical-align: -9%;
+        margin-right: 6px;
       }
     }
     .el-sub-menu__title * {
@@ -387,8 +379,8 @@ const openLogin = () => {
   overflow: auto;
   text-align: left;
 }
-.is-loading {
-  animation: rotating 5s linear infinite !important;
+.logined {
+  animation: rotating 5s linear infinite;
 }
 @keyframes rotating {
   0% {

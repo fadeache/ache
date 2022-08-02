@@ -2,21 +2,21 @@
   {
     "name": "main",
     "title": "首页",
-    "icon": "HomeFilled",
+    "icon": "home",
     "view": "main",
     "router": "/"
   },
   {
     "name": "blog",
     "title": "博客",
-    "icon": "Opportunity",
+    "icon": "blog",
     "view": "blog",
     "router": "/blog"
   },
   {
     "name": "animation",
     "title": "动画",
-    "icon": "TurnOff",
+    "icon": "animation",
     "view": "animation",
     "router": "/animation"
   },
@@ -24,20 +24,20 @@
     "name": "word",
     "title": "句子",
     "view": "word",
-    "icon": "MoonNight",
+    "icon": "word",
     "router": "/word"
   },
   {
     "name": "icon",
     "title": "图标",
     "view": "icon",
-    "icon": "PictureRounded",
+    "icon": "icon",
     "router": "/icon"
   },
   {
     "name": "about",
     "title": "关于",
-    "icon": "CoffeeCup",
+    "icon": "about",
     "view": "about",
     "router": "/about"
   }
