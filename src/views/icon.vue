@@ -118,9 +118,13 @@ const deleteIcon = async (id) => {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
   }).then(async () => {
-    await axios.delete("/ache/icon/delete", { params: { id: id } });
-    ElMessage.success("删除成功！");
-    getIcons();
+    if (store.state.user.info.role === "admin") {
+      await axios.delete("/ache/icon/delete", { params: { id: id } });
+      ElMessage.success("删除成功！");
+      getIcons();
+    } else {
+      ElMessage.error("只有管理员才能执行此操作！");
+    }
   });
 };
 const handleChange = (file) => {
@@ -255,7 +259,7 @@ const copy = (code) => {
           :on-change="handleChange"
         >
           <img v-if="formData.xml" :src="formData.xml" />
-          <ICON v-else code="add" :size="148" />
+          <ICON v-else code="add" :size="148" color="#888" />
         </el-upload>
       </el-form-item>
       <el-form-item label="色彩" prop="color" v-if="state.mode === 'edit'">
