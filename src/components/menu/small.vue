@@ -171,7 +171,7 @@ const register = () => {
       <div @click="showDialog = true">
         <ICON code="login" />
       </div>
-      <div v-if="sunFixed">
+      <div v-show="sunFixed">
         <ICON
           :class="{ logined: store.state.user.info }"
           code="sun"
@@ -184,7 +184,7 @@ const register = () => {
     </div>
     <div class="sun">
       <ICON
-        v-if="!sunFixed"
+        v-show="!sunFixed"
         :class="{ logined: store.state.user.info }"
         code="sun"
         :size="24"
