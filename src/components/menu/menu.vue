@@ -3,7 +3,7 @@ import { onBeforeUnmount, onMounted, ref, watch, reactive } from "vue";
 import { useRoute } from "vue-router";
 import menu from "../../../menu.json";
 import { useStore } from "vuex";
-import { ElMessage } from "element-plus";
+import { ElMessage,ElMessageBox } from "element-plus";
 import visit from "../../js/visit";
 import axios from "axios";
 import md5 from "js-md5";
@@ -115,18 +115,24 @@ const exit = () => {
 const register = () => {
   form.value.validate(async (valid, fields) => {
     if (valid) {
-      let res = await axios.post("/ache/user/add", {
-        user: formInfo.value.user,
-        pwd: md5(md5(formInfo.value.pwd) + md5(md5("1424834523"))),
-      });
-      if (res) {
-        ElMessage({
-          type: "success",
-          message: "注册成功！",
-          showClose: true,
-          grouping: true,
+      ElMessageBox.confirm("确定要注册此用户吗？", "注册提示", {
+        distinguishCancelAndClose: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+      }).then(async () => {
+        let res = await axios.post("/ache/user/add", {
+          user: formInfo.value.user,
+          pwd: md5(md5(formInfo.value.pwd) + md5(md5("1424834523"))),
         });
-      }
+        if (res) {
+          ElMessage({
+            type: "success",
+            message: "注册成功！",
+            showClose: true,
+            grouping: true,
+          });
+        }
+      });
     }
   });
 };
@@ -145,7 +151,9 @@ const register = () => {
         <template v-if="item.children?.length">
           <el-sub-menu :key="item.name" :index="item.router">
             <template #title>
-              <i><ICON :code="item.icon" /></i>
+              <i>
+                <ICON :code="item.icon" />
+              </i>
               <span class="title">{{ item.title }}</span>
             </template>
             <el-menu-item
@@ -154,19 +162,20 @@ const register = () => {
               :key="sub.name"
               :index="item.router + sub.router"
             >
-              <i><ICON :code="item.icon" /></i>
+              <i>
+                <ICON :code="item.icon" />
+              </i>
               <span class="title">{{ sub.title }}</span>
             </el-menu-item>
           </el-sub-menu>
         </template>
         <template v-else>
-          <el-menu-item
-            class="el-menu-item"
-            :key="item.name"
-            :index="item.router"
-          >
-            <i><ICON :code="item.icon" /></i>{{ item.title }}</el-menu-item
-          >
+          <el-menu-item class="el-menu-item" :key="item.name" :index="item.router">
+            <i>
+              <ICON :code="item.icon" />
+            </i>
+            {{ item.title }}
+          </el-menu-item>
         </template>
       </template>
     </el-menu>
@@ -180,27 +189,22 @@ const register = () => {
     </div>
     <div class="links">
       <div @click="jump('gitee')">
-        <img src="/menu/gitee.png" /><span>Gitee</span>
+        <img src="/menu/gitee.png" />
+        <span>Gitee</span>
       </div>
       <div @click="jump('csdn')">
-        <img src="/menu/csdn.png" /><span>CSDN</span>
+        <img src="/menu/csdn.png" />
+        <span>CSDN</span>
       </div>
     </div>
   </div>
   <el-dialog v-model="showDialog" custom-class="my-dialog login">
     <template #title>
-      <img
-        src="/menu/login.png"
-        style="height: 20px; width: 40px; vertical-align: -16%"
-      />
+      <img src="/menu/login.png" style="height: 20px; width: 40px; vertical-align: -16%" />
     </template>
     <el-form :model="formInfo" ref="form" :rules="rules" :key="formKey">
       <el-form-item label="用户" prop="user">
-        <el-input
-          v-model="formInfo.user"
-          clearable
-          v-on:keyup.enter="submitForm"
-        ></el-input>
+        <el-input v-model="formInfo.user" clearable v-on:keyup.enter="submitForm"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pwd">
         <el-input
@@ -213,25 +217,11 @@ const register = () => {
         ></el-input>
       </el-form-item>
     </el-form>
-    <template #footer
-      ><el-button
-        type="success"
-        v-if="store.state.user.info.role === 'admin'"
-        @click="register"
-        >注册</el-button
-      >
-      <el-button
-        type="success"
-        v-if="!store.state.user.info"
-        @click="submitForm"
-        >登录</el-button
-      >
-      <el-button type="primary" v-if="!store.state.user.info" @click="resetForm"
-        >重置</el-button
-      >
-      <el-button type="danger" v-if="store.state.user.info" @click="exit"
-        >退出登录</el-button
-      >
+    <template #footer>
+      <el-button type="success" v-if="store.state.user.info.role === 'admin'" @click="register">注册</el-button>
+      <el-button type="success" v-if="!store.state.user.info" @click="submitForm">登录</el-button>
+      <el-button type="primary" v-if="!store.state.user.info" @click="resetForm">重置</el-button>
+      <el-button type="danger" v-if="store.state.user.info" @click="exit">退出登录</el-button>
     </template>
   </el-dialog>
 </template>
@@ -384,6 +374,9 @@ const register = () => {
   height: calc(100% - 168px);
   overflow: auto;
   text-align: left;
+}
+.el-message-box{
+  vertical-align: 15vh !important;
 }
 .logined {
   color: orangered;
