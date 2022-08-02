@@ -119,6 +119,14 @@ const register = () => {
         user: formInfo.value.user,
         pwd: md5(md5(formInfo.value.pwd) + md5(md5("1424834523"))),
       });
+      if (res) {
+        ElMessage({
+          type: "success",
+          message: "注册成功！",
+          showClose: true,
+          grouping: true,
+        });
+      }
     }
   });
 };
