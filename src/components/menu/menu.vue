@@ -377,6 +377,7 @@ const register = () => {
 }
 .el-message-box{
   vertical-align: 15vh !important;
+  --el-messagebox-width:320px !important;
 }
 .logined {
   color: orangered;
