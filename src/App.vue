@@ -41,6 +41,7 @@ const renderResize = () => {
 </template>
 
 <style lang="scss">
+@import "./style/general.scss";
 #app {
   margin-top: 16px;
 }

@@ -3,7 +3,7 @@ import { onBeforeUnmount, onMounted, ref, watch, reactive } from "vue";
 import { useRoute } from "vue-router";
 import menu from "../../../menu.json";
 import { useStore } from "vuex";
-import { ElMessage,ElMessageBox } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import visit from "../../js/visit";
 import axios from "axios";
 import md5 from "js-md5";
@@ -170,7 +170,11 @@ const register = () => {
           </el-sub-menu>
         </template>
         <template v-else>
-          <el-menu-item class="el-menu-item" :key="item.name" :index="item.router">
+          <el-menu-item
+            class="el-menu-item"
+            :key="item.name"
+            :index="item.router"
+          >
             <i>
               <ICON :code="item.icon" />
             </i>
@@ -200,11 +204,18 @@ const register = () => {
   </div>
   <el-dialog v-model="showDialog" custom-class="my-dialog login">
     <template #title>
-      <img src="/menu/login.png" style="height: 20px; width: 40px; vertical-align: -16%" />
+      <img
+        src="/menu/login.png"
+        style="height: 20px; width: 40px; vertical-align: -16%"
+      />
     </template>
     <el-form :model="formInfo" ref="form" :rules="rules" :key="formKey">
       <el-form-item label="用户" prop="user">
-        <el-input v-model="formInfo.user" clearable v-on:keyup.enter="submitForm"></el-input>
+        <el-input
+          v-model="formInfo.user"
+          clearable
+          v-on:keyup.enter="submitForm"
+        ></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pwd">
         <el-input
@@ -218,10 +229,24 @@ const register = () => {
       </el-form-item>
     </el-form>
     <template #footer>
-      <el-button type="success" v-if="store.state.user.info.role === 'admin'" @click="register">注册</el-button>
-      <el-button type="success" v-if="!store.state.user.info" @click="submitForm">登录</el-button>
-      <el-button type="primary" v-if="!store.state.user.info" @click="resetForm">重置</el-button>
-      <el-button type="danger" v-if="store.state.user.info" @click="exit">退出登录</el-button>
+      <el-button
+        type="success"
+        v-if="store.state.user.info.role === 'admin'"
+        @click="register"
+        >注册</el-button
+      >
+      <el-button
+        type="success"
+        v-if="!store.state.user.info"
+        @click="submitForm"
+        >登录</el-button
+      >
+      <el-button type="primary" v-if="!store.state.user.info" @click="resetForm"
+        >重置</el-button
+      >
+      <el-button type="danger" v-if="store.state.user.info" @click="exit"
+        >退出登录</el-button
+      >
     </template>
   </el-dialog>
 </template>
@@ -319,79 +344,5 @@ const register = () => {
   z-index: 2021;
   top: 0;
   box-sizing: border-box;
-}
-</style>
-<style lang="scss">
-.my-dialog {
-  //以下PC端
-  &.normal {
-    &.el-dialog {
-      width: 800px;
-      height: 400px;
-    }
-  }
-  &.small {
-    &.el-dialog {
-      width: 800px;
-      height: 208px;
-    }
-  }
-  &.login {
-    &.el-dialog {
-      width: 400px;
-    }
-  }
-  //以下移动端
-  &.smallNormal {
-    &.el-dialog {
-      width: calc(100% - 40px);
-      height: 400px;
-    }
-  }
-  &.smallLogin {
-    &.el-dialog {
-      width: calc(100% - 40px);
-    }
-  }
-  //以下通用
-  &.schedule {
-    &.el-dialog {
-      // --el-dialog-margin-top: 12vh;
-      max-width: 460px;
-      min-width: 320px;
-    }
-  }
-}
-.el-dialog__header {
-  border-bottom: 1px solid #eee;
-  text-align: left;
-  span {
-    margin-left: 5px;
-  }
-}
-.el-dialog__body {
-  padding: 24px !important;
-  height: calc(100% - 168px);
-  overflow: auto;
-  text-align: left;
-}
-.el-message-box{
-  vertical-align: 15vh !important;
-  --el-messagebox-width:320px !important;
-}
-.logined {
-  color: orangered;
-  animation: rotating 5s linear infinite;
-}
-@keyframes rotating {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
-}
-.el-popover.el-popper {
-  min-width: 0 !important;
 }
 </style>

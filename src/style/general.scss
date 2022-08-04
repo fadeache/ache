@@ -1,0 +1,72 @@
+.my-dialog {
+    //以下PC端
+    &.normal {
+      &.el-dialog {
+        width: 800px;
+        height: 400px;
+      }
+    }
+    &.small {
+      &.el-dialog {
+        width: 800px;
+        height: 208px;
+      }
+    }
+    &.login {
+      &.el-dialog {
+        width: 400px;
+      }
+    }
+    //以下移动端
+    &.smallNormal {
+      &.el-dialog {
+        width: calc(100% - 40px);
+        height: 400px;
+      }
+    }
+    &.smallLogin {
+      &.el-dialog {
+        width: calc(100% - 40px);
+      }
+    }
+    //以下通用
+    &.schedule {
+      &.el-dialog {
+        // --el-dialog-margin-top: 12vh;
+        max-width: 460px;
+        min-width: 320px;
+      }
+    }
+  }
+  .el-dialog__header {
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    span {
+      margin-left: 5px;
+    }
+  }
+  .el-dialog__body {
+    padding: 24px !important;
+    height: calc(100% - 168px);
+    overflow: auto;
+    text-align: left;
+  }
+  .el-message-box{
+    vertical-align: 15vh !important;
+    --el-messagebox-width:320px !important;
+  }
+  .logined {
+    color: orangered;
+    animation: rotating 5s linear infinite;
+  }
+  @keyframes rotating {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(-360deg);
+    }
+  }
+  .el-popover.el-popper {
+    max-width: 320px !important;
+  }
