@@ -3,7 +3,7 @@ import { onMounted, onBeforeUnmount, ref, watch, reactive } from "vue";
 import { useRoute } from "vue-router";
 import menu from "../../../menu.json";
 import { useStore } from "vuex";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import visit from "../../js/visit";
 import axios from "axios";
 import md5 from "js-md5";
