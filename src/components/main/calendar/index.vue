@@ -130,6 +130,8 @@ const exchange = async (item) =>
     state.exchangeArr = [];
   }
 };
+
+const tip = ref('①未登录只能创建公共访客事件，登录之后才可创建账号的单独日程。②点击两个事件可交换顺序，但只可交换当天事件。');
 </script>
 
 <template>
@@ -137,14 +139,15 @@ const exchange = async (item) =>
     <div class="gm" v-if="state.showOperation" @click="displayDialog('添加日程', 'add')">
       添加日程
     </div>
-    <el-tooltip content="等我想想" placement="top-start" effect="light">
+    <el-tooltip :content="tip" placement="top-start" effect="light">
       <i>
         <ICON code="about" />
       </i>
     </el-tooltip>
   </div>
 
-  <div class="switch gm" v-if="state.showOperation" @click="state.showOperation === !state.showOperation">
+  <div class="switch gm" :style="[state.showOperation ? 'opacity:1' : '']"
+    @click="state.showOperation = !state.showOperation">
     隐藏操作
   </div>
   <el-calendar v-model="state.value"><template #dateCell="{ data }">
@@ -163,8 +166,8 @@ const exchange = async (item) =>
                       ? 'color:#f56c6c'
                       : 'color:#909399',
           ]" @click="exchange(item)">{{ item.event }}</span><span class="gm" style="float: right"
-            v-if="state.showOperation" @click="deleteSchedule(item.id)">delete</span><span class="gm"
-            style="margin: 0 8px; float: right" v-if="state.showOperation"
+            v-show="state.showOperation" @click="deleteSchedule(item.id)">delete</span><span class="gm"
+            style="margin: 0 8px; float: right" v-show="state.showOperation"
             @click="displayDialog('编辑日程', 'edit', item)">edit</span><span v-if="item.completed"
             style="margin-left: 8px">
             —{{ item.completed }}%</span>
@@ -248,7 +251,7 @@ const exchange = async (item) =>
 
   i {
     margin-left: 5px;
-    margin-top: 1px;
+    margin-top: 2px;
     cursor: pointer;
 
     &:hover {
@@ -260,5 +263,6 @@ const exchange = async (item) =>
 .switch {
   position: absolute;
   right: 16px;
+  opacity: 0;
 }
 </style>

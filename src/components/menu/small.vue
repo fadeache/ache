@@ -39,13 +39,15 @@ const scrollTop = ref(0);
 
 watch(
   () => route.matched,
-  (newValue, oldValue) => {
+  (newValue, oldValue) =>
+  {
     activeIndex.value = newValue[newValue.length - 1].path;
   }
 );
 watch(
   () => scrollTop.value,
-  (newValue, oldValue) => {
+  (newValue, oldValue) =>
+  {
     if (newValue > 24) {
       sunFixed.value = true;
     } else {
@@ -71,35 +73,43 @@ watch(
   }
 );
 
-onMounted(() => {
+onMounted(() =>
+{
   window.addEventListener("scroll", watchScroll, true);
   insertVisit();
 });
-onBeforeUnmount(() => {
+onBeforeUnmount(() =>
+{
   window.removeEventListener("scroll", watchScroll, true);
 });
-const insertVisit = async () => {
+const insertVisit = async () =>
+{
   params.value.time = visit.getVisitInfo()[0];
   params.value.os = visit.getVisitInfo()[1];
   params.value.screen = visit.getVisitInfo()[2];
   params.value.agent = visit.getVisitInfo()[3];
   await axios.post("/ache/visit/insert", params.value);
 };
-const watchScroll = () => {
+const watchScroll = () =>
+{
   scrollTop.value =
     window.pageYOffset ||
     document.documentElement.scrollTop ||
     document.body.scrollTop;
 };
 
-const resetForm = () => {
+const resetForm = () =>
+{
   form.value.resetFields();
   formKey.value++;
 };
-const submitForm = () => {
-  form.value.validate((valid, fields) => {
+const submitForm = () =>
+{
+  form.value.validate((valid, fields) =>
+  {
     if (valid) {
-      store.dispatch("user/login", formInfo.value).then((rst) => {
+      store.dispatch("user/login", formInfo.value).then((rst) =>
+      {
         if (rst) {
           ElMessage({
             type: "success",
@@ -120,8 +130,10 @@ const submitForm = () => {
     }
   });
 };
-const exit = () => {
-  store.dispatch("user/exit", store.state.user.info).then((rst) => {
+const exit = () =>
+{
+  store.dispatch("user/exit", store.state.user.info).then((rst) =>
+  {
     ElMessage({
       type: "info",
       message: rst,
@@ -130,30 +142,32 @@ const exit = () => {
     });
     resetForm();
   });
-  ElMessage({
-    type: "info",
-    message: "已退出！",
-    "show-close": true,
-    grouping: true,
-  });
-  resetForm();
   showDialog.value = false;
 };
-const register = () => {
-  form.value.validate(async (valid, fields) => {
+const register = () =>
+{
+  form.value.validate(async (valid, fields) =>
+  {
     if (valid) {
-      let res = await axios.post("/ache/user/add", {
-        user: formInfo.value.user,
-        pwd: md5(md5(formInfo.value.pwd) + md5(md5("1424834523"))),
-      });
-      if (res) {
-        ElMessage({
-          type: "success",
-          message: "注册成功！",
-          showClose: true,
-          grouping: true,
+      ElMessageBox.confirm("确定要注册此用户吗？", "注册提示", {
+        distinguishCancelAndClose: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+      }).then(async () =>
+      {
+        let res = await axios.post("/ache/user/add", {
+          user: formInfo.value.user,
+          pwd: md5(md5(formInfo.value.pwd) + md5(md5("1424834523"))),
         });
-      }
+        if (res) {
+          ElMessage({
+            type: "success",
+            message: "注册成功！",
+            showClose: true,
+            grouping: true,
+          });
+        }
+      });
     }
   });
 };
@@ -161,81 +175,55 @@ const register = () => {
 
 <template>
   <div class="brand">
-    <div
-      class="function"
-      :style="[
-        change ? 'color:#555;background:#fff;border-bottom:1px solid #eee' : '',
-        hideFunc ? 'opacity: 0' : '',
-      ]"
-    >
+    <div class="function" :style="[
+      change ? 'color:#555;background:#fff;border-bottom:1px solid #eee' : '',
+      hideFunc ? 'opacity: 0' : '',
+    ]">
       <div @click="showDialog = true">
         <ICON code="login" />
       </div>
       <div v-show="sunFixed">
-        <ICON
-          :class="{ logined: store.state.user.info }"
-          code="sun"
-          :size="24"
-        />
+        <ICON :class="{ logined: store.state.user.info }" code="sun" :size="24" />
       </div>
       <div @click="drawer = true">
         <ICON code="menu" />
       </div>
     </div>
     <div class="sun">
-      <ICON
-        v-show="!sunFixed"
-        :class="{ logined: store.state.user.info }"
-        code="sun"
-        :size="24"
-      />
+      <ICON v-show="!sunFixed" :class="{ logined: store.state.user.info }" code="sun" :size="24" />
     </div>
-    <span
-      :style="[
-        hideWord ? 'opacity: 0;transition: all 0.5s;' : 'transition: all 0.5s;',
-      ]"
-      >轻松点，这一生，就当来旅游</span
-    >
+    <span :style="[
+      hideWord ? 'opacity: 0;transition: all 0.5s;' : 'transition: all 0.5s;',
+    ]">轻松点，这一生，就当来旅游</span>
   </div>
-  <el-drawer
-    title="菜单"
-    :with-header="false"
-    :show-close="true"
-    v-model="drawer"
-    direction="ttb"
-    size="328px"
-  >
+  <el-drawer title="菜单" :with-header="false" :show-close="true" v-model="drawer" direction="ttb" size="328px">
     <div class="nav">
       <el-menu :default-active="activeIndex" router>
         <template v-for="item in menu">
           <template v-if="item.children?.length">
             <el-sub-menu :key="item.name" :index="item.router">
               <template #title>
-                <i><ICON :code="item.icon" /></i>
+                <i>
+                  <ICON :code="item.icon" />
+                </i>
                 <span class="title">{{ item.title }}</span>
               </template>
-              <el-menu-item
-                class="el-menu-item"
-                v-for="sub in item.children"
-                :key="sub.name"
-                :index="item.router + sub.router"
-                @click="drawer = false"
-              >
-                <i><ICON :code="item.icon" /></i>
+              <el-menu-item class="el-menu-item" v-for="sub in item.children" :key="sub.name"
+                :index="item.router + sub.router" @click="drawer = false">
+                <i>
+                  <ICON :code="item.icon" />
+                </i>
                 <span class="title">{{ sub.title }}</span>
               </el-menu-item>
             </el-sub-menu>
           </template>
           <template v-else>
-            <el-menu-item
-              class="el-menu-item"
-              :key="item.name"
-              :index="item.router"
-              @click="drawer = false"
-            >
-              <i><ICON :code="item.icon" /></i>
-              {{ item.title }}</el-menu-item
-            >
+            <el-menu-item class="el-menu-item" :key="item.name" :index="item.router" @click="drawer = false">
+              <i>
+                <ICON :code="item.icon" />
+              </i>
+              {{ item.title }}
+            </el-menu-item>
           </template>
         </template>
       </el-menu>
@@ -244,49 +232,22 @@ const register = () => {
 
   <el-dialog v-model="showDialog" custom-class="my-dialog smallLogin">
     <template #title>
-      <img
-        src="/menu/login.png"
-        style="height: 20px; width: 40px; vertical-align: -16%"
-      />
+      <img src="/menu/login.png" style="height: 20px; width: 40px; vertical-align: -16%" />
     </template>
     <el-form :model="formInfo" ref="form" :rules="rules" :key="formKey">
       <el-form-item label="用户" prop="user">
-        <el-input
-          v-model="formInfo.user"
-          clearable
-          v-on:keyup.enter="submitForm"
-        ></el-input>
+        <el-input v-model="formInfo.user" clearable v-on:keyup.enter="submitForm"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pwd">
-        <el-input
-          type="password"
-          v-model="formInfo.pwd"
-          autocomplete="off"
-          show-password
-          clearable
-          v-on:keyup.enter="submitForm"
-        ></el-input>
+        <el-input type="password" v-model="formInfo.pwd" autocomplete="off" show-password clearable
+          v-on:keyup.enter="submitForm"></el-input>
       </el-form-item>
     </el-form>
-    <template #footer
-      ><el-button
-        type="success"
-        v-if="store.state.user.info.role === 'admin'"
-        @click="register"
-        >注册</el-button
-      >
-      <el-button
-        type="success"
-        v-if="!store.state.user.info"
-        @click="submitForm"
-        >登录</el-button
-      >
-      <el-button type="primary" v-if="!store.state.user.info" @click="resetForm"
-        >重置</el-button
-      >
-      <el-button type="danger" v-if="store.state.user.info" @click="exit"
-        >退出登录</el-button
-      >
+    <template #footer>
+      <el-button type="success" v-if="store.state.user.info.role === 'admin'" @click="register">注册</el-button>
+      <el-button type="success" v-if="!store.state.user.info" @click="submitForm">登录</el-button>
+      <el-button type="primary" v-if="!store.state.user.info" @click="resetForm">重置</el-button>
+      <el-button type="danger" v-if="store.state.user.info" @click="exit">退出登录</el-button>
     </template>
   </el-dialog>
 </template>
@@ -298,15 +259,18 @@ const register = () => {
   padding: 24px 0;
   background-color: #222;
   color: #fff;
+
   .sun {
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
   span {
     color: #ddd;
   }
+
   .function {
     z-index: 1999;
     position: fixed;
@@ -316,11 +280,13 @@ const register = () => {
     display: flex;
     justify-content: space-between;
     transition: all 0.5s;
+
     div {
       width: 56px;
       display: flex;
       align-items: center;
       justify-content: center;
+
       &:first-child:hover,
       &:last-child:hover {
         color: #409eff;
@@ -329,6 +295,7 @@ const register = () => {
     }
   }
 }
+
 .logined {
   // color: #00ff00;
   // color: #67c23a;
@@ -339,6 +306,7 @@ const register = () => {
   height: 288px;
   overflow: auto;
   text-align: left;
+
   :deep(.el-menu) {
     border: none;
 
@@ -347,17 +315,21 @@ const register = () => {
       height: 48px;
       line-height: 48px;
       color: #888;
+
       &:hover {
         color: #000;
         background-color: #f1f1f1;
       }
+
       i {
         margin-right: 6px;
       }
     }
+
     .el-sub-menu__title * {
       vertical-align: baseline;
     }
+
     .is-active:not(.el-sub-menu) {
       background-color: #f1f1f1;
       color: #000;
