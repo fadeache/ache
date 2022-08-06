@@ -36,6 +36,7 @@ watch(
   () => route.matched,
   (newValue, oldValue) => {
     activeIndex.value = newValue[newValue.length - 1].path;
+    document.title="Ache | "+newValue[newValue.length - 1].name
   }
 );
 onMounted(() => {
@@ -151,9 +152,7 @@ const register = () => {
         <template v-if="item.children?.length">
           <el-sub-menu :key="item.name" :index="item.router">
             <template #title>
-              <i>
                 <ICON :code="item.icon" />
-              </i>
               <span class="title">{{ item.title }}</span>
             </template>
             <el-menu-item
@@ -162,9 +161,7 @@ const register = () => {
               :key="sub.name"
               :index="item.router + sub.router"
             >
-              <i>
                 <ICON :code="item.icon" />
-              </i>
               <span class="title">{{ sub.title }}</span>
             </el-menu-item>
           </el-sub-menu>
@@ -175,9 +172,7 @@ const register = () => {
             :key="item.name"
             :index="item.router"
           >
-            <i>
               <ICON :code="item.icon" />
-            </i>
             {{ item.title }}
           </el-menu-item>
         </template>

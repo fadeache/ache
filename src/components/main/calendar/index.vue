@@ -140,9 +140,7 @@ const tip = ref('①未登录只能创建公共访客事件，登录之后才可
       添加日程
     </div>
     <el-tooltip :content="tip" placement="top-start" effect="light">
-      <i>
         <ICON code="about" />
-      </i>
     </el-tooltip>
   </div>
 

@@ -42,6 +42,7 @@ watch(
   (newValue, oldValue) =>
   {
     activeIndex.value = newValue[newValue.length - 1].path;
+    document.title="Ache | "+newValue[newValue.length - 1].name
   }
 );
 watch(
@@ -203,25 +204,19 @@ const register = () =>
           <template v-if="item.children?.length">
             <el-sub-menu :key="item.name" :index="item.router">
               <template #title>
-                <i>
                   <ICON :code="item.icon" />
-                </i>
                 <span class="title">{{ item.title }}</span>
               </template>
               <el-menu-item class="el-menu-item" v-for="sub in item.children" :key="sub.name"
                 :index="item.router + sub.router" @click="drawer = false">
-                <i>
                   <ICON :code="item.icon" />
-                </i>
                 <span class="title">{{ sub.title }}</span>
               </el-menu-item>
             </el-sub-menu>
           </template>
           <template v-else>
             <el-menu-item class="el-menu-item" :key="item.name" :index="item.router" @click="drawer = false">
-              <i>
                 <ICON :code="item.icon" />
-              </i>
               {{ item.title }}
             </el-menu-item>
           </template>
