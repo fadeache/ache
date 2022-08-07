@@ -227,7 +227,7 @@ const copy = (code) => {
     </div>
   </div>
 
-  <el-dialog v-model="state.showDialog" :custom-class="`my-dialog ${smallScreen ? 'smallNormal' : 'icon'}`">
+  <el-dialog v-model="state.showDialog" :custom-class="`my-dialog ${smallScreen ? 'general' : 'icon'}`">
     <template #title>
       <ICON :code="state.mode" />
       <span>{{ state.mode === "add" ? "添加" : "编辑" }}图标</span>

@@ -112,6 +112,9 @@ const options = ref([{
 }, {
   label: '越南语',
   value: 'vie',
+}, {
+  label: '瑞典语',
+  value: 'swe',
 }])
 
 const rules = reactive({
@@ -149,7 +152,6 @@ const translate = async () => {
   state.loading = true
   let res = await axios.get('/translate', { params: transData })
   state.loading = false
-  console.log(res.data.trans_result[0].dst);
   formInfo.value.enus = res.data.trans_result[0].dst
 }
 </script>
@@ -169,7 +171,7 @@ const translate = async () => {
     <ICON code="plus" />
   </div>
 
-  <el-dialog v-model="state.showDialog" :custom-class="`my-dialog ${smallScreen ? 'smallLogin' : 'login'}`">
+  <el-dialog v-model="state.showDialog" :custom-class="`my-dialog ${smallScreen ? 'general' : 'icon'}`">
     <template #title>
       <ICON code="plus" />
       添加句子
@@ -184,7 +186,7 @@ const translate = async () => {
           <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
         <el-button v-loading="state.loading" type="primary"
-          :style="[smallScreen ? 'margin-top: 16px' : 'margin-left: 28px']" @click="translate">
+          :style="[smallScreen ? 'margin-top: 16px;display:block' : 'margin-left: 28px']" @click="translate">
           翻译
         </el-button>
       </el-form-item>
@@ -218,6 +220,10 @@ const translate = async () => {
       font-style: italic;
     }
   }
+}
+
+:deep(.el-form-item__content) {
+  display: block;
 }
 
 .minus,
