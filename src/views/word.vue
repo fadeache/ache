@@ -36,7 +36,7 @@ const apis = ref([
   {
     icon: "one",
     name: "一言",
-    api: "one",
+    api: "https://v1.hitokoto.cn",
     abstract:
       "动漫也好、小说也好、网络也好，不论在哪里，总有那么一两个句子能穿透你的心。一言指的就是一句话，可以是动漫中的台词，也可以是网络上的各种小段子。 或是感动，或是开心，亦或是单纯的回忆。",
   },
@@ -144,8 +144,8 @@ const detail = async (item, num, evt) => {
   </div>
 
   <el-dialog v-model="state.showDialog" v-if="state.showDialog" :custom-class="`my-dialog ${state.dialogData.icon === 'trash' || state.dialogData.icon === 'hdpic'
-    ? 'normal'
-    : 'small'
+  ? 'normal'
+  : 'small'
   } ${smallScreen ? 'smallNormal' : ''}`">
     <template #title>
       <div class="title">
