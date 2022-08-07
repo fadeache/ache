@@ -36,7 +36,7 @@ watch(
   () => route.matched,
   (newValue, oldValue) => {
     activeIndex.value = newValue[newValue.length - 1].path;
-    document.title="Ache | "+newValue[newValue.length - 1].name
+    document.title = "Ache | " + newValue[newValue.length - 1].name
   }
 );
 onMounted(() => {
@@ -116,7 +116,7 @@ const exit = () => {
 const register = () => {
   form.value.validate(async (valid, fields) => {
     if (valid) {
-      ElMessageBox.confirm("确定要注册<"+ formInfo.value.user +">用户吗？", "注册提示", {
+      ElMessageBox.confirm("确定要注册<" + formInfo.value.user + ">用户吗？", "注册提示", {
         distinguishCancelAndClose: true,
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -152,27 +152,19 @@ const register = () => {
         <template v-if="item.children?.length">
           <el-sub-menu :key="item.name" :index="item.router">
             <template #title>
-                <ICON :code="item.icon" />
+              <ICON :code="item.icon" />
               <span class="title">{{ item.title }}</span>
             </template>
-            <el-menu-item
-              class="el-menu-item"
-              v-for="sub in item.children"
-              :key="sub.name"
-              :index="item.router + sub.router"
-            >
-                <ICON :code="item.icon" />
+            <el-menu-item class="el-menu-item" v-for="sub in item.children" :key="sub.name"
+              :index="item.router + sub.router">
+              <ICON :code="item.icon" />
               <span class="title">{{ sub.title }}</span>
             </el-menu-item>
           </el-sub-menu>
         </template>
         <template v-else>
-          <el-menu-item
-            class="el-menu-item"
-            :key="item.name"
-            :index="item.router"
-          >
-              <ICON :code="item.icon" />
+          <el-menu-item class="el-menu-item" :key="item.name" :index="item.router">
+            <ICON :code="item.icon" />
             {{ item.title }}
           </el-menu-item>
         </template>
@@ -199,49 +191,22 @@ const register = () => {
   </div>
   <el-dialog v-model="showDialog" custom-class="my-dialog login">
     <template #title>
-      <img
-        src="/menu/login.png"
-        style="height: 20px; width: 40px; vertical-align: -16%"
-      />
+      <img src="/menu/login.png" style="height: 20px; width: 40px; vertical-align: -16%" />
     </template>
     <el-form :model="formInfo" ref="form" :rules="rules" :key="formKey">
       <el-form-item label="用户" prop="user">
-        <el-input
-          v-model="formInfo.user"
-          clearable
-          v-on:keyup.enter="submitForm"
-        ></el-input>
+        <el-input v-model="formInfo.user" clearable v-on:keyup.enter="submitForm"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="pwd">
-        <el-input
-          type="password"
-          v-model="formInfo.pwd"
-          autocomplete="off"
-          show-password
-          clearable
-          v-on:keyup.enter="submitForm"
-        ></el-input>
+        <el-input type="password" v-model="formInfo.pwd" autocomplete="off" show-password clearable
+          v-on:keyup.enter="submitForm"></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
-      <el-button
-        type="success"
-        v-if="store.state.user.info.role === 'admin'"
-        @click="register"
-        >注册</el-button
-      >
-      <el-button
-        type="success"
-        v-if="!store.state.user.info"
-        @click="submitForm"
-        >登录</el-button
-      >
-      <el-button type="primary" v-if="!store.state.user.info" @click="resetForm"
-        >重置</el-button
-      >
-      <el-button type="danger" v-if="store.state.user.info" @click="exit"
-        >退出登录</el-button
-      >
+      <el-button type="success" v-if="store.state.user.info.role === 'admin'" @click="register">注册</el-button>
+      <el-button type="success" v-if="!store.state.user.info" @click="submitForm">登录</el-button>
+      <el-button type="primary" v-if="!store.state.user.info" @click="resetForm">重置</el-button>
+      <el-button type="danger" v-if="store.state.user.info" @click="exit">退出登录</el-button>
     </template>
   </el-dialog>
 </template>
@@ -252,14 +217,17 @@ const register = () => {
   padding: 24px 0;
   background-color: #222;
   color: #fff;
+
   span {
     color: #ddd;
   }
+
   div {
     cursor: pointer;
     margin: 16px auto;
   }
 }
+
 .nav {
   background-color: #fff;
   // height: 240px;
@@ -267,6 +235,7 @@ const register = () => {
   padding: 24px 0;
   text-align: left;
   overflow: auto;
+
   :deep(.el-menu) {
     border: none;
 
@@ -275,27 +244,33 @@ const register = () => {
       height: 48px;
       line-height: 48px;
       color: #888;
+
       &:hover {
         color: #000;
         background-color: #f1f1f1;
       }
+
       i {
         margin-right: 6px;
       }
     }
+
     .el-sub-menu__title * {
       vertical-align: baseline;
     }
+
     .is-active:not(.el-sub-menu) {
       background-color: #f1f1f1;
       color: #000;
     }
   }
 }
+
 .info {
   padding: 24px 16px;
   background-color: #fff;
   margin-top: 8px;
+
   .author-vx {
     img {
       width: 160px;
@@ -303,10 +278,12 @@ const register = () => {
       border: 1px #f1f1f1 solid;
     }
   }
+
   .links {
     margin-top: 24px;
     display: flex;
     justify-content: space-evenly;
+
     div {
       height: 32px;
       width: 32%;
@@ -317,15 +294,18 @@ const register = () => {
       text-align: left;
       border: 1px transparent solid;
       border-radius: 4px;
+
       &:hover {
         border: 1px #ddd solid;
         cursor: pointer;
       }
+
       img {
         width: 16px;
         height: 16px;
         margin-right: 8px;
       }
+
       span {
         font-size: 12px;
         vertical-align: top;
@@ -333,6 +313,7 @@ const register = () => {
     }
   }
 }
+
 .infoFixed {
   width: 300px;
   position: fixed;

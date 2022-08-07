@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref, nextTick } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -45,7 +45,6 @@ const formInfo = ref({
   enus: "",
   lang: 'en'
 });
-const formKey = ref(0)
 const options = ref([{
   label: '中文',
   value: 'zh',
@@ -119,9 +118,9 @@ const options = ref([{
 
 const rules = reactive({
   zhcn: [
-    { required: true, message: "请输入句子句子", trigger: ["blur", "change"] },
+    { required: true, message: "请输入句子", trigger: ["blur", "change"] },
   ],
-  enus: [{ required: true, message: "请输入外文句子", trigger: ["blur", "change"] }],
+  enus: [{ required: true, message: "请输入外文", trigger: ["blur", "change"] }],
 });
 
 const form = ref(null)
@@ -135,9 +134,15 @@ const addWord = () => {
         message: "句子添加成功！",
       });
       state.showDialog = false
-      formKey.value++
     }
   });
+}
+
+const showDialog = () => {
+  state.showDialog = true
+  nextTick(() => {
+    form.value.resetFields()
+  })
 }
 
 const translate = async () => {
@@ -167,7 +172,7 @@ const translate = async () => {
       </div>
     </el-collapse-item>
   </el-collapse>
-  <div class="plus gm" @click="state.showDialog = true">
+  <div class="plus gm" @click="showDialog()">
     <ICON code="plus" />
   </div>
 
@@ -176,7 +181,7 @@ const translate = async () => {
       <ICON code="plus" />
       添加句子
     </template>
-    <el-form :model="formInfo" ref="form" :rules="rules" :key="formKey" :label-width="52">
+    <el-form :model="formInfo" ref="form" :rules="rules" :label-width="52">
       <el-form-item label="句子" prop="zhcn">
         <el-input type="textarea" :rows="3" placeholder="请输入句子" v-model="formInfo.zhcn" clearable
           v-on:keyup.enter="addWord"></el-input>
