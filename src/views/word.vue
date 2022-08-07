@@ -19,13 +19,13 @@ const apis = ref([
     icon: "trash",
     name: "trash words generator",
     api: "api/SweetNothings/Serialization/Json",
-    abstract: "渣男语录生成。",
+    abstract: "学学土味烧话。",
   },
   {
     icon: "tea",
     name: "green tea words generator",
     api: "api/SweetNothings/Web/0",
-    abstract: "绿茶语录生成。",
+    abstract: "原来这就是绿茶。",
   },
   {
     icon: "rainbow",

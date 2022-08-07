@@ -179,7 +179,7 @@ const copy = (code) => {
 </script>
 
 <template>
-  <h1>图标管理</h1>
+  <h1>图标中心</h1>
   <div class="filter">
     <div class="item">
       <span>名称</span>
