@@ -144,9 +144,9 @@ const detail = async (item, num, evt) => {
   </div>
 
   <el-dialog v-model="state.showDialog" v-if="state.showDialog" :custom-class="`my-dialog ${state.dialogData.icon === 'trash' || state.dialogData.icon === 'hdpic'
-  ? 'normal'
-  : 'small'
-  } ${smallScreen ? 'general' : ''}`">
+    ? 'normal'
+    : 'small'
+  } ${smallScreen ? 'smallNormal' : ''}`">
     <template #title>
       <div class="title">
         <img :src="`/word/${state.dialogData.icon}.png`" />
