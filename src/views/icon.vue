@@ -182,33 +182,37 @@ const copy = (code) => {
   <h1>图标管理</h1>
   <div class="filter">
     <div class="item">
-      <span>名称</span><el-input v-model="filter.name" clearable></el-input>
+      <span>名称</span>
+      <el-input v-model="filter.name" clearable></el-input>
     </div>
     <div class="item">
-      <span>编码</span><el-input v-model="filter.code" clearable></el-input>
+      <span>编码</span>
+      <el-input v-model="filter.code" clearable></el-input>
     </div>
-    <el-button type="primary" plain @click="addIcon"
-      ><ICON code="add"
-    /></el-button>
+    <el-button type="primary" plain @click="addIcon">
+      <ICON code="add" />
+    </el-button>
   </div>
   <div class="icons" v-loading="state.loading">
     <div class="icon" v-for="icon in iconList">
-      <div class="svg"><div v-html="icon.xml"></div></div>
+      <div class="svg">
+        <div v-html="icon.xml"></div>
+      </div>
       <div class="title">
         <div>{{ icon.name }}</div>
         <div>{{ icon.code }}</div>
       </div>
       <div class="operation">
         <div>
-          <el-icon :size="24" color="#fff" @click="editIcon(icon)"
-            ><edit
-          /></el-icon>
-          <el-icon :size="24" color="#fff" @click="deleteIcon(icon.id)"
-            ><delete
-          /></el-icon>
-          <el-icon :size="24" color="#fff" @click="copy(icon.code)"
-            ><CopyDocument
-          /></el-icon>
+          <el-icon :size="24" color="#fff" @click="editIcon(icon)">
+            <edit />
+          </el-icon>
+          <el-icon :size="24" color="#fff" @click="deleteIcon(icon.id)">
+            <delete />
+          </el-icon>
+          <el-icon :size="24" color="#fff" @click="copy(icon.code)">
+            <CopyDocument />
+          </el-icon>
           <!-- <i @click="editIcon(icon)"
             ><ICON code="edit" color="#fff" :size="24"></ICON
           ></i>
@@ -223,68 +227,37 @@ const copy = (code) => {
     </div>
   </div>
 
-  <el-dialog
-    v-model="state.showDialog"
-    :custom-class="`my-dialog ${smallScreen ? 'small' : ''} ${
-      smallScreen ? 'smallNormal' : ''
-    }`"
-  >
+  <el-dialog v-model="state.showDialog" :custom-class="`my-dialog ${smallScreen ? 'smallNormal' : 'icon'}`">
     <template #title>
       <ICON :code="state.mode" />
       <span>{{ state.mode === "add" ? "添加" : "编辑" }}图标</span>
     </template>
     <el-form :model="formData" ref="form" :label-width="52" :rules="rules">
       <el-form-item label="名称" prop="name">
-        <el-input
-          v-model="formData.name"
-          maxlength="50"
-          show-word-limit
-        ></el-input>
+        <el-input v-model="formData.name" maxlength="50" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="编码" prop="code">
-        <el-input
-          v-model="formData.code"
-          maxlength="50"
-          show-word-limit
-        ></el-input>
+        <el-input v-model="formData.code" maxlength="50" show-word-limit></el-input>
       </el-form-item>
       <el-form-item label="图标" prop="icon" v-if="state.mode === 'add'">
-        <el-upload
-          ref="upload"
-          action="/ache/icon/add"
-          accept=".svg"
-          :auto-upload="false"
-          :show-file-list="false"
-          :data="{ name: formData.name, code: formData.code }"
-          :on-change="handleChange"
-        >
+        <el-upload ref="upload" action="/ache/icon/add" accept=".svg" :auto-upload="false" :show-file-list="false"
+          :data="{ name: formData.name, code: formData.code }" :on-change="handleChange">
           <img v-if="formData.xml" :src="formData.xml" />
           <ICON v-else code="add" :size="148" color="#888" />
         </el-upload>
       </el-form-item>
       <el-form-item label="色彩" prop="color" v-if="state.mode === 'edit'">
-        <el-color-picker
-          @change="changeColor"
-          v-model="formData.color"
-        ></el-color-picker>
+        <el-color-picker @change="changeColor" v-model="formData.color"></el-color-picker>
       </el-form-item>
       <el-form-item label="svg" prop="xml" v-if="state.mode === 'edit'">
         <el-input type="textarea" :rows="8" v-model="formData.xml"></el-input>
       </el-form-item>
     </el-form>
-    <template #footer
-      ><el-button
-        :disabled="store.state.user.info.role !== 'admin'"
-        plain
-        @click="state.showDialog = false"
-        >取消</el-button
-      ><el-button
-        :disabled="store.state.user.info.role !== 'admin'"
-        type="primary"
-        @click="save"
-        >确定</el-button
-      ></template
-    >
+    <template #footer>
+      <el-button :disabled="store.state.user.info.role !== 'admin'" plain @click="state.showDialog = false">取消
+      </el-button>
+      <el-button :disabled="store.state.user.info.role !== 'admin'" type="primary" @click="save">确定</el-button>
+    </template>
   </el-dialog>
 </template>
 
@@ -295,9 +268,11 @@ const copy = (code) => {
   flex-wrap: wrap;
   justify-content: flex-start;
   gap: 29px;
+
   .item {
     height: 32px;
     width: 320px;
+
     .el-input {
       width: calc(100% - 40px);
       margin-left: 8px;
@@ -305,9 +280,11 @@ const copy = (code) => {
       --el-input-focus-border-color: grey;
     }
   }
+
   .el-button {
     padding: 8px;
   }
+
   .el-button--primary.is-plain {
     background: transparent;
     border-color: #dcdfe6;
@@ -323,46 +300,53 @@ const copy = (code) => {
     color: grey;
     border-color: grey;
   }
-  .el-button + .el-button {
-    margin-left: 0;
-  }
 }
+
 :deep(.el-loading-mask) {
   height: 491px;
 }
+
 .icons {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 16px;
+
   .icon {
     width: 148px;
     height: 148px;
     font-size: 14px;
     border-radius: 4px;
     position: relative;
+
     .svg {
       margin: 20px auto;
       width: 40px;
       height: 40px;
+
       div {
         width: 100%;
         height: 100%;
+
         :deep(svg) {
           width: 100%;
           height: 100%;
         }
       }
     }
+
     .title {
       height: 68px;
+
       div {
         margin: 8px auto;
+
         &:nth-child(1) {
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
         }
+
         &:nth-child(2) {
           overflow: hidden; // 超过两行显示省略号
           display: -webkit-box;
@@ -371,6 +355,7 @@ const copy = (code) => {
         }
       }
     }
+
     .operation {
       position: absolute;
       top: 0;
@@ -381,10 +366,12 @@ const copy = (code) => {
       background-color: rgb(0, 0, 0, 0.5);
       opacity: 0;
       transition: opacity 0.3s;
+
       &:hover {
         opacity: 1;
         transition: opacity 0.3s;
       }
+
       div {
         position: absolute;
         top: 50%;
@@ -392,10 +379,12 @@ const copy = (code) => {
         height: 24px;
         width: 100%;
         transform: translate(-50%, -50%);
+
         i {
           width: 24px;
           height: 24px;
           cursor: pointer;
+
           // svg:hover {
           //   fill: #409eff;
           // }
@@ -403,16 +392,19 @@ const copy = (code) => {
             color: #409eff;
           }
         }
-        i + i {
+
+        i+i {
           margin-left: 12px;
         }
       }
     }
   }
 }
+
 .el-form {
   max-width: 400px;
   margin: auto;
+
   :deep(.el-upload) {
     border: 1px dashed #dcdfe6;
     border-radius: 6px;
@@ -420,9 +412,11 @@ const copy = (code) => {
     position: relative;
     overflow: hidden;
     transition: var(--el-transition-duration-fast);
+
     &:hover {
       border-color: #c0c4cc;
     }
+
     img {
       width: 148px;
       height: 148px;

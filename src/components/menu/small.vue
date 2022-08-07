@@ -150,7 +150,7 @@ const register = () =>
   form.value.validate(async (valid, fields) =>
   {
     if (valid) {
-      ElMessageBox.confirm("确定要注册此用户吗？", "注册提示", {
+      ElMessageBox.confirm("确定要注册<"+ formInfo.value.user +">用户吗？", "注册提示", {
         distinguishCancelAndClose: true,
         confirmButtonText: "确定",
         cancelButtonText: "取消",

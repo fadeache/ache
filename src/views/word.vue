@@ -36,7 +36,7 @@ const apis = ref([
   {
     icon: "one",
     name: "一言",
-    api: "https://v1.hitokoto.cn",
+    api: "one",
     abstract:
       "动漫也好、小说也好、网络也好，不论在哪里，总有那么一两个句子能穿透你的心。一言指的就是一句话，可以是动漫中的台词，也可以是网络上的各种小段子。 或是感动，或是开心，亦或是单纯的回忆。",
   },
@@ -44,13 +44,13 @@ const apis = ref([
     icon: "pyq",
     name: "朋友圈文案",
     api: "pyq",
-    abstract: "朋友圈文案。",
+    abstract: "朋友圈文案（反正我不会发）。",
   },
   {
     icon: "soup",
     name: "毒鸡汤",
     api: "du",
-    abstract: "毒鸡汤生成。",
+    abstract: "没得一句好听的话。",
   },
   {
     icon: "hdpic",
@@ -130,12 +130,7 @@ const detail = async (item, num, evt) => {
 
 <template>
   <div class="cards" :class="{ smallScreen: smallScreen }">
-    <div
-      v-for="item in apis"
-      :key="item.api"
-      class="card"
-      @click="getWords(item, 1)"
-    >
+    <div v-for="item in apis" :key="item.api" class="card" @click="getWords(item, 1)">
       <div class="portrait">
         <img :src="`/word/${item.icon}.png`" />
       </div>
@@ -148,15 +143,10 @@ const detail = async (item, num, evt) => {
     </div>
   </div>
 
-  <el-dialog
-    v-model="state.showDialog"
-    v-if="state.showDialog"
-    :custom-class="`my-dialog ${
-      state.dialogData.icon === 'trash' || state.dialogData.icon === 'hdpic'
-        ? 'normal'
-        : 'small'
-    } ${smallScreen ? 'smallNormal' : ''}`"
-  >
+  <el-dialog v-model="state.showDialog" v-if="state.showDialog" :custom-class="`my-dialog ${state.dialogData.icon === 'trash' || state.dialogData.icon === 'hdpic'
+  ? 'normal'
+  : 'small'
+  } ${smallScreen ? 'smallNormal' : ''}`">
     <template #title>
       <div class="title">
         <img :src="`/word/${state.dialogData.icon}.png`" />
@@ -177,19 +167,9 @@ const detail = async (item, num, evt) => {
       <el-radio v-model="state.radio" label="gqapi/gqapi">风景壁纸 </el-radio>
     </div>
     <template #footer>
-      <el-button
-        @click="detail(state.dialogData, 1, $event)"
-        v-if="state.dialogData.icon !== 'hdpic'"
-        >再来一条</el-button
-      >
-      <el-button v-else @click="detail(state.dialogData, 1, $event)"
-        >let's go</el-button
-      >
-      <el-button
-        v-if="state.dialogData.icon === 'trash'"
-        @click="detail(state.dialogData, 6, $event)"
-        >再来六条</el-button
-      >
+      <el-button @click="detail(state.dialogData, 1, $event)" v-if="state.dialogData.icon !== 'hdpic'">再来一条</el-button>
+      <el-button v-else @click="detail(state.dialogData, 1, $event)">let's go</el-button>
+      <el-button v-if="state.dialogData.icon === 'trash'" @click="detail(state.dialogData, 6, $event)">再来六条</el-button>
     </template>
   </el-dialog>
 </template>
@@ -201,6 +181,7 @@ const detail = async (item, num, evt) => {
   flex-wrap: wrap;
   justify-content: center;
   gap: 54px;
+
   .card {
     box-sizing: border-box;
     width: 400px;
@@ -209,28 +190,34 @@ const detail = async (item, num, evt) => {
     border-radius: 3px;
     transition: 0.3s ease-out;
     display: flex;
+
     &:hover {
       box-shadow: 8px 8px 12px 0px rgba(0, 0, 0, 0.08);
       transform: translateY(-10px);
       transition: 0.1s ease-in;
       cursor: pointer;
     }
+
     .portrait {
       width: calc(98px - 16px);
       padding: 8px;
+
       img {
         width: 100%;
         height: 100%;
       }
     }
+
     .content {
       width: calc(100% - 98px - 32px);
       text-align: left;
       padding: 16px;
+
       div {
         &:first-child {
           color: #373e4a;
         }
+
         &:last-child {
           margin-top: 4px;
           color: #979898;
@@ -244,9 +231,11 @@ const detail = async (item, num, evt) => {
     }
   }
 }
+
 .title {
   text-align: left;
   line-height: 20px;
+
   img {
     width: 20px;
     height: 20px;
@@ -260,6 +249,7 @@ const detail = async (item, num, evt) => {
   padding: 16px;
   gap: 24px;
   height: 1092px; // 不写高度的话有些机型会粘在一起 720+100*3+24*3
+
   .card {
     &:hover {
       transform: translateY(0);

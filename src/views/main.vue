@@ -8,8 +8,9 @@ const props = defineProps({
 </script>
 
 <template>
-  <Main v-if="!smallScreen"></Main>
-  <Small v-else></Small>
+  <Main v-if="!smallScreen" :smallScreen="smallScreen"></Main>
+  <Small v-else :smallScreen="smallScreen"></Small>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+</style>

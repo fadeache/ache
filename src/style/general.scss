@@ -17,6 +17,11 @@
         width: 400px;
       }
     }
+    &.icon{
+      &.el-dialog {
+        width: 800px;
+      }
+    }
     //以下移动端
     &.smallNormal {
       &.el-dialog {
@@ -41,6 +46,9 @@
   .el-dialog__header {
     border-bottom: 1px solid #eee;
     text-align: left;
+    svg{
+      vertical-align: -12% !important;
+    }
     span {
       margin-left: 5px;
     }

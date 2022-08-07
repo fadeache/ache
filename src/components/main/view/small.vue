@@ -1,12 +1,16 @@
 <script setup>
 import Calendar from "../calendar/index.vue";
 import Collapse from "../collapse/index.vue";
+
+const props = defineProps({
+  smallScreen: Boolean
+})
 </script>
 
 <template>
   <div style="padding: 16px">
     <Calendar></Calendar>
-    <Collapse></Collapse>
+    <Collapse :smallScreen="smallScreen"></Collapse>
   </div>
 </template>
 

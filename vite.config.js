@@ -49,6 +49,13 @@ export default defineConfig({
           "^/du": "",
         },
       },
+      "/translate": {
+        target: "https://api.fanyi.baidu.com/api/trans/vip",
+        changeOrigin: true,
+        pathRewrite: {
+          "^/translate": "",
+        },
+      },
     },
   },
 });

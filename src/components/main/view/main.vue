@@ -3,6 +3,10 @@ import { reactive } from "vue";
 import Calendar from "../calendar/index.vue";
 import Collapse from "../collapse/index.vue";
 
+const props = defineProps({
+  smallScreen: Boolean
+})
+
 const state = reactive({
   value: new Date(),
   activeName: "1",
@@ -34,11 +38,7 @@ const state = reactive({
     <el-col>
       <el-carousel type="card" height="336px">
         <el-carousel-item v-for="item in state.wallpapers" :key="item.title">
-          <el-image
-            :src="item.pic"
-            fit="fill"
-            style="height: 100%; width: 100%"
-          ></el-image>
+          <el-image :src="item.pic" fit="fill" style="height: 100%; width: 100%"></el-image>
           <div class="word">
             <div style="margin-left: 32px">
               <p>{{ item.title }}</p>
@@ -50,8 +50,12 @@ const state = reactive({
     </el-col>
   </el-row>
   <el-row :gutter="8">
-    <el-col :span="14"><Collapse></Collapse></el-col>
-    <el-col :span="10"><Calendar></Calendar></el-col>
+    <el-col :span="14" :smallScreen="smallScreen">
+      <Collapse></Collapse>
+    </el-col>
+    <el-col :span="10">
+      <Calendar></Calendar>
+    </el-col>
   </el-row>
 </template>
 
@@ -66,13 +70,16 @@ const state = reactive({
   .el-carousel__item--card {
     width: 560px;
   }
+
   .is-active {
     transform: translateX(154px) !important;
     // 总体宽度868-560后除以2等于154
   }
+
   ul {
     display: none;
   }
+
   .word {
     position: absolute;
     left: 6%;
@@ -80,18 +87,22 @@ const state = reactive({
     text-align: left;
     color: #ffffff;
     width: 88%;
+
     p {
       margin: 0;
     }
+
     p:first-child {
       font-size: 20px;
       font-weight: bold;
       margin: 0 0 8px 0;
     }
+
     p:last-child {
       line-height: 24px;
     }
   }
+
   .word::before {
     position: absolute;
     content: "";
