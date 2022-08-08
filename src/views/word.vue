@@ -167,7 +167,8 @@ const jump = () => {
       <div class="title">
         <img :src="`/word/${state.dialogData.icon}.png`" />
         <span>{{ state.dialogData.name }}</span>
-        <el-tooltip content="点击句子可复制到剪切板，点击添加可跳转到首页并添加至首页句子库中。" placement="top-start" effect="light">
+        <el-tooltip v-if="state.dialogData.icon !== 'hdpic'" content="点击句子可复制到剪切板，点击添加可跳转到首页添加此句子。"
+          placement="top-start" effect="light">
           <ICON code="about" />
         </el-tooltip>
       </div>
