@@ -4,7 +4,7 @@ import { computed, onMounted, reactive, ref, nextTick, watch } from "vue";
 import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
 
-const store = useStore();
+const store = useStore()
 
 const state = reactive({
   schedules: [],

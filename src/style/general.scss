@@ -30,7 +30,8 @@
   //以下移动端
   &.smallNormal {
     &.el-dialog {
-      width: calc(100% - 40px);
+      // width: calc(100% - 40px);
+      min-width: 320px;
       height: 400px;
     }
   }

@@ -1,11 +1,13 @@
 <script setup>
-import { onMounted, reactive, ref, nextTick } from "vue";
+import { onMounted, reactive, ref, nextTick, onBeforeMount } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
+import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from "element-plus";
 import md5 from "js-md5";
 
-const store = useStore();
+const store = useStore()
+const route = useRoute()
 
 const props = defineProps({
   smallScreen: Boolean,
@@ -17,6 +19,15 @@ const state = reactive({
   showDialog: false,
   loading: false
 });
+
+
+onBeforeMount(() => {
+  if (route.params.word) {
+    formInfo.value.zhcn = route.params.word
+    showDialog()
+    translate()
+  }
+})
 
 onMounted(() => {
   getWords()

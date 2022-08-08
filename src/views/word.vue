@@ -1,6 +1,10 @@
 <script setup>
-import { reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import axios from "axios";
+import { ElMessage } from "element-plus";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const props = defineProps({
   smallScreen: Boolean,
@@ -10,7 +14,7 @@ const state = reactive({
   loading: false,
   showDialog: false,
   dialogData: {},
-  result: [],
+  result: '',
   radio: "1920",
 });
 
@@ -72,17 +76,17 @@ const apis = ref([
   },
 ]);
 
-const getWords = async (item, num) => {
+const getWords = async (item) => {
   state.dialogData = item;
-  state.result = [];
+  state.result = '';
   if (item.icon !== "hdpic") {
-    detail(item, num);
+    detail(item);
   }
   if (item.icon !== "dog" && item.icon !== "letter") {
     state.showDialog = true;
   }
 };
-const detail = async (item, num, evt) => {
+const detail = async (item, evt) => {
   if (evt) {
     let target = evt.target; // 取消聚焦
     if (target.nodeName == "SPAN") {
@@ -92,26 +96,21 @@ const detail = async (item, num, evt) => {
   }
 
   if (item.icon === "trash") {
-    let filter = ref({
-      count: num,
-    });
-    let res = await axios.get(item.api, { params: filter.value });
-    state.result = res.data.returnObj;
+    let res = await axios.get(item.api);
+    state.result = res.data.returnObj[0];
   } else if (item.icon === "tea") {
     let res = await axios.get(item.api);
-    state.result = [res.data.returnObj.content];
+    state.result = res.data.returnObj.content;
   } else if (
     item.icon === "rainbow" ||
     item.icon === "pyq" ||
     item.icon === "soup"
   ) {
     let res = await axios.get(item.api);
-    state.result = [res.data.data.text];
+    state.result = res.data.data.text;
   } else if (item.icon === "one") {
     let res = await axios.get(item.api);
-    state.result = [
-      res.data.hitokoto + (res.data.from_who ? "——" + res.data.from_who : ""),
-    ];
+    state.result = res.data.hitokoto + (res.data.from_who ? "——" + res.data.from_who : "");
   } else if (item.icon === "hdpic") {
     if (
       state.radio === "1920" ||
@@ -126,11 +125,30 @@ const detail = async (item, num, evt) => {
     window.open(item.api);
   }
 };
+
+const copy = () => {
+  let content = state.result;
+  const input = document.createElement("input");
+  input.value = content;
+  document.body.appendChild(input);
+  input.select();
+  document.execCommand("Copy");
+  document.body.removeChild(input);
+  ElMessage({
+    type: "success",
+    message: "已复制到剪切板",
+    "show-close": true,
+    grouping: true,
+  });
+};
+const jump = () => {
+  router.push({ name: 'main', params: { word: state.result } })
+}
 </script>
 
 <template>
   <div class="cards" :class="{ smallScreen: smallScreen }">
-    <div v-for="item in apis" :key="item.api" class="card" @click="getWords(item, 1)">
+    <div v-for="item in apis" :key="item.api" class="card" @click="getWords(item)">
       <div class="portrait">
         <img :src="`/word/${item.icon}.png`" />
       </div>
@@ -143,19 +161,17 @@ const detail = async (item, num, evt) => {
     </div>
   </div>
 
-  <el-dialog v-model="state.showDialog" v-if="state.showDialog" :custom-class="`my-dialog ${state.dialogData.icon === 'trash' || state.dialogData.icon === 'hdpic'
-  ? 'normal'
-  : 'small'
-  } ${smallScreen ? 'smallNormal' : ''}`">
+  <el-dialog v-model="state.showDialog" v-if="state.showDialog"
+    :custom-class="`my-dialog ${smallScreen ? 'smallNormal' : state.dialogData.icon === 'hdpic' ? 'normal' : 'small'}`">
     <template #title>
       <div class="title">
         <img :src="`/word/${state.dialogData.icon}.png`" />
         <span>{{ state.dialogData.name }}</span>
+        <el-tooltip content="点击句子可复制到剪切板，点击添加可跳转到首页并添加至首页句子库中。" placement="top-start" effect="light">
+          <ICON code="about" />
+        </el-tooltip>
       </div>
     </template>
-    <div style="margin-bottom: 16px" v-for="item in state.result">
-      {{ item }}
-    </div>
     <div v-if="state.dialogData.icon === 'hdpic'">
       <h3>每日壁纸</h3>
       <el-radio v-model="state.radio" label="1920">1920*1080</el-radio>
@@ -166,10 +182,15 @@ const detail = async (item, num, evt) => {
       <el-radio v-model="state.radio" label="mcapi/mcapi">menhear酱</el-radio>
       <el-radio v-model="state.radio" label="gqapi/gqapi">风景壁纸 </el-radio>
     </div>
+    <div v-else>
+      <div class="word" @click="copy()">
+        {{ state.result }}
+      </div>
+    </div>
     <template #footer>
-      <el-button @click="detail(state.dialogData, 1, $event)" v-if="state.dialogData.icon !== 'hdpic'">再来一条</el-button>
-      <el-button v-else @click="detail(state.dialogData, 1, $event)">let's go</el-button>
-      <el-button v-if="state.dialogData.icon === 'trash'" @click="detail(state.dialogData, 6, $event)">再来六条</el-button>
+      <el-button @click="jump" v-if="state.dialogData.icon !== 'hdpic'">添加</el-button>
+      <el-button @click="detail(state.dialogData, $event)" v-if="state.dialogData.icon !== 'hdpic'">再来一条</el-button>
+      <el-button v-else @click="detail(state.dialogData, $event)">let's go</el-button>
     </template>
   </el-dialog>
 </template>
@@ -241,6 +262,24 @@ const detail = async (item, num, evt) => {
     height: 20px;
     margin-right: 8px;
     vertical-align: -20%;
+  }
+
+  i {
+    margin-left: 5px;
+    margin-top: 2px;
+    cursor: pointer;
+
+    &:hover {
+      color: orangered;
+    }
+  }
+}
+
+.word {
+  margin-bottom: 16px;
+
+  &:hover {
+    cursor: pointer;
   }
 }
 
