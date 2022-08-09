@@ -84,7 +84,7 @@ const insertVisit = async () => {
   params.value.os = visit.getVisitInfo()[1];
   params.value.screen = visit.getVisitInfo()[2];
   params.value.agent = visit.getVisitInfo()[3];
-  await axios.post("/ache/visit/insert-visit", params.value);
+  await axios.post("/ache/visit/insert-visitor", params.value);
 };
 const watchScroll = () => {
   scrollTop.value =
