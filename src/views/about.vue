@@ -206,7 +206,7 @@ const deleteVisit = async (id, evt) => {
     </el-table-column>
     <el-table-column label="操作" v-if="store.state.user.info.role === 'admin'">
       <template #default="scope">
-        <el-button size="mini" type="danger" @click="deleteVisit(scope.row.id, $event)">Delete</el-button>
+        <el-button size="small" type="danger" @click="deleteVisit(scope.row.id, $event)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>

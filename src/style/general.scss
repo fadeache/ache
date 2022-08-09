@@ -31,7 +31,7 @@
   &.smallNormal {
     &.el-dialog {
       // width: calc(100% - 40px);
-      min-width: 320px;
+      min-width: 360px;
       height: 400px;
     }
   }
@@ -47,7 +47,7 @@
     &.el-dialog {
       // --el-dialog-margin-top: 12vh;
       max-width: 460px;
-      min-width: 320px;
+      min-width: 360px;
     }
   }
 }
@@ -74,7 +74,7 @@
 
 .el-message-box {
   vertical-align: 15vh !important;
-  --el-messagebox-width: 320px !important;
+  --el-messagebox-width: 360px !important;
 }
 
 .logined {
@@ -93,5 +93,5 @@
 }
 
 .el-popover.el-popper {
-  max-width: 320px !important;
+  max-width: 360px !important;
 }

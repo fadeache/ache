@@ -84,7 +84,10 @@ const insertVisit = async () => {
   params.value.os = visit.getVisitInfo()[1];
   params.value.screen = visit.getVisitInfo()[2];
   params.value.agent = visit.getVisitInfo()[3];
-  await axios.post("/ache/visit/insert-visitor", params.value);
+  let res = await axios.get("/ache/visit/get-visitors")
+  // 10分钟内只记录一次
+  let flag = (Math.abs(params.value.time.substring(14, 16) - res.data.slice(-1)[0].time.substring(14, 16)) < 10 && res.data.slice(-1)[0].agent === params.value.agent)
+  if (!flag) await axios.post("/ache/visit/insert-visitor", params.value);
 };
 const watchScroll = () => {
   scrollTop.value =

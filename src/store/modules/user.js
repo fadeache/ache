@@ -30,7 +30,6 @@ const actions = {
       if (document.cookie) {
         let strcookie = document.cookie;//获取cookie字符串
         let arrcookie = strcookie.split("; ");//分割
-        console.log(arrcookie);
         for (let i = 0; i < arrcookie.length; i++) {//遍历匹配
           let arr = arrcookie[i].split("=");
           let data = {
