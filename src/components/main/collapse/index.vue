@@ -35,7 +35,7 @@ onMounted(() => {
 
 const words = ref([])
 const getWords = async () => {
-  let res = await axios.get('ache/words/get')
+  let res = await axios.get('ache/words/get-words')
   words.value = res.data
   state.activeId = res.data[0].id
 }
@@ -46,7 +46,7 @@ const deleteWord = async (id) => {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
   }).then(async () => {
-    await axios.delete("/ache/words/delete", { params: { id: parseInt(id) } });
+    await axios.delete("/ache/words/delete-word", { params: { id: parseInt(id) } });
     getWords()
   });
 }
@@ -139,7 +139,7 @@ const form = ref(null)
 const addWord = () => {
   form.value.validate(async (valid, fields) => {
     if (valid) {
-      await axios.post("/ache/words/add", formInfo.value);
+      await axios.post("/ache/words/add-word", formInfo.value);
       ElMessage({
         type: "success",
         message: "句子添加成功！",

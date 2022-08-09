@@ -19,7 +19,7 @@ const actions = {
         commit("setUser", rst.data);
         commit("setCookie", data);
         axios.interceptors.request.use((config) => {
-          config.headers["Cookie-User"] = document.cookie;
+          config.headers["Cookie-User"] = data.user + "=" + data.pwd;
           return config;
         });
         return true;
@@ -28,26 +28,28 @@ const actions = {
       }
     } else {
       if (document.cookie) {
-        let data = {
-          user: document.cookie.substr(0, document.cookie.indexOf("=")),
-          pwd: document.cookie.substr(
-            document.cookie.indexOf("=") + 1,
-            document.cookie.length - document.cookie.indexOf("=")
-          ),
-        };
-        const rst = await axios.post("/ache/login", data);
-        if (rst.data) {
-          commit("setUser", rst.data);
-          axios.interceptors.request.use((config) => {
-            config.headers["Cookie-User"] = document.cookie;
-            return config;
-          });
-          return true;
-        } else {
-          return false;
+        let strcookie = document.cookie;//获取cookie字符串
+        let arrcookie = strcookie.split("; ");//分割
+        console.log(arrcookie);
+        for (let i = 0; i < arrcookie.length; i++) {//遍历匹配
+          let arr = arrcookie[i].split("=");
+          let data = {
+            user: arr[0],
+            pwd: arr[1]
+          };
+          const rst = await axios.post("/ache/login", data);
+          if (rst.data) {
+            commit("setUser", rst.data);
+            axios.interceptors.request.use((config) => {
+              config.headers["Cookie-User"] = data.user + "=" + data.pwd;
+              return config;
+            });
+            return true;
+          }
         }
+        return false;
       } else {
-        return;
+        return false;
       }
     }
   },

@@ -8,7 +8,7 @@ const route = useRoute();
 const store = useStore();
 
 onBeforeMount(() => {
-  store.dispatch("user/login"); // 在整个页面加载之前加上cookie和token
+  store.dispatch("user/login"); // 在整个页面加载之前加上cookie-User
   renderResize();
   window.addEventListener("resize", renderResize);
 });
@@ -42,21 +42,26 @@ const renderResize = () => {
 
 <style lang="scss">
 @import "./style/general.scss";
+
 #app {
   margin-top: 16px;
 }
+
 .bigContainer {
   width: 1280px;
   margin: auto;
+
   .el-aside {
     margin-right: 16px;
   }
+
   .el-main {
     background: #fff;
     padding: 48px !important;
     min-height: 735px;
   }
 }
+
 .smallContainer {
   .el-main {
     margin-top: -16px;
@@ -64,6 +69,7 @@ const renderResize = () => {
     padding: 0;
   }
 }
+
 .bodyBg {
   background: #fff;
 }

@@ -40,7 +40,7 @@ onMounted(() => {
 });
 
 const getTable = async () => {
-  let res = await axios.get("/ache/visit/get");
+  let res = await axios.get("/ache/visit/get-visitors");
   tableData.value = res.data;
   getLineChart();
   getCakeChart();
@@ -170,7 +170,7 @@ const deleteVisit = async (id, evt) => {
     }
     target.blur();
   }
-  await axios.delete("/ache/visit/delete", { params: { id: parseInt(id) } });
+  await axios.delete("/ache/visit/delete-visitor", { params: { id: parseInt(id) } });
   getTable();
 };
 </script>
@@ -178,51 +178,25 @@ const deleteVisit = async (id, evt) => {
 <template>
   <h1>近期访客</h1>
 
-  <el-table
-    :data="tableData"
-    stripe
-    style="width: 100%"
-    max-height="480"
-    :default-sort="{ prop: 'time', order: 'descending' }"
-    v-if="!props.smallScreen"
-  >
+  <el-table :data="tableData" stripe style="width: 100%" max-height="480"
+    :default-sort="{ prop: 'time', order: 'descending' }" v-if="!props.smallScreen">
     <el-table-column type="index" label="#" width="50" align="center">
     </el-table-column>
     <el-table-column prop="time" label="时间" width="250" sortable>
     </el-table-column>
-    <el-table-column
-      prop="os"
-      label="操作系统"
-      show-overflow-tooltip
-      width="360"
-    >
+    <el-table-column prop="os" label="操作系统" show-overflow-tooltip width="360">
     </el-table-column>
     <el-table-column prop="screen" label="屏幕分辨率" show-overflow-tooltip>
     </el-table-column>
-    <el-table-column
-      label="操作"
-      width="100"
-      v-if="store.state.user.info.role === 'admin'"
-    >
+    <el-table-column label="操作" width="100" v-if="store.state.user.info.role === 'admin'">
       <template #default="scope">
-        <el-button
-          size="small"
-          type="danger"
-          @click="deleteVisit(scope.row.id, $event)"
-          >Delete</el-button
-        >
+        <el-button size="small" type="danger" @click="deleteVisit(scope.row.id, $event)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>
 
-  <el-table
-    :data="tableData"
-    stripe
-    style="width: 100%; font-size: 10px"
-    max-height="480"
-    :default-sort="{ prop: 'time', order: 'descending' }"
-    v-else
-  >
+  <el-table :data="tableData" stripe style="width: 100%; font-size: 10px" max-height="480"
+    :default-sort="{ prop: 'time', order: 'descending' }" v-else>
     <el-table-column type="index" label="#" width="20" align="center">
     </el-table-column>
     <el-table-column prop="time" label="时间" sortable> </el-table-column>
@@ -232,12 +206,7 @@ const deleteVisit = async (id, evt) => {
     </el-table-column>
     <el-table-column label="操作" v-if="store.state.user.info.role === 'admin'">
       <template #default="scope">
-        <el-button
-          size="mini"
-          type="danger"
-          @click="deleteVisit(scope.row.id, $event)"
-          >Delete</el-button
-        >
+        <el-button size="mini" type="danger" @click="deleteVisit(scope.row.id, $event)">Delete</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -261,8 +230,10 @@ const deleteVisit = async (id, evt) => {
   background: #3053ea;
   transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 }
+
 .chart {
   margin-top: 32px;
+
   #line,
   #cake {
     width: 50%;
@@ -270,8 +241,10 @@ const deleteVisit = async (id, evt) => {
     float: left;
   }
 }
+
 .smallScreen {
   margin-top: 32px;
+
   #line,
   #cake {
     width: 100%;

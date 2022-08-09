@@ -31,7 +31,7 @@ watch(
 );
 
 const updateSchedules = async () => {
-  let res = await axios.get("/ache/calendar/get");
+  let res = await axios.get("/ache/calendar/get-calendar");
   state.schedules = res.data;
 };
 
@@ -51,8 +51,8 @@ const operateSchedule = (mode) => {
   form.value.validate(async (valid, fields) => {
     if (valid) {
       mode === "add"
-        ? await axios.post("/ache/calendar/add", aSchedule.value)
-        : await axios.put("/ache/calendar/edit", aSchedule.value);
+        ? await axios.post("/ache/calendar/add-calendar", aSchedule.value)
+        : await axios.put("/ache/calendar/edit-calendar", aSchedule.value);
       updateSchedules();
       state.showDialog = false;
     }
@@ -64,7 +64,7 @@ const aSchedule = ref({
   completed: 0,
 });
 const deleteSchedule = async (id) => {
-  await axios.delete("/ache/calendar/delete", { params: { id: parseInt(id) } });
+  await axios.delete("/ache/calendar/delete-calendar", { params: { id: parseInt(id) } });
   updateSchedules();
 };
 
@@ -106,7 +106,7 @@ const exchange = async (item) => {
     ElMessage({
       message: "与之交换的事件" + item.event,
     });
-    await axios.put("/ache/calendar/exchange", {
+    await axios.put("/ache/calendar/exchange-calendar", {
       id1: state.exchangeArr[0],
       id2: state.exchangeArr[1],
     });

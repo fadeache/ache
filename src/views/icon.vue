@@ -62,7 +62,7 @@ watch(
 );
 const getIcons = async () => {
   state.loading = true;
-  let res = await axios.get("/ache/icon/get", { params: filter.value });
+  let res = await axios.get("/ache/icon/get-icon", { params: filter.value });
   iconList.value = res.data;
   state.loading = false;
   for (let i in iconList.value) {
@@ -119,7 +119,7 @@ const deleteIcon = async (id) => {
     cancelButtonText: "取消",
   }).then(async () => {
     if (store.state.user.info.role === "admin") {
-      await axios.delete("/ache/icon/delete", { params: { id: id } });
+      await axios.delete("/ache/icon/delete-icon", { params: { id: id } });
       ElMessage.success("删除成功！");
       getIcons();
     } else {
@@ -154,7 +154,7 @@ const save = () => {
           code: formData.value.code,
           xml: formData.value.xml,
         };
-        axios.put("/ache/icon/edit", qs.stringify(params));
+        axios.put("/ache/icon/edit-icon", qs.stringify(params));
         ElMessage.success("编辑成功！");
       }
       state.showDialog = false;

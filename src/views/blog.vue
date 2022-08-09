@@ -49,7 +49,7 @@ const getBlog = async (index, type, sort) => {
       state.reverseActive = true;
     }
   }
-  let res = await axios.get("/ache/blog/get", { params: filter.value });
+  let res = await axios.get("/ache/blog/get-blogs", { params: filter.value });
   blogs.value = res.data;
 };
 

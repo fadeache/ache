@@ -27,7 +27,7 @@ const getUrl = () => {
   if (!props.code) {
     return;
   }
-  axios.get("/ache/icon/get", { params: { code: props.code } }).then((rst) => {
+  axios.get("/ache/icon/get-icon", { params: { code: props.code } }).then((rst) => {
     const content = rst.data[0].xml;
     viewBox.value = getString(content, 'viewBox="', '"') || "0 0 24 24";
     color.value = props.color ? props.color : getString(content, 'fill="', '"');
@@ -46,7 +46,7 @@ const getString = (str, start, end) => {
 </script>
 
 <template>
-  <i >
+  <i>
     <svg :viewBox="viewBox" :fill="color" v-html="contentSvg"
       :style="{ width: `${props.size ? props.size : '16px'}` }" />
   </i>

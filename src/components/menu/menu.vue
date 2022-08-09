@@ -51,7 +51,7 @@ const insertVisit = async () => {
   params.value.os = visit.getVisitInfo()[1];
   params.value.screen = visit.getVisitInfo()[2];
   params.value.agent = visit.getVisitInfo()[3];
-  await axios.post("/ache/visit/insert", params.value);
+  await axios.post("/ache/visit/insert-visit", params.value);
 };
 const watchScroll = () => {
   let scrollTop =
@@ -121,7 +121,7 @@ const register = () => {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
       }).then(async () => {
-        let res = await axios.post("/ache/user/add", {
+        let res = await axios.post("/ache/user/add-user", {
           user: formInfo.value.user,
           pwd: md5(md5(formInfo.value.pwd) + md5(md5("1424834523"))),
         });

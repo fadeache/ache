@@ -39,16 +39,14 @@ const scrollTop = ref(0);
 
 watch(
   () => route.matched,
-  (newValue, oldValue) =>
-  {
+  (newValue, oldValue) => {
     activeIndex.value = newValue[newValue.length - 1].path;
-    document.title="Ache | "+newValue[newValue.length - 1].name
+    document.title = "Ache | " + newValue[newValue.length - 1].name
   }
 );
 watch(
   () => scrollTop.value,
-  (newValue, oldValue) =>
-  {
+  (newValue, oldValue) => {
     if (newValue > 24) {
       sunFixed.value = true;
     } else {
@@ -74,43 +72,35 @@ watch(
   }
 );
 
-onMounted(() =>
-{
+onMounted(() => {
   window.addEventListener("scroll", watchScroll, true);
   insertVisit();
 });
-onBeforeUnmount(() =>
-{
+onBeforeUnmount(() => {
   window.removeEventListener("scroll", watchScroll, true);
 });
-const insertVisit = async () =>
-{
+const insertVisit = async () => {
   params.value.time = visit.getVisitInfo()[0];
   params.value.os = visit.getVisitInfo()[1];
   params.value.screen = visit.getVisitInfo()[2];
   params.value.agent = visit.getVisitInfo()[3];
-  await axios.post("/ache/visit/insert", params.value);
+  await axios.post("/ache/visit/insert-visit", params.value);
 };
-const watchScroll = () =>
-{
+const watchScroll = () => {
   scrollTop.value =
     window.pageYOffset ||
     document.documentElement.scrollTop ||
     document.body.scrollTop;
 };
 
-const resetForm = () =>
-{
+const resetForm = () => {
   form.value.resetFields();
   formKey.value++;
 };
-const submitForm = () =>
-{
-  form.value.validate((valid, fields) =>
-  {
+const submitForm = () => {
+  form.value.validate((valid, fields) => {
     if (valid) {
-      store.dispatch("user/login", formInfo.value).then((rst) =>
-      {
+      store.dispatch("user/login", formInfo.value).then((rst) => {
         if (rst) {
           ElMessage({
             type: "success",
@@ -131,10 +121,8 @@ const submitForm = () =>
     }
   });
 };
-const exit = () =>
-{
-  store.dispatch("user/exit", store.state.user.info).then((rst) =>
-  {
+const exit = () => {
+  store.dispatch("user/exit", store.state.user.info).then((rst) => {
     ElMessage({
       type: "info",
       message: rst,
@@ -145,18 +133,15 @@ const exit = () =>
   });
   showDialog.value = false;
 };
-const register = () =>
-{
-  form.value.validate(async (valid, fields) =>
-  {
+const register = () => {
+  form.value.validate(async (valid, fields) => {
     if (valid) {
-      ElMessageBox.confirm("确定要注册<"+ formInfo.value.user +">用户吗？", "注册提示", {
+      ElMessageBox.confirm("确定要注册<" + formInfo.value.user + ">用户吗？", "注册提示", {
         distinguishCancelAndClose: true,
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-      }).then(async () =>
-      {
-        let res = await axios.post("/ache/user/add", {
+      }).then(async () => {
+        let res = await axios.post("/ache/user/add-user", {
           user: formInfo.value.user,
           pwd: md5(md5(formInfo.value.pwd) + md5(md5("1424834523"))),
         });
@@ -204,19 +189,19 @@ const register = () =>
           <template v-if="item.children?.length">
             <el-sub-menu :key="item.name" :index="item.router">
               <template #title>
-                  <ICON :code="item.icon" />
+                <ICON :code="item.icon" />
                 <span class="title">{{ item.title }}</span>
               </template>
               <el-menu-item class="el-menu-item" v-for="sub in item.children" :key="sub.name"
                 :index="item.router + sub.router" @click="drawer = false">
-                  <ICON :code="item.icon" />
+                <ICON :code="item.icon" />
                 <span class="title">{{ sub.title }}</span>
               </el-menu-item>
             </el-sub-menu>
           </template>
           <template v-else>
             <el-menu-item class="el-menu-item" :key="item.name" :index="item.router" @click="drawer = false">
-                <ICON :code="item.icon" />
+              <ICON :code="item.icon" />
               {{ item.title }}
             </el-menu-item>
           </template>
