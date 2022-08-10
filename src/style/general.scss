@@ -77,9 +77,15 @@
   --el-messagebox-width: 360px !important;
 }
 
-.logined {
-  color: orangered;
+.unLogin{
+  svg{
   animation: rotating 5s linear infinite;
+  }
+}
+.logined {
+  svg{
+  color: orangered;
+  }
 }
 
 @keyframes rotating {

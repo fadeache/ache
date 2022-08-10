@@ -34,29 +34,36 @@ const rules = reactive({
 
 watch(
   () => route.matched,
-  (newValue, oldValue) => {
+  (newValue, oldValue) =>
+  {
     activeIndex.value = newValue[newValue.length - 1].path;
     document.title = "Ache | " + newValue[newValue.length - 1].name
   }
 );
-onMounted(() => {
+onMounted(() =>
+{
   window.addEventListener("scroll", watchScroll, true);
   insertVisit();
 });
-onBeforeUnmount(() => {
+onBeforeUnmount(() =>
+{
   window.removeEventListener("scroll", watchScroll, true);
 });
-const insertVisit = async () => {
+const insertVisit = async () =>
+{
   params.value.time = visit.getVisitInfo()[0];
   params.value.os = visit.getVisitInfo()[1];
   params.value.screen = visit.getVisitInfo()[2];
   params.value.agent = visit.getVisitInfo()[3];
   let res = await axios.get("/ache/visit/get-visitors")
   // 10分钟内只记录一次
-  let flag = (Math.abs(params.value.time.substring(14, 16) - res.data.slice(-1)[0].time.substring(14, 16)) < 10 && res.data.slice(-1)[0].agent === params.value.agent)
+  let a = params.value.time.substring(14, 16)
+  let b = res.data.slice(-1)[0].time.substring(14, 16)
+  let flag = (a - b > 10 || (a - b < 0 && a - b > -50)) && res.data.slice(-1)[0].agent === params.value.agent
   if (!flag) await axios.post("/ache/visit/insert-visitor", params.value);
 };
-const watchScroll = () => {
+const watchScroll = () =>
+{
   let scrollTop =
     window.pageYOffset ||
     document.documentElement.scrollTop ||
@@ -68,7 +75,8 @@ const watchScroll = () => {
     isFixed.value = false;
   }
 };
-const jump = (address) => {
+const jump = (address) =>
+{
   if (address === "gitee") {
     window.open("https://gitee.com/fadeache");
   } else {
@@ -76,14 +84,18 @@ const jump = (address) => {
   }
 };
 
-const resetForm = () => {
+const resetForm = () =>
+{
   form.value.resetFields();
   formKey.value++;
 };
-const submitForm = () => {
-  form.value.validate((valid, fields) => {
+const submitForm = () =>
+{
+  form.value.validate((valid, fields) =>
+  {
     if (valid) {
-      store.dispatch("user/login", formInfo.value).then((rst) => {
+      store.dispatch("user/login", formInfo.value).then((rst) =>
+      {
         if (rst) {
           ElMessage({
             type: "success",
@@ -104,8 +116,10 @@ const submitForm = () => {
     }
   });
 };
-const exit = () => {
-  store.dispatch("user/exit", store.state.user.info).then((rst) => {
+const exit = () =>
+{
+  store.dispatch("user/exit", store.state.user.info).then((rst) =>
+  {
     ElMessage({
       type: "info",
       message: rst,
@@ -116,14 +130,17 @@ const exit = () => {
   });
   showDialog.value = false;
 };
-const register = () => {
-  form.value.validate(async (valid, fields) => {
+const register = () =>
+{
+  form.value.validate(async (valid, fields) =>
+  {
     if (valid) {
       ElMessageBox.confirm("确定要注册<" + formInfo.value.user + ">用户吗？", "注册提示", {
         distinguishCancelAndClose: true,
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-      }).then(async () => {
+      }).then(async () =>
+      {
         let res = await axios.post("/ache/user/add-user", {
           user: formInfo.value.user,
           pwd: md5(md5(formInfo.value.pwd) + md5(md5("1424834523"))),
@@ -145,7 +162,7 @@ const register = () => {
 <template>
   <div class="brand">
     <div @click="showDialog = true">
-      <ICON :class="{ logined: store.state.user.info }" code="sun" :size="32" />
+      <ICON :class="{ logined: store.state.user.info }" class="unLogin" code="sun" :size="32" />
     </div>
     <span>轻松点，这一生，就当来旅游</span>
   </div>
