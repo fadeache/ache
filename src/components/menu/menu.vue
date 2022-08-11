@@ -59,8 +59,11 @@ const insertVisit = async () =>
   // 10分钟内只记录一次
   let a = params.value.time.substring(14, 16)
   let b = res.data.slice(-1)[0].time.substring(14, 16)
-  let flag = (a - b > 10 || (a - b < 0 && a - b > -50)) && res.data.slice(-1)[0].agent === params.value.agent
-  if (!flag) await axios.post("/ache/visit/insert-visitor", params.value);
+  if (res.data.slice(-1)[0].agent !== params.value.agent) await axios.post("/ache/visit/insert-visitor", params.value);
+  else {
+    let flag = (a - b > 10 || (a - b < 0 && a - b > -50))
+    if (flag) await axios.post("/ache/visit/insert-visitor", params.value);
+  }
 };
 const watchScroll = () =>
 {

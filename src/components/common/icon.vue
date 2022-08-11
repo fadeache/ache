@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { onBeforeMount, onMounted, ref, watch } from "vue";
 import axios from "axios";
 const props = defineProps({
   code: String,
@@ -14,20 +14,14 @@ const viewBox = ref("0 0 24 24");
 const color = ref("");
 const name = ref("");
 const contentSvg = ref("");
-watch(
-  () => props.code,
-  () => {
-    getUrl();
-  }
-);
-onMounted(() => {
+onBeforeMount(() =>
+{
   getUrl();
 });
-const getUrl = () => {
-  if (!props.code) {
-    return;
-  }
-  axios.get("/ache/icon/get-icon", { params: { code: props.code } }).then((rst) => {
+const getUrl = () =>
+{
+  axios.get("/ache/icon/get-icon", { params: { code: props.code } }).then((rst) =>
+  {
     const content = rst.data[0].xml;
     viewBox.value = getString(content, 'viewBox="', '"') || "0 0 24 24";
     color.value = props.color ? props.color : getString(content, 'fill="', '"');
@@ -39,7 +33,8 @@ const getUrl = () => {
     );
   });
 };
-const getString = (str, start, end) => {
+const getString = (str, start, end) =>
+{
   if (str.split(start)[1]) return str.split(start)[1].split(end)[0];
   else return "";
 };
