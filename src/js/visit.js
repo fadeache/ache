@@ -50,7 +50,7 @@ class VISIT {
     const properties = () => {
       getOs();
       return [
-        time.format(new Date(), "yyyy-MM-dd hh:mm:ss"),
+        time.format(new Date(), "yyyy-MM-dd hh:mm:ss") + "," + Date.now(),
         device.os + "，" + device.osVersion + "，" + device.platForm,
         window.screen.width + " * " + window.screen.height,
         userAgent,

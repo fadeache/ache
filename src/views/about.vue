@@ -52,7 +52,7 @@ const getLineChart = () => {
     // let temp0 = res.data[item].time;
     // let temp1 = temp0.substr(temp0.indexOf(" "));
     // let temp2 = temp1.substr(0, temp1.indexOf(":"))
-    let temp1 = tableData.value[item].time.substr(11, 2); // start,length
+    let temp1 = tableData.value[item].time.split(",")[0].substr(11, 2); // start,length
     if (temp1 >= 0 && temp1 < 5) {
       state.chartNumbers[0]++;
     } else if (temp1 >= 5 && temp1 < 8) {
@@ -170,7 +170,9 @@ const deleteVisit = async (id, evt) => {
     }
     target.blur();
   }
-  await axios.delete("/ache/visit/delete-visitor", { params: { id: parseInt(id) } });
+  await axios.delete("/ache/visit/delete-visitor", {
+    params: { id: parseInt(id) },
+  });
   getTable();
 };
 </script>
@@ -178,35 +180,71 @@ const deleteVisit = async (id, evt) => {
 <template>
   <h1>近期访客</h1>
 
-  <el-table :data="tableData" stripe style="width: 100%" max-height="480"
-    :default-sort="{ prop: 'time', order: 'descending' }" v-if="!props.smallScreen">
+  <el-table
+    :data="tableData"
+    stripe
+    style="width: 100%"
+    max-height="480"
+    :default-sort="{ prop: 'time', order: 'descending' }"
+    v-if="!props.smallScreen"
+  >
     <el-table-column type="index" label="#" width="50" align="center">
     </el-table-column>
     <el-table-column prop="time" label="时间" width="250" sortable>
+      <template #default="scope"> {{ scope.row.time.split(",")[0] }} </template>
     </el-table-column>
-    <el-table-column prop="os" label="操作系统" show-overflow-tooltip width="360">
+    <el-table-column
+      prop="os"
+      label="操作系统"
+      show-overflow-tooltip
+      width="360"
+    >
     </el-table-column>
     <el-table-column prop="screen" label="屏幕分辨率" show-overflow-tooltip>
     </el-table-column>
-    <el-table-column label="操作" width="100" v-if="store.state.user.info.role === 'admin'">
+    <el-table-column
+      label="操作"
+      width="100"
+      v-if="store.state.user.info.role === 'admin'"
+    >
       <template #default="scope">
-        <el-button size="small" type="danger" @click="deleteVisit(scope.row.id, $event)">Delete</el-button>
+        <el-button
+          size="small"
+          type="danger"
+          @click="deleteVisit(scope.row.id, $event)"
+          >Delete</el-button
+        >
       </template>
     </el-table-column>
   </el-table>
 
-  <el-table :data="tableData" stripe style="width: 100%; font-size: 10px" max-height="480"
-    :default-sort="{ prop: 'time', order: 'descending' }" v-else>
+  <el-table
+    :data="tableData"
+    stripe
+    style="width: 100%; font-size: 10px"
+    max-height="480"
+    :default-sort="{ prop: 'time', order: 'descending' }"
+    v-else
+  >
     <el-table-column type="index" label="#" width="20" align="center">
     </el-table-column>
-    <el-table-column prop="time" label="时间" sortable> </el-table-column>
+    <el-table-column prop="time" label="时间" sortable>
+      <template #default="scope">
+        {{ scope.row.time.split(",")[0] }}
+      </template>
+    </el-table-column>
     <el-table-column prop="os" label="操作系统" show-overflow-tooltip>
     </el-table-column>
     <el-table-column prop="screen" label="分辨率" show-overflow-tooltip>
     </el-table-column>
     <el-table-column label="操作" v-if="store.state.user.info.role === 'admin'">
       <template #default="scope">
-        <el-button size="small" type="danger" @click="deleteVisit(scope.row.id, $event)">Delete</el-button>
+        <el-button
+          size="small"
+          type="danger"
+          @click="deleteVisit(scope.row.id, $event)"
+          >Delete</el-button
+        >
       </template>
     </el-table-column>
   </el-table>

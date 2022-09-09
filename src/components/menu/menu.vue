@@ -18,6 +18,7 @@ const params = ref({
   os: "",
   screen: "",
   agent: "",
+  timestamp: "",
 });
 const formInfo = ref({
   user: "",
@@ -52,13 +53,12 @@ const insertVisit = async () => {
   params.value.screen = visit.getVisitInfo()[2];
   params.value.agent = visit.getVisitInfo()[3];
   let res = await axios.get("/ache/visit/get-visitors");
-  // 10分钟内只记录一次
-  let a = params.value.time.substring(14, 16);
-  let b = res.data.slice(-1)[0].time.substring(14, 16);
+  let current = params.value.time.split(",")[1];
+  let last = res.data.slice(-1)[0].time.split(",")[1];
   if (res.data.slice(-1)[0].agent !== params.value.agent)
     await axios.post("/ache/visit/insert-visitor", params.value);
   else {
-    let flag = a - b > 10 || (a - b < 0 && a - b > -50);
+    let flag = (current - last) / 1000 / 60 > 10;
     if (flag) await axios.post("/ache/visit/insert-visitor", params.value);
   }
 };
