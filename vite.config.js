@@ -16,45 +16,22 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "https://api.lovelive.tools/", //接口的前缀
-        changeOrigin: true,
-        pathRewrite: {
-          "^/api": "", //重写路径
-        },
       },
       "/ache": {
         target: "http://82.157.160.30:8080/",
         // target: "http://localhost:8080/",
-        pathRewrite: {
-          "^/ache": "",
-        },
       },
       "/chp": {
         target: "https://api.shadiao.pro/",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/chp": "",
-        },
       },
       "/pyq": {
         target: "https://api.shadiao.pro/",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/pyq": "",
-        },
       },
       "/du": {
         target: "https://api.shadiao.pro/",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/du": "",
-        },
       },
       "/translate": {
         target: "https://api.fanyi.baidu.com/api/trans/vip",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/translate": "",
-        },
       },
       "/ip": "https://pv.sohu.com/cityjson?ie=utf-8",
       // "/ip": {

@@ -18,6 +18,10 @@ const actions = {
       if (rst.data) {
         commit("setUser", rst.data);
         commit("setCookie", data);
+        axios.interceptors.request.use((config) => {
+          config.headers["Authorization"] = data.user + "=" + data.pwd;
+          return config;
+        });
         return true;
       } else {
         return false;
@@ -36,6 +40,10 @@ const actions = {
           const rst = await axios.post("/ache/login", data);
           if (rst.data) {
             commit("setUser", rst.data);
+            axios.interceptors.request.use((config) => {
+              config.headers["Authorization"] = data.user + "=" + data.pwd;
+              return config;
+            });
             return true;
           }
         }
