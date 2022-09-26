@@ -36,7 +36,7 @@ export default defineConfig({
       "/ip": "https://pv.sohu.com/cityjson?ie=utf-8",
       // "/ip": {
       //   target: "https://pv.sohu.com/cityjson?ie=utf-8",
-      //   rewrite: (path) => path.replace(/^\/ip/, ""),
+      // rewrite: (path) => path.replace(/^\/ip/, ""),
       // },
     },
   },
