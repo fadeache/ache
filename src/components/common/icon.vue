@@ -14,27 +14,31 @@ const viewBox = ref("0 0 24 24");
 const color = ref("");
 const name = ref("");
 const contentSvg = ref("");
-onBeforeMount(() =>
-{
+onBeforeMount(() => {
   getUrl();
 });
-const getUrl = () =>
-{
-  axios.get("/ache/icon/get-icon", { params: { code: props.code } }).then((rst) =>
-  {
-    const content = rst.data[0].xml;
-    viewBox.value = getString(content, 'viewBox="', '"') || "0 0 24 24";
-    color.value = props.color ? props.color : getString(content, 'fill="', '"');
-    name.value = rst.data[0].name;
-    contentSvg.value = getString(
-      content,
-      "<svg" + getString(content, "<svg", ">") + ">",
-      "</svg>"
-    );
-  });
+watch(
+  () => props.code,
+  () => getUrl()
+);
+const getUrl = () => {
+  axios
+    .get("/ache/icon/get-icon", { params: { code: props.code } })
+    .then((rst) => {
+      const content = rst.data[0].xml;
+      viewBox.value = getString(content, 'viewBox="', '"') || "0 0 24 24";
+      color.value = props.color
+        ? props.color
+        : getString(content, 'fill="', '"');
+      name.value = rst.data[0].name;
+      contentSvg.value = getString(
+        content,
+        "<svg" + getString(content, "<svg", ">") + ">",
+        "</svg>"
+      );
+    });
 };
-const getString = (str, start, end) =>
-{
+const getString = (str, start, end) => {
   if (str.split(start)[1]) return str.split(start)[1].split(end)[0];
   else return "";
 };
@@ -42,8 +46,12 @@ const getString = (str, start, end) =>
 
 <template>
   <i>
-    <svg :viewBox="viewBox" :fill="color" v-html="contentSvg"
-      :style="{ width: `${props.size ? props.size : '16px'}` }" />
+    <svg
+      :viewBox="viewBox"
+      :fill="color"
+      v-html="contentSvg"
+      :style="{ width: `${props.size ? props.size : '16px'}` }"
+    />
   </i>
 </template>
 <style lang="scss" scoped>

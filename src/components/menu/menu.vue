@@ -48,19 +48,17 @@ onBeforeUnmount(() => {
   window.removeEventListener("scroll", watchScroll, true);
 });
 const insertVisit = async () => {
-  params.value.time = visit.getVisitInfo()[0];
-  params.value.os = visit.getVisitInfo()[1];
-  params.value.screen = visit.getVisitInfo()[2];
-  params.value.agent = visit.getVisitInfo()[3];
-  let res = await axios.get("/ache/visit/get-visitors");
-  let current = params.value.time.split(",")[1];
-  let last = res.data.slice(-1)[0].time.split(",")[1];
-  if (res.data.slice(-1)[0].agent !== params.value.agent)
-    await axios.post("/ache/visit/insert-visitor", params.value);
-  else {
-    let flag = (current - last) / 1000 / 60 > 10;
-    if (flag) await axios.post("/ache/visit/insert-visitor", params.value);
-  }
+  const info = await visit.getVisitInfo();
+  console.log(info);
+  params.value.time = info[0];
+  params.value.os = info[1];
+  params.value.screen = info[2];
+  params.value.agent = info[3];
+  params.value.timestamp = info[4];
+  params.value.ip = info[5];
+  params.value.ipAddress = info[6];
+  console.log(params.value.ipAddress);
+  await axios.post("/ache/visit/insert-visitor", params.value);
 };
 const watchScroll = () => {
   let scrollTop =

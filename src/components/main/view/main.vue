@@ -4,8 +4,8 @@ import Calendar from "../calendar/index.vue";
 import Collapse from "../collapse/index.vue";
 
 const props = defineProps({
-  smallScreen: Boolean
-})
+  smallScreen: Boolean,
+});
 
 const state = reactive({
   value: new Date(),
@@ -26,7 +26,7 @@ const state = reactive({
     {
       title: "3.书接上文",
       content:
-        "动画采用纯css编写，通过大量span标签和伪元素实现各种物体，如太阳、云朵、风、树、风车的塑造。句子的接口为开源接口转发而来，点击句子可复制到剪切板，点击添加可跳转到首页添加此句子。图标中心支持图标的增删改查和组件代码复制，图标采用后端接口调用图标，数据库存储图标，前端图标组件化复用等方式，统一管理，极大提升了开发与维护效率，节约时间成本，为图标的使用提供了新的解题思路。网站图标均从数据库调用。关于页显示所有访客浏览记录，同一设备10分钟之内仅记录一次,并根据时间段和设备类型作出图表统计。",
+        "动画采用纯css编写，通过大量span标签和伪元素实现各种物体，如太阳、云朵、风、树、风车的塑造。句子的接口为开源接口转发而来，点击句子可复制到剪切板，点击添加可跳转到首页添加此句子。图标中心支持图标的增删改查和组件代码复制，图标采用后端接口调用图标，数据库存储图标，前端图标组件化复用等方式，统一管理，极大提升了开发与维护效率，节约时间成本，为图标的使用提供了新的解题思路。网站图标均从数据库调用。关于页显示所有访客浏览记录，同一设备同一浏览器10分钟之内仅记录一次,并根据时间段和设备类型作出图表统计。",
       pic: "/main/fours.jpg",
     },
   ],
@@ -38,7 +38,11 @@ const state = reactive({
     <el-col>
       <el-carousel type="card" height="336px">
         <el-carousel-item v-for="item in state.wallpapers" :key="item.title">
-          <el-image :src="item.pic" fit="fill" style="height: 100%; width: 100%"></el-image>
+          <el-image
+            :src="item.pic"
+            fit="fill"
+            style="height: 100%; width: 100%"
+          ></el-image>
           <div class="word">
             <div style="margin-left: 32px">
               <p>{{ item.title }}</p>

@@ -1,4 +1,5 @@
 import time from "../utils/time";
+import axios from "axios";
 class VISIT {
   getVisitInfo() {
     let device = {};
@@ -47,13 +48,24 @@ class VISIT {
       return device;
     };
 
-    const properties = () => {
+    const getIp = async () => {
+      const res = await axios.get("ip");
+      const split = res.data.split('"');
+      device.ip = split[3];
+      device.ipAddress = split[11];
+    };
+
+    const properties = async () => {
       getOs();
+      await getIp();
       return [
-        time.format(new Date(), "yyyy-MM-dd hh:mm:ss") + "," + Date.now(),
+        time.format(new Date(), "yyyy-MM-dd hh:mm:ss"),
         device.os + "，" + device.osVersion + "，" + device.platForm,
         window.screen.width + " * " + window.screen.height,
         userAgent,
+        Date.now(),
+        device.ip,
+        device.ipAddress,
       ];
     };
     return properties();
