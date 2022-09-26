@@ -49,7 +49,7 @@ class VISIT {
     };
 
     const getIp = async () => {
-      const res = await axios.get("ip");
+      const res = await axios.get("/ip");
       const split = res.data.split('"');
       device.ip = split[3];
       device.ipAddress = split[11];
