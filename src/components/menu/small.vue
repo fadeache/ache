@@ -26,8 +26,6 @@ const params = ref({
   screen: "",
   agent: "",
   timestamp: "",
-  ip: "",
-  ipAddress: "",
 });
 const form = ref(null);
 const formKey = ref(0);
@@ -89,8 +87,6 @@ const insertVisit = async () => {
   params.value.screen = info[2];
   params.value.agent = info[3];
   params.value.timestamp = info[4];
-  params.value.ip = info[5];
-  params.value.ipAddress = info[6];
   await axios.post("/ache/visit/insert-visitor", params.value);
 };
 const watchScroll = () => {

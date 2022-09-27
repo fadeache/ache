@@ -48,23 +48,14 @@ class VISIT {
       return device;
     };
 
-    const getIp = async () => {
-      const res = await axios.get("/ache/ip");
-      device.ip = res.data[0];
-      device.ipAddress = res.data[1];
-    };
-
     const properties = async () => {
       getOs();
-      await getIp();
       return [
         time.format(new Date(), "yyyy-MM-dd hh:mm:ss"),
         device.os + "，" + device.osVersion + "，" + device.platForm,
         window.screen.width + " * " + window.screen.height,
         userAgent,
         Date.now(),
-        device.ip,
-        device.ipAddress,
       ];
     };
     return properties();
