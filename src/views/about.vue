@@ -192,8 +192,8 @@ const deleteVisit = async (id, evt) => {
     </el-table-column>
     <el-table-column prop="time" label="时间" min-width="200" sortable>
     </el-table-column>
-    <!-- <el-table-column prop="ipAddress" label="IP属地" min-width="150">
-    </el-table-column> -->
+    <el-table-column prop="ipAddress" label="IP属地" min-width="150">
+    </el-table-column>
     <el-table-column
       prop="os"
       label="操作系统"
@@ -236,8 +236,8 @@ const deleteVisit = async (id, evt) => {
     </el-table-column>
     <el-table-column prop="time" label="时间" sortable min-width="80">
     </el-table-column>
-    <!-- <el-table-column prop="ipAddress" label="IP属地" min-width="60">
-    </el-table-column> -->
+    <el-table-column prop="ipAddress" label="IP属地" min-width="60">
+    </el-table-column>
     <el-table-column prop="os" label="操作系统" show-overflow-tooltip>
       <template #default="scope">
         {{ scope.row.os }}

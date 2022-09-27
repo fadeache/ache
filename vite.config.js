@@ -33,7 +33,7 @@ export default defineConfig({
       "/translate": {
         target: "https://api.fanyi.baidu.com/api/trans/vip",
       },
-      "/ip": "https://pv.sohu.com/cityjson?ie=utf-8",
+      // "/ip": "https://pv.sohu.com/cityjson?ie=utf-8",
       // "/ip": {
       //   target: "https://pv.sohu.com/cityjson?ie=utf-8",
       // rewrite: (path) => path.replace(/^\/ip/, ""),

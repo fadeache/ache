@@ -84,7 +84,6 @@ onBeforeUnmount(() => {
 });
 const insertVisit = async () => {
   const info = await visit.getVisitInfo();
-  console.log(info);
   params.value.time = info[0];
   params.value.os = info[1];
   params.value.screen = info[2];
@@ -92,7 +91,6 @@ const insertVisit = async () => {
   params.value.timestamp = info[4];
   params.value.ip = info[5];
   params.value.ipAddress = info[6];
-  console.log(params.value.ipAddress);
   await axios.post("/ache/visit/insert-visitor", params.value);
 };
 const watchScroll = () => {

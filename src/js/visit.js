@@ -49,10 +49,9 @@ class VISIT {
     };
 
     const getIp = async () => {
-      const res = await axios.get("/ip");
-      const split = res.data.split('"');
-      device.ip = split[3];
-      device.ipAddress = split[11];
+      const res = await axios.get("/ache/ip");
+      device.ip = res.data[0];
+      device.ipAddress = res.data[1];
     };
 
     const properties = async () => {
