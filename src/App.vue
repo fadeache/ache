@@ -7,16 +7,19 @@ import { onBeforeUnmount, ref, onBeforeMount } from "vue";
 const route = useRoute();
 const store = useStore();
 
-onBeforeMount(() => {
-  store.dispatch("user/login"); // 在整个页面加载之前加上cookie-User
+onBeforeMount(() =>
+{
+  store.dispatch("user/login"); // 在整个页面加载之前加上headers
   renderResize();
   window.addEventListener("resize", renderResize);
 });
-onBeforeUnmount(() => {
+onBeforeUnmount(() =>
+{
   window.removeEventListener("resize", renderResize);
 });
 const smallScreen = ref(false);
-const renderResize = () => {
+const renderResize = () =>
+{
   let width = document.documentElement.clientWidth;
   if (width < 1229) {
     smallScreen.value = true;
