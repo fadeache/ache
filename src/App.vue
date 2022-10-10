@@ -29,6 +29,7 @@ const renderResize = () =>
     document.getElementsByTagName("body")[0].style.backgroundColor = "#f5f7f9";
   }
 };
+const jump = () => window.open('https://beian.miit.gov.cn/')
 </script>
 
 <template>
@@ -41,6 +42,8 @@ const renderResize = () =>
       <router-view :smallScreen="smallScreen"></router-view>
     </el-main>
   </el-container>
+  <div v-if="!smallScreen" class="record" @click="jump">
+    Copyright ©2021 浙ICP备2021040041号</div>
 </template>
 
 <style lang="scss">
@@ -75,5 +78,13 @@ const renderResize = () =>
 
 .bodyBg {
   background: #fff;
+}
+
+.record {
+  color: #aaa;
+  font-size: 12px;
+  bottom: 0;
+  padding: 8px;
+  cursor: pointer;
 }
 </style>
